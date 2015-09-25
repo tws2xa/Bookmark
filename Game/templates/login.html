@@ -1,9 +1,8 @@
-<h1>Login</h1>
-
 
 <form action="/home/" method="post">{% csrf_token %}
-Username: <input type="text" name="username" ><br>
-Password: <input type="password" name="password"><br>
+<input type="text" id="username" class="form-control input-sm chat-input" placeholder="username" />
+            </br>
+            <input type="password" id="password" class="form-control input-sm chat-input" placeholder="password" />
 <input type="submit" value="Submit"></form>
 
 <form action="/register/" method="post">{% csrf_token %}

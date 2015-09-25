@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 
-"""user creation/authentication"""
+"""-----user creation/authentication-----"""
 def login_page(request):
 	return render(request, 'login.html')
 
@@ -20,7 +20,7 @@ def new_user(request):
 	return render(request, 'student_home.html', {'username':username})
 
 
-"""student home page"""
+"""-----------student home page-----------"""
 def student_home(request):
 	username = request.POST['username']
 	password = request.POST['password']
@@ -29,7 +29,6 @@ def student_home(request):
 		return render(request, 'login.html')
 
 	user = authenticate(username=username, password=password)
-	print(user)
 
 	if user is not None:
 		login(request, user)
