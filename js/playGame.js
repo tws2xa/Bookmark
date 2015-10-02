@@ -12,10 +12,15 @@ $(document).ready(function() {
 		canvas.width = canvasWidth;
 		canvas.height = canvasHeight;
 	}
-
+	
+	var margin = 0.03;
 	function init() {
 		if(typeof game_loop != "undefined") clearInterval(game_loop);
 		game_loop = setInterval(paint, 60);
+		
+		var md = new MainDisplay(canvasWidth*margin, canvasHeight*.1, canvasWidth*.63, canvasHeight*.56);
+		var dd = new DeckDisplay(canvaswidht*margin, canvasHeight*(.1+.56+margin), canvasWidth-(canvasWidth*(2*margin)), canvasHeight);
+		var ad = new ArgumentDisplay(canvasWidth*(2*margin+.63), canvasHeight*.1, canvasWidth*.28, canvasHeight*.56);
 	}
 
 	function paint() {
@@ -24,9 +29,9 @@ $(document).ready(function() {
 		context.fillRect(0, 0, canvasWidth, canvasHeight);
 
 		// Draw Card
-		var card = new Card("Type", "Here is a bunch of text. Maybe it's a quote? Maybe it's some imagery? "
-			+ "Whatever the case, I'm sure it's great, because this student used Bookmark to learn all about "
-			+ "how to read critically!", 5, 10);
-		card.draw(context);
+		md.draw(context);
+		dd.draw(context);
+		ad.draw(context);
+		
 	}
 });
