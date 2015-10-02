@@ -1,20 +1,31 @@
 
 body {
-  background-color:#2F4F4F;
+  background-color:#fce694;
   -webkit-font-smoothing: antialiased;
   font: normal 14px arial,sans-serif;
 }
 
-.nav a {
-  color: #F5f5f5;
-  font-size: 11px;
+.nav a:link, a:visited {
+  color: #000000;
+  font-size: 15px;
   font-weight: bold;
-  padding: 14px 10px;
+  padding: 10px;
+ display: block;
+  background-color: #ffffff;
   text-transform: uppercase;
+ 
+  font-weight: bold;
+  width: 100px;
 }
+
+.nav a:hover, a:active {
+    background-color: #000000;
+}
+
 
 .nav li {
   display: inline;
+ float: left;
 }
 
 
@@ -25,17 +36,19 @@ body {
 
 
 .container .form-login{
+	top: 60 px;
     padding: 25px;
     position: fixed;
 }
 
 .form-login {
-    background-color: #40E0D0;
+	top: 1000 px;
+    background-color: #ffffff;
     padding-top: 10px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 15px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
     border-color:#d2d2d2;
     border-width: 5px;
     box-shadow:0 1px 0 #cfcfcf;
