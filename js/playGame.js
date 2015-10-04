@@ -51,6 +51,14 @@ $(document).ready(function() {
 		canvas.addEventListener("mousedown", onMouseDown);
 		canvas.addEventListener("mouseup", onMouseUp);
 
+		// Mouse Wheel
+		if (canvas.addEventListener) {
+			// IE9, Chrome, Safari, Opera
+			canvas.addEventListener("mousewheel", onMouseWheel);
+			// Firefox
+			canvas.addEventListener("DOMMouseScroll", onMouseWheel);
+		}
+
 		// Prevent context menu appearing on right click
 		canvas.oncontextmenu = function(e) {
 			return false;
@@ -70,10 +78,15 @@ $(document).ready(function() {
 	}
 	
 	function onClick(event){
-		console.log(event.clientX + "," + event.clientY);
-		if (mainDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) mainDisplay.mouseClick(event, canvasRect);
-		if (argumentDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) argumentDisplay.mouseClick(event, canvasRect);
-		if (deckDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) deckDisplay.mouseClick(event, canvasRect);
+		if (mainDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) {
+			mainDisplay.mouseClick(event, canvasRect);
+		}
+		if (argumentDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) {
+			argumentDisplay.mouseClick(event, canvasRect);
+		}
+		if (deckDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) {
+			deckDisplay.mouseClick(event, canvasRect);
+		}
 	}
 
 	function onMouseDown(event){
@@ -108,6 +121,18 @@ $(document).ready(function() {
 		if (deckDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) {
 			deckDisplay.onMouseUp(event, canvasRect);
 			canvas.removeEventListener("mousemove", argsDisplayMouseDrag);
+		}
+	}
+
+	function onMouseWheel(event) {
+		if (mainDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) {
+			mainDisplay.onMouseWheel(event, canvasRect);
+		}
+		if (argumentDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) {
+			argumentDisplay.onMouseWheel(event, canvasRect);
+		}
+		if (deckDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) {
+			deckDisplay.onMouseWheel(event, canvasRect);
 		}
 	}
 

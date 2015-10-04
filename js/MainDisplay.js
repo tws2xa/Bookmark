@@ -5,11 +5,15 @@ function MainDisplay(x, y, width, height) {
 	this.shadowSize = 2;
 
 	this.selectedShadowAddition = 0.5; // The amount to increase the selected card's shadow.
+	this.selectedScaleAddition = 0; // The amount to increase the selected card's scale.
 
 	this.selectedCard = null;
 	this.selectedCardPointerOffset = [0, 0];
 
 	this.defaultCardScale = 1;
+	this.scaleChangeAmt = 0.1; // How much to change scale on mouse wheel
+	this.scaleMin = 0.2;
+	this.scaleMax = 1.5;
 
 	this.cards = [];
 
@@ -122,6 +126,10 @@ MainDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 	}
 }
 
+MainDisplay.prototype.onMouseWheel = function(e, canvasRect) {
+	var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
+	this.adjustScale(delta * this.scaleChangeAmt);
+}
 
 //-------------------------------------------------------------
 //----------------------Helper Functions-----------------------
@@ -146,12 +154,29 @@ MainDisplay.prototype.selectCard = function(cardIndex, pointerPos) {
 	this.selectedCard = card;
 	this.selectedCardPointerOffset = [card.getScaledXPos() - pointerPos[0], card.getScaledYPos() - pointerPos[1]];
 	card.shadowSize += this.selectedShadowAddition;
+	card.scale += this.selectedScaleAddition;
 }
 
 MainDisplay.prototype.clearSelectedCard = function() {
 	if(this.selectedCard != null) {
 		this.selectedCard.shadowSize -= this.selectedShadowAddition;
+		this.selectedCard.scale -= this.selectedScaleAddition;
 		this.selectedCard = null;
 		this.selectedCardPointerOffset = [0, 0];
+	}
+}
+
+MainDisplay.prototype.adjustScale = function(amt) {
+	// Check bounds
+	var newScale = this.defaultCardScale + amt;
+	if(newScale > this.scaleMax || newScale < this.scaleMin) {
+		return;
+	}
+
+	this.defaultCardScale = newScale;
+	for(var cardNum=0; cardNum<this.cards.length; cardNum++) {
+		//var pos = this.cards[cardNum].getRealPosition();
+		this.cards[cardNum].scale += amt;
+		//this.cards[cardNum].moveTo(pos.x, pos.y, null);
 	}
 }

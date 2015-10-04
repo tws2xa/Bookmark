@@ -143,8 +143,6 @@ Card.prototype.moveTo = function(pointX, pointY, boundingRectangle) {
 		var maxXPos = (boundingRectangle.x + boundingRectangle.width - this.getScaledWidth()) / this.scale;
 		var maxYPos = (boundingRectangle.y + boundingRectangle.height - this.getScaledHeight()) / this.scale;
 
-		console.log("Bounding X: (" + minXPos + ", " + maxXPos + ") || Y: " + minYPos + ", " + maxYPos + ")");
-
 		scaledX = Math.max(minXPos, Math.min(maxXPos, scaledX));
 		scaledY = Math.max(minYPos, Math.min(maxYPos, scaledY));
 	}

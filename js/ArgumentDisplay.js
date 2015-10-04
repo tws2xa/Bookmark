@@ -64,3 +64,8 @@ ArgumentDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 
 	console.log("Args Mouse Drag Pos: (" + xClickPos + ", " + yClickPos + ")!");
 }
+
+ArgumentDisplay.prototype.onMouseWheel = function(e, canvasRect) {
+	var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
+	console.log("ArgumentDisplay Wheel: " + delta);
+}

@@ -64,3 +64,8 @@ DeckDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 
 	console.log("Deck Mouse Drag Pos: (" + xClickPos + ", " + yClickPos + ")!");
 }
+
+DeckDisplay.prototype.onMouseWheel = function(e, canvasRect) {
+	var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
+	console.log("DeckDisplay Wheel: " + delta);
+}
