@@ -5,7 +5,8 @@ $(document).ready(function() {
 	var canvasWidth = window.innerWidth * 0.97;
 	var canvasHeight = window.innerHeight * 0.97;
 	var canvasRect;	
-	var margin = 0.03;
+	var vMargin = 0.02;
+	var hMargin = 0.015;
 	var mainDisplay;
 	var deckDisplay;
 	var argumentDisplay;
@@ -23,11 +24,28 @@ $(document).ready(function() {
 		if(typeof game_loop != "undefined") clearInterval(game_loop);
 		game_loop = setInterval(paint, 60);
 		
-		mainDisplay = new MainDisplay(canvasWidth*margin, canvasHeight*.07, canvasWidth*.73, canvasHeight*.59);
-		deckDisplay = new DeckDisplay(canvasWidth*margin, canvasHeight*(.1+.56+margin), canvasWidth-(canvasWidth*(2*margin)), canvasHeight * 0.3);
-		argumentDisplay = new ArgumentDisplay(canvasWidth*(2*margin+.73), canvasHeight*.07, canvasWidth*.18, canvasHeight*.59);
-		canvasRect = canvas.getBoundingClientRect();
+		var scaledHMargin = canvasWidth * hMargin;
+		var scaledVMargin = canvasHeight * vMargin;
+		var upperPos = canvasHeight * 0.01;
+		var leftPos = scaledHMargin;
+		var rightPos = canvasWidth - scaledHMargin;
 
+		mainDisplay = new MainDisplay(leftPos, upperPos, canvasWidth*.75, canvasHeight*.60);
+
+		var argX = leftPos + mainDisplay.position.width + scaledHMargin
+		argumentDisplay = new ArgumentDisplay(
+			argX,
+			upperPos,
+			rightPos - argX,
+			mainDisplay.position.height);
+		
+		deckDisplay = new DeckDisplay(
+			leftPos,
+			upperPos + mainDisplay.position.height + scaledVMargin,
+			rightPos - leftPos,
+			canvasHeight * 0.3);
+
+		canvasRect = canvas.getBoundingClientRect();
 		canvas.addEventListener("click", onClick);
 	}
 

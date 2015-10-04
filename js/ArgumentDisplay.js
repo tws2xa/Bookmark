@@ -11,7 +11,7 @@ ArgumentDisplay.prototype.drawShadow = function(context) {
 		this.position.x + this.position.width,
 		this.position.y,
 		this.shadowSize,
-		this.position.height);
+		this.position.height + 1);
 	context.fillRect(
 		this.position.x,
 		this.position.y + this.position.height,
