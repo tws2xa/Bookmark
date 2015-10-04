@@ -1,27 +1,25 @@
-function Card(type, text, pageStart, pageEnd) {
+function Card(type, text, pageStart, pageEnd, xPos, yPos, width, height) {
 
 	this.type = type;
 	this.text = text;
 	this.pageNum = [pageStart, pageEnd];
 
-	this.x = 10;
-	this.y = 10;
-
-	this.width = 180;
-	this.height = 240;
+	this.position = new Rectangle(xPos, yPos, width, height);
 
 	this.hBuffer = 15;
 	this.topBuffer = 0;
 	this.bottomBuffer = 10;
 
 	this.titleFontName = "segoe ui semibold"
-	this.titleFontSize = 24;
+	this.titleFontSize = 18;
 
 	this.bodyFontName = "segoe ui";
 	this.normalFontSize = 12;
 
-	this.backColor = "#FCE694";
+	this.backColor = "#C7DFC5";
 	this.textColor = "#373737";
+	this.shadowColor = "#96A498"
+	this.shadowSize = 1;
 }
 
 Card.prototype.drawTitleText = function(context) {
@@ -29,7 +27,7 @@ Card.prototype.drawTitleText = function(context) {
 	context.textBaseline="top";
 	context.font = ("bold " + this.titleFontSize + "px " + this.titleFontName);
 	context.fillStyle = this.textColor;
-	context.fillText(this.type, this.getCenter()[0], this.y + this.topBuffer, this.width);
+	context.fillText(this.type, this.getCenter()[0], this.position.y + this.topBuffer, this.position.width);
 }
 
 Card.prototype.drawBodyText = function(context) {
@@ -37,9 +35,9 @@ Card.prototype.drawBodyText = function(context) {
 	context.textBaseline="top";
 	context.font = ("normal " + this.normalFontSize + "px " + this.bodyFontName);
 	context.fillStyle = this.textColor;
-	wrapText(context, this.text, this.x + this.hBuffer,
-		this.y  + this.topBuffer + this.titleFontSize*1.5, 
-		this.width - this.hBuffer * 2, 
+	wrapText(context, this.text, this.position.x + this.hBuffer,
+		this.position.y  + this.topBuffer + this.titleFontSize*1.5, 
+		this.position.width - this.hBuffer * 2, 
 		this.normalFontSize * 1.5);
 }
 
@@ -58,13 +56,36 @@ Card.prototype.drawPageNumbers = function(context) {
 	context.font = ("normal " + this.normalFontSize + "px " + this.bodyFontName);
 	context.fillStyle = this.textColor;
 	context.fillText(pgText,
-		this.x + this.width - this.hBuffer,
-		this.y + this.height - this.bottomBuffer);
+		this.position.x + this.position.width - this.hBuffer,
+		this.position.y + this.position.height - this.bottomBuffer);
+}
+
+Card.prototype.drawShadow = function(context) {
+	context.fillStyle = this.shadowColor;
+
+	context.fillRect(
+		this.position.x - this.shadowSize,
+		this.position.y + this.shadowSize,
+		this.shadowSize,
+		this.position.height
+	);
+	context.fillRect(
+		this.position.x + this.position.width,
+		this.position.y + this.shadowSize,
+		this.shadowSize,
+		this.position.height
+	);
+	context.fillRect(
+		this.position.x - this.shadowSize,
+		this.position.y + this.position.height,
+		this.position.width + this.shadowSize * 2,
+		this.shadowSize * 2);
 }
 
 Card.prototype.draw = function(context) {
 	context.fillStyle = this.backColor;
-	context.fillRect(this.x, this.y, this.width, this.height);
+	context.fillRect(this.position.x, this.position.y, this.position.width, this.position.height);
+	this.drawShadow(context);
 	//context.drawImage()
 
 	// Text
@@ -74,7 +95,7 @@ Card.prototype.draw = function(context) {
 }
 
 Card.prototype.getCenter = function() {
-	return [this.x + this.width / 2, this.y + this.height / 2];
+	return [this.position.x + this.position.width / 2, this.position.y + this.position.height / 2];
 }
 
 function wrapText(context, text, x, y, maxWidth, lineHeight) {

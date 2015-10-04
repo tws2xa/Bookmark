@@ -21,10 +21,10 @@ ArgumentDisplay.prototype.drawShadow = function(context) {
 		this.position.height
 	);
 	context.fillRect(
-		this.position.x,
+		this.position.x - this.shadowSize,
 		this.position.y + this.position.height,
-		this.position.width + this.shadowSize,
-		this.shadowSize);
+		this.position.width + this.shadowSize * 2,
+		this.shadowSize * 2);
 	/*
 	context.fillRect(
 		this.position.x + this.position.width,
@@ -47,4 +47,20 @@ ArgumentDisplay.prototype.draw = function(context){
 
 ArgumentDisplay.prototype.mouseClick=function(event){
 	console.log(event.clientX - this.position.x);
-	console.log(event.clientY - this.position.y);}
+	console.log(event.clientY - this.position.y);
+}
+
+ArgumentDisplay.prototype.onMouseDown = function(e, canvasRect) {
+
+}
+
+ArgumentDisplay.prototype.onMouseUp = function(e, canvasRect) {
+
+}
+
+ArgumentDisplay.prototype.onMouseDrag = function(e, canvasRect) {
+	var xClickPos = event.clientX - canvasRect.left;
+	var yClickPos = event.clientY - canvasRect.top;
+
+	console.log("Args Mouse Drag Pos: (" + xClickPos + ", " + yClickPos + ")!");
+}
