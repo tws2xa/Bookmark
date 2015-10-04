@@ -1,14 +1,31 @@
 function MainDisplay(x, y, width, height) {
-	this.x = x;
-	this.y = y;
-	this.width = width;
-	this.height = height;
+	this.position = new Rectangle(x,y,width,height);
 	this.backColor = "#FCE694";	
+	this.shadowColor = "#B9A875"
+	this.shadowSize = 5;
+}
+
+MainDisplay.prototype.drawShadow = function(context) {
+	context.fillStyle = this.shadowColor;
+	context.fillRect(
+		this.position.x + this.position.width,
+		this.position.y,
+		this.shadowSize,
+		this.position.height);
+	context.fillRect(
+		this.position.x,
+		this.position.y + this.position.height,
+		this.position.width + this.shadowSize,
+		this.shadowSize);
 }
 
 MainDisplay.prototype.draw = function(context){
 	context.fillStyle = this.backColor;
-	context.fillRect(this.x, this.y, this.width, this.height);
-	
-	
+	context.fillRect(this.position.x, this.position.y, this.position.width, this.position.height);
+	this.drawShadow(context)	
+}
+
+MainDisplay.prototype.mouseClick=function(e, canvasRect){
+	console.log(event.clientX - canvasRect.left - this.position.x);
+	console.log(event.clientY - canvasRect.top - this.position.y);
 }
