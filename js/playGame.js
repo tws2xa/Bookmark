@@ -50,6 +50,11 @@ $(document).ready(function() {
 		canvas.addEventListener("click", onClick);
 		canvas.addEventListener("mousedown", onMouseDown);
 		canvas.addEventListener("mouseup", onMouseUp);
+
+		// Prevent context menu appearing on right click
+		canvas.oncontextmenu = function(e) {
+			return false;
+		}
 	}
 
 	function paint() {

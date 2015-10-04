@@ -4,7 +4,7 @@ function Card(type, text, pageStart, pageEnd, xPos, yPos, width, height) {
 	this.text = text;
 	this.pageNum = [pageStart, pageEnd];
 
-	this.position = new Rectangle(xPos, yPos, width, height);
+	this.basePosition = new Rectangle(xPos, yPos, width, height);
 
 	this.hBuffer = 15;
 	this.topBuffer = 0;
@@ -20,6 +20,8 @@ function Card(type, text, pageStart, pageEnd, xPos, yPos, width, height) {
 	this.textColor = "#373737";
 	this.shadowColor = "#96A498"
 	this.shadowSize = 1;
+
+	this.scale = 1;
 }
 
 Card.prototype.drawTitleText = function(context) {
@@ -27,7 +29,7 @@ Card.prototype.drawTitleText = function(context) {
 	context.textBaseline="top";
 	context.font = ("bold " + this.titleFontSize + "px " + this.titleFontName);
 	context.fillStyle = this.textColor;
-	context.fillText(this.type, this.getCenter()[0], this.position.y + this.topBuffer, this.position.width);
+	context.fillText(this.type, this.getCenter()[0], this.basePosition.y + this.topBuffer, this.basePosition.width);
 }
 
 Card.prototype.drawBodyText = function(context) {
@@ -35,14 +37,14 @@ Card.prototype.drawBodyText = function(context) {
 	context.textBaseline="top";
 	context.font = ("normal " + this.normalFontSize + "px " + this.bodyFontName);
 	context.fillStyle = this.textColor;
-	wrapText(context, this.text, this.position.x + this.hBuffer,
-		this.position.y  + this.topBuffer + this.titleFontSize*1.5, 
-		this.position.width - this.hBuffer * 2, 
+	wrapText(context, this.text, this.basePosition.x + this.hBuffer,
+		this.basePosition.y  + this.topBuffer + this.titleFontSize*1.5, 
+		this.basePosition.width - this.hBuffer * 2, 
 		this.normalFontSize * 1.5);
 }
 
 Card.prototype.drawPageNumbers = function(context) {
-	if(this.pageNum == [-1, -1]) {
+	if(this.pageNum[0] == -1 && this.pageNum[1] == -1) {
 		return;
 	}
 	else if(this.pageNum[0] == -1 || this.pageNum[1] == -1) {
@@ -56,35 +58,37 @@ Card.prototype.drawPageNumbers = function(context) {
 	context.font = ("normal " + this.normalFontSize + "px " + this.bodyFontName);
 	context.fillStyle = this.textColor;
 	context.fillText(pgText,
-		this.position.x + this.position.width - this.hBuffer,
-		this.position.y + this.position.height - this.bottomBuffer);
+		this.basePosition.x + this.basePosition.width - this.hBuffer,
+		this.basePosition.y + this.basePosition.height - this.bottomBuffer);
 }
 
 Card.prototype.drawShadow = function(context) {
 	context.fillStyle = this.shadowColor;
 
 	context.fillRect(
-		this.position.x - this.shadowSize,
-		this.position.y + this.shadowSize,
+		this.basePosition.x - this.shadowSize,
+		this.basePosition.y + this.shadowSize,
 		this.shadowSize,
-		this.position.height
+		this.basePosition.height
 	);
 	context.fillRect(
-		this.position.x + this.position.width,
-		this.position.y + this.shadowSize,
+		this.basePosition.x + this.basePosition.width,
+		this.basePosition.y + this.shadowSize,
 		this.shadowSize,
-		this.position.height
+		this.basePosition.height
 	);
 	context.fillRect(
-		this.position.x - this.shadowSize,
-		this.position.y + this.position.height,
-		this.position.width + this.shadowSize * 2,
+		this.basePosition.x - this.shadowSize,
+		this.basePosition.y + this.basePosition.height,
+		this.basePosition.width + this.shadowSize * 2,
 		this.shadowSize * 2);
 }
 
 Card.prototype.draw = function(context) {
+	context.scale(this.scale, this.scale);
+
 	context.fillStyle = this.backColor;
-	context.fillRect(this.position.x, this.position.y, this.position.width, this.position.height);
+	context.fillRect(this.basePosition.x, this.basePosition.y, this.basePosition.width, this.basePosition.height);
 	this.drawShadow(context);
 	//context.drawImage()
 
@@ -92,11 +96,68 @@ Card.prototype.draw = function(context) {
 	this.drawTitleText(context);
 	this.drawBodyText(context);
 	this.drawPageNumbers(context);
+
+	context.scale(1 / this.scale, 1 / this.scale);
 }
 
 Card.prototype.getCenter = function() {
-	return [this.position.x + this.position.width / 2, this.position.y + this.position.height / 2];
+	return [this.basePosition.x + this.basePosition.width / 2, this.basePosition.y + this.basePosition.height / 2];
 }
+
+//----------------------------------------------------
+//-------------------Scaling Methods------------------
+//----------------------------------------------------
+
+Card.prototype.getRealPosition = function() {
+	return new Rectangle(this.getScaledXPos(), this.getScaledYPos(), this.getScaledWidth(), this.getScaledHeight());
+}
+
+Card.prototype.getScaledXPos = function() {
+	return this.basePosition.x * this.scale;
+}
+
+Card.prototype.getScaledYPos = function() {
+	return this.basePosition.y * this.scale;
+}
+
+Card.prototype.getScaledWidth = function() {
+	return this.basePosition.width * this.scale;
+}
+
+Card.prototype.getScaledHeight = function() {
+	return this.basePosition.height * this.scale;
+}
+
+//----------------------------------------------------
+//----------Position and Size Modification------------
+//----------------------------------------------------
+
+Card.prototype.moveTo = function(pointX, pointY, boundingRectangle) {
+	var scaledX =  pointX / this.scale;
+	var scaledY = pointY / this.scale;
+
+	// Clamp to window size
+	if(boundingRectangle != null) {
+		var minXPos = boundingRectangle.x / this.scale;
+		var minYPos = boundingRectangle.y / this.scale;
+		var maxXPos = (boundingRectangle.x + boundingRectangle.width - this.getScaledWidth()) / this.scale;
+		var maxYPos = (boundingRectangle.y + boundingRectangle.height - this.getScaledHeight()) / this.scale;
+
+		console.log("Bounding X: (" + minXPos + ", " + maxXPos + ") || Y: " + minYPos + ", " + maxYPos + ")");
+
+		scaledX = Math.max(minXPos, Math.min(maxXPos, scaledX));
+		scaledY = Math.max(minYPos, Math.min(maxYPos, scaledY));
+	}
+
+	// Move selected card
+	this.basePosition.x = scaledX;
+	this.basePosition.y = scaledY;
+}
+
+
+//----------------------------------------------------
+//------------------Helper Functions------------------
+//----------------------------------------------------
 
 function wrapText(context, text, x, y, maxWidth, lineHeight) {
 	var words = text.split(' ');

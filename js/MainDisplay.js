@@ -9,18 +9,39 @@ function MainDisplay(x, y, width, height) {
 	this.selectedCard = null;
 	this.selectedCardPointerOffset = [0, 0];
 
+	this.defaultCardScale = 1;
+
+	this.cards = [];
+
 	var card = new Card(
 			"Imagery",
 			"\"A dazzling claw of lightning streaked down the length of the sky.\"",
 			362,
 			-1,
-			x + 10,
-			y + 10,
+			x + 30,
+			y + 20,
 			125,
 			170
-		)
-	this.cards = [card];
+		);
+	var card2 = new Card(
+			"Tone",
+			"Intense Fear",
+			-1,
+			-1,
+			x + 180,
+			y + 20,
+			125,
+			170
+		);
+
+	this.addCard(card);
+	this.addCard(card2);
 }
+
+
+//-------------------------------------------------------------
+//-----------------------Draw Functions------------------------
+//-------------------------------------------------------------
 
 MainDisplay.prototype.drawShadow = function(context) {
 	context.fillStyle = this.shadowColor;
@@ -42,18 +63,6 @@ MainDisplay.prototype.drawShadow = function(context) {
 		this.position.y + this.position.height,
 		this.position.width + this.shadowSize * 2,
 		this.shadowSize * 2);
-	/*
-	context.fillRect(
-		this.position.x + this.position.width,
-		this.position.y,
-		this.shadowSize,
-		this.position.height + 1);
-	context.fillRect(
-		this.position.x,
-		this.position.y + this.position.height,
-		this.position.width + this.shadowSize,
-		this.shadowSize);
-	*/
 }
 
 MainDisplay.prototype.draw = function(context){
@@ -63,8 +72,13 @@ MainDisplay.prototype.draw = function(context){
 
 	for(var cardNum = 0; cardNum < this.cards.length; cardNum++) {
 		this.cards[cardNum].draw(context);
-	}	
+	}
 }
+
+
+//-------------------------------------------------------------
+//-----------------------Mouse Listeners-----------------------
+//-------------------------------------------------------------
 
 MainDisplay.prototype.mouseClick=function(e, canvasRect){
 	e.preventDefault();
@@ -73,15 +87,19 @@ MainDisplay.prototype.mouseClick=function(e, canvasRect){
 MainDisplay.prototype.onMouseDown = function(e, canvasRect) {
 	e.preventDefault();
 
-	var xClickPos = event.clientX - canvasRect.left;
-	var yClickPos = event.clientY - canvasRect.top;
+	if(e.which == 1) { // Left Click
+		var xClickPos = (event.clientX - canvasRect.left);
+		var yClickPos = (event.clientY - canvasRect.top);
 
-	for(var cardNum = 0; cardNum < this.cards.length; cardNum++) {
-		if(this.cards[cardNum].position.contains(xClickPos, yClickPos)) {
-			this.selectCard(this.cards[cardNum], [xClickPos, yClickPos]);
-			break;
-		}
-	}	
+		// Loop backwards so that with overlapping cards,
+		// we select the card on top (which feels more natural).
+		for(var cardNum = this.cards.length - 1; cardNum >= 0 ; cardNum--) {
+			if(this.cards[cardNum].getRealPosition().contains(xClickPos, yClickPos)) {
+				this.selectCard(cardNum, [xClickPos, yClickPos]);
+				break;
+			}
+		}	
+	}
 }
 
 MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
@@ -94,34 +112,43 @@ MainDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 	e.preventDefault();
 
 	if(this.selectedCard != null) {
-		var xClickPos = event.clientX - canvasRect.left;
-		var yClickPos = event.clientY - canvasRect.top;
+		var xClickPos = (event.clientX - canvasRect.left);
+		var yClickPos = (event.clientY - canvasRect.top);
 
 		var newCardX = xClickPos + this.selectedCardPointerOffset[0];
 		var newCardY = yClickPos + this.selectedCardPointerOffset[1];
 
-		// Clamp to window size
-		newCardX = Math.max(this.position.x, Math.min(this.position.x + this.position.width - this.selectedCard.position.width, newCardX));
-		newCardY = Math.max(this.position.y, Math.min(this.position.y + this.position.height - this.selectedCard.position.height, newCardY));
-		
-		// Move selected card
-		this.selectedCard.position.x = newCardX;
-		this.selectedCard.position.y = newCardY;
+		this.selectedCard.moveTo(newCardX, newCardY, this.position);
 	}
 }
 
-MainDisplay.prototype.selectCard = function(card, pointerPos) {
+
+//-------------------------------------------------------------
+//----------------------Helper Functions-----------------------
+//-------------------------------------------------------------
+
+MainDisplay.prototype.addCard = function(card) {
+	card.scale = this.defaultCardScale;
+	this.cards.push(card);
+}
+
+MainDisplay.prototype.selectCard = function(cardIndex, pointerPos) {
 	if(this.selectedCard != null) {
 		this.clearSelectedCard();
 	}
+
+	var card = this.cards[cardIndex];
+
+	// Move selected card to back of the cards list (so it always appears on top)
+	this.cards[cardIndex] = this.cards[this.cards.length - 1];
+	this.cards[this.cards.length - 1] = card;
 	
 	this.selectedCard = card;
-	this.selectedCardPointerOffset = [card.position.x - pointerPos[0], card.position.y - pointerPos[1]];
+	this.selectedCardPointerOffset = [card.getScaledXPos() - pointerPos[0], card.getScaledYPos() - pointerPos[1]];
 	card.shadowSize += this.selectedShadowAddition;
 }
 
 MainDisplay.prototype.clearSelectedCard = function() {
-
 	if(this.selectedCard != null) {
 		this.selectedCard.shadowSize -= this.selectedShadowAddition;
 		this.selectedCard = null;
