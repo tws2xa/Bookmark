@@ -1,65 +1,111 @@
 
 body {
-  background-color:#fce694;
+  background-color:#9ec7d3;
   -webkit-font-smoothing: antialiased;
   font: normal 14px arial,sans-serif;
+
+margin:0;
+padding:0;
+}
+
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 13;
+    overflow: hidden;
+padding-left:0%;
+
+}
+
+li {
+    float: left;
+	
+}
+
+.nav {
+padding: 0px;
+background-color: #fce694;
 }
 
 .nav a:link, a:visited {
-  color: #000000;
-  font-size: 15px;
-  font-weight: bold;
-  padding: 10px;
- display: block;
-  background-color: #ffffff;
-  text-transform: uppercase;
- 
-  font-weight: bold;
-  width: 100px;
+    display: block;
+    width: 150px;
+	
+    font-weight: bold;
+    color: #000000;
+    background-color: #fce694;
+    text-align: center;
+    
+padding: 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+	display:inline;
+
 }
 
 .nav a:hover, a:active {
-    background-color: #000000;
-}
+    background-color: #fbda62;
+display:inline
 
 
-.nav li {
-  display: inline;
- float: left;
-}
-
-
-.container {
-    padding: 25px;
-    position: fixed;
 }
 
 
 .container .form-login{
-	top: 60 px;
+
     padding: 25px;
     position: fixed;
 }
 
+
+
+
 .form-login {
-	top: 1000 px;
-    background-color: #ffffff;
-    padding-top: 10px;
+    background-color: #d3e5eb;
+    padding-top: 5px;
     padding-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 10px;
-    border-color:#d2d2d2;
-    border-width: 5px;
+    border-color:#d3e5eb;
+    border-width: 0px;
     box-shadow:0 1px 0 #cfcfcf;
 }
 
-h4 { 
- border:0 solid #fff; 
- border-bottom-width:1px;
- padding-bottom:10px;
- text-align: center;
+.form-login a:link, a:visited {
+    display: block;
+    font-weight: bold;
+    width: 40px;
+	height: 40px;
+border-width: 1px;
+border-color: #373737;
+    
+    color: #000000;
+    background-color: #fce694;
+    text-align: center;
+    padding: 7px;
+    text-decoration: none;
+    text-transform: uppercase;
+	display:inline;
+min-width: 100%
 }
+
+.form-login a:hover, a:active {
+    background-color: #fbda62;
+color: #000000;
+display:inline
+min-width: 100%
+}
+
+
+h3 {
+font-size: 30px;
+font-weight: bold;
+}
+
+
 
 .form-control {
     border-radius: 10px;
