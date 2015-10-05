@@ -1,4 +1,7 @@
-function Card(type, text, pageStart, pageEnd, xPos, yPos, width, height) {
+function Card(id, type, text, pageStart, pageEnd, xPos, yPos, width, height) {
+
+
+	this.uniqueId = id;
 
 	this.type = type;
 	this.text = text;
