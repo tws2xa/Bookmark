@@ -132,7 +132,8 @@ MainDisplay.prototype.onMouseDown = function(e, canvasRect) {
 
 	var xClickPos = (event.clientX - canvasRect.left);
 	var yClickPos = (event.clientY - canvasRect.top);
-
+	this.dragMousePos = [xClickPos, yClickPos];
+	
 	// Loop backwards so that with overlapping cards,
 	// we select the card on top (which feels more natural).
 	for(var cardNum = this.cards.length - 1; cardNum >= 0 ; cardNum--) {
