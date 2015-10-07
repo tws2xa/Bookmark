@@ -1,6 +1,14 @@
 
+
+
+  <head>
+
+	
+<script type="text/javascript"  src="..\Bookmark\js\loginScript.js"></script>
+
     <link rel="stylesheet" href="css/bootstrap.min.css"> 
-    <link rel="stylesheet" href="css/homepagecss.css">
+    <link rel="stylesheet" href="css/homepagecss.css">          
+    </head>
 
  <div class="nav">
       <div class="container">
@@ -13,31 +21,34 @@
 <ul class="pull-right">
   <a href="#login">Login</a> 
 
-  
-	</ul>
-      
+  	</ul>
       </div>
     </div>
-
-
 
 
 
 <div class="container">
     <div class="row">
         <div style="margin-top:150px;" class="col-md-offset-4 col-md-3">
-            <div class="form-login">
+            <form name="form-login">
+
+	<div style="text-align: center;">
             <h3>Welcome to Bookmark!</h3>
-            <input type="text" id="userName" class="form-control input-sm chat-input" placeholder="username" />
-            </br>
-            <input type="text" id="userPassword" class="form-control input-sm chat-input" placeholder="password" />
-            </br>
-            <div class="wrapper">
-            <span class="group-btn">     
-                <a href="#" class="btn btn-primary btn-md">login <i class="fa fa-sign-in"></i></a>
-            </span>
+           </div>
+           <div class="form-group">
+              <input type="text" class="form-control input-lg" name="username" placeholder="Username">
             </div>
+
+	<div class="form-group">
+              <input type="password" class="form-control input-lg" name="password" placeholder="Password">
             </div>
+ 
+	<div style="text-align: center;">
+	    <button class="btn btn-primary btn-md" onclick="check(this.form)">login</button>
+	</div>                 
+          
+           
+	 </form>
         
         </div>
     </div>
