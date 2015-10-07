@@ -45,10 +45,21 @@ function MainDisplay(x, y, width, height) {
 			125,
 			170
 		);
+	var card3 = new Card(
+		2,
+		"Argument",
+		"Bigwig is a very brave bunny.",
+		-1,
+		-1,
+		x + width - 200,
+		y + height / 2 - 62,
+		170,
+		125
+		)
 
 	this.addCard(card);
 	this.addCard(card2);
-	//this.addCardLink(card, card2);
+	this.addCard(card3);
 }
 
 
@@ -266,6 +277,20 @@ MainDisplay.prototype.addCardLink = function(start, end){
 }
 
 MainDisplay.prototype.drawLink = function(center1, center2, context) {
+	
+	/*
+	 * Straight Line
+	 */
+	context.beginPath();
+	context.moveTo(center1[0], center1[1]);
+	context.lineTo(center2[0], center2[1]);
+	context.lineWidth = this.linkSize;
+	context.stroke();
+
+
+	/**
+	 * Horizontal and Vertical Lines Only
+	 *
 	// Sort left from right
 	var leftCardCenter;
 	var rightCardCenter;
@@ -295,5 +320,7 @@ MainDisplay.prototype.drawLink = function(center1, center2, context) {
 		this.linkSize,
 		rightCardCenter[1] - leftCardCenter[1]
 	);
-
+	 *
+	 *
+	**/
 }
