@@ -170,7 +170,7 @@ MainDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 
 MainDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 	var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
-	this.adjustScale(delta * this.scaleChangeAmt);
+	this.adjustScale(delta * this.scaleChangeAmt, false);
 }
 
 //-------------------------------------------------------------
@@ -208,7 +208,7 @@ MainDisplay.prototype.clearSelectedCard = function() {
 	}
 }
 
-MainDisplay.prototype.adjustScale = function(amt) {
+MainDisplay.prototype.adjustScale = function(amt, fixPosition) {
 	// Check bounds
 	var newScale = this.defaultCardScale + amt;
 	if(newScale > this.scaleMax || newScale < this.scaleMin) {
@@ -217,12 +217,14 @@ MainDisplay.prototype.adjustScale = function(amt) {
 
 	this.defaultCardScale = newScale;
 	for(var cardNum=0; cardNum<this.cards.length; cardNum++) {
-		//var pos = this.cards[cardNum].getRealPosition();
+		var pos = this.cards[cardNum].getRealPosition();
 		this.cards[cardNum].scale += amt;
-		//this.cards[cardNum].moveTo(pos.x, pos.y, null);
+		
+		if(fixPosition) {
+			this.cards[cardNum].moveTo(pos.x, pos.y, null);
+		}
 	}
 }
-
 MainDisplay.prototype.addCardLink = function(start, end){
 
 	// Check it isn't a duplicate link

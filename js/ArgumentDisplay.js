@@ -29,8 +29,8 @@ function ArgumentDisplay(x, y, width, height) {
 		"Hazel's loyalty is his most important quality.",
 		-1,
 		-1,
-		x + width / 2 - 85,
-		y + height / 2 - 40,
+		Math.max(x, x + width / 2 - 85),
+		Math.max(y, y + height / 2 - 175),
 		170,
 		125
 		);
@@ -40,8 +40,8 @@ function ArgumentDisplay(x, y, width, height) {
 		"Bigwig is a very brave bunny.",
 		-1,
 		-1,
-		x + width / 2 - 85,
-		y + height / 2 - 170,
+		Math.max(x, x + width / 2 - 85),
+		Math.max(y, y + height / 2 - 35),
 		170,
 		125
 		)
@@ -49,7 +49,10 @@ function ArgumentDisplay(x, y, width, height) {
 	this.addCard(card);
 	this.addCard(card2);
 	
-	
+	while(this.cards[0].getRealPosition().width > width * (9/10) || this.cards[0].getRealPosition().height > height * (9/10)) {
+		console.log("Scale Down: " + this.defaultCardScale);
+		this.adjustScale(-this.scaleChangeAmt, true);
+	}
 
 }
 
@@ -257,7 +260,7 @@ ArgumentDisplay.prototype.clearSelectedCard = function() {
 	}
 }
 
-ArgumentDisplay.prototype.adjustScale = function(amt) {
+ArgumentDisplay.prototype.adjustScale = function(amt, fixPosition) {
 	// Check bounds
 	var newScale = this.defaultCardScale + amt;
 	if(newScale > this.scaleMax || newScale < this.scaleMin) {
@@ -266,9 +269,12 @@ ArgumentDisplay.prototype.adjustScale = function(amt) {
 
 	this.defaultCardScale = newScale;
 	for(var cardNum=0; cardNum<this.cards.length; cardNum++) {
-		//var pos = this.cards[cardNum].getRealPosition();
+		var pos = this.cards[cardNum].getRealPosition();
 		this.cards[cardNum].scale += amt;
-		//this.cards[cardNum].moveTo(pos.x, pos.y, null);
+		
+		if(fixPosition) {
+			this.cards[cardNum].moveTo(pos.x, pos.y, null);
+		}
 	}
 }
 
@@ -288,7 +294,6 @@ ArgumentDisplay.prototype.addCardLink = function(start, end){
 }
 
 ArgumentDisplay.prototype.drawLink = function(center1, center2, context) {
-	
 	/*
 	 * Straight Line
 	 */

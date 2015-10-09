@@ -29,8 +29,8 @@ function DeckDisplay(x, y, width, height) {
 			"\"A dazzling claw of lightning streaked down the length of the sky.\"",
 			362,
 			-1,
-			x + 30,
-			y + 20,
+			Math.max(x, x + 30),
+			Math.max(y, y + height / 2 - 85),
 			125,
 			170
 		);
@@ -40,8 +40,8 @@ function DeckDisplay(x, y, width, height) {
 			"Intense Fear",
 			-1,
 			-1,
-			x + 330,
-			y + 20,
+			Math.max(x, x + 330),
+			Math.max(y, y + height / 2 - 85),
 			125,
 			170
 		);
@@ -51,17 +51,22 @@ function DeckDisplay(x, y, width, height) {
 		"Tone",
 		"Triumph",
 		-1,
-		-1,
-		
-			x + 180,
-			y + 20,
-			125,
-			170
-		)
+		-1,	
+		Math.max(x, x + 180),
+		Math.max(y, y + height / 2 - 85),
+		125,
+		170
+	)
 
 	this.addCard(card);
 	this.addCard(card2);
 	this.addCard(card3);
+
+
+	while(this.cards[0].getRealPosition().width > width * (9/10) || this.cards[0].getRealPosition().height > height * (9/10)) {
+		console.log("Scale Down: " + this.defaultCardScale);
+		this.adjustScale(-this.scaleChangeAmt, true);
+	}
 }
 
 
@@ -230,7 +235,7 @@ DeckDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 
 DeckDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 	var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
-	this.adjustScale(delta * this.scaleChangeAmt);
+	this.adjustScale(delta * this.scaleChangeAmt, false);
 }
 
 //-------------------------------------------------------------
@@ -268,7 +273,7 @@ DeckDisplay.prototype.clearSelectedCard = function() {
 	}
 }
 
-DeckDisplay.prototype.adjustScale = function(amt) {
+DeckDisplay.prototype.adjustScale = function(amt, fixPosition) {
 	// Check bounds
 	var newScale = this.defaultCardScale + amt;
 	if(newScale > this.scaleMax || newScale < this.scaleMin) {
@@ -277,9 +282,12 @@ DeckDisplay.prototype.adjustScale = function(amt) {
 
 	this.defaultCardScale = newScale;
 	for(var cardNum=0; cardNum<this.cards.length; cardNum++) {
-		//var pos = this.cards[cardNum].getRealPosition();
+		var pos = this.cards[cardNum].getRealPosition();
 		this.cards[cardNum].scale += amt;
-		//this.cards[cardNum].moveTo(pos.x, pos.y, null);
+		
+		if(fixPosition) {
+			this.cards[cardNum].moveTo(pos.x, pos.y, null);
+		}
 	}
 }
 

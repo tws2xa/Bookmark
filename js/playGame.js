@@ -31,7 +31,7 @@ $(document).ready(function() {
 		var rightPos = canvasWidth - scaledHMargin;
 
 		// Main Display View
-		mainDisplay = new MainDisplay(leftPos, upperPos, canvasWidth*0.85, canvasHeight*0.70);
+		mainDisplay = new MainDisplay(leftPos, upperPos, canvasWidth*0.80, canvasHeight*0.65);
 
 		// Argument Cards Display View
 		var argX = leftPos + mainDisplay.position.width + scaledHMargin
