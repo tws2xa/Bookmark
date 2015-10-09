@@ -22,46 +22,6 @@ function MainDisplay(x, y, width, height) {
 
 	this.cards = [];
 	this.cardLinks = [];
-
-	/*
-	var card = new Card(
-			0,
-			"Imagery",
-			"\"A dazzling claw of lightning streaked down the length of the sky.\"",
-			362,
-			-1,
-			x + 30,
-			y + 20,
-			125,
-			170
-		);
-	var card2 = new Card(
-			1,
-			"Tone",
-			"Intense Fear",
-			-1,
-			-1,
-			x + 180,
-			y + 20,
-			125,
-			170
-		);
-	var card3 = new Card(
-		2,
-		"Argument",
-		"Bigwig is a very brave bunny.",
-		-1,
-		-1,
-		x + width - 200,
-		y + height / 2 - 62,
-		170,
-		125
-		)
-
-	this.addCard(card);
-	this.addCard(card2);
-	this.addCard(card3);
-	*/
 }
 
 

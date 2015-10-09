@@ -29,7 +29,7 @@ function ArgumentDisplay(x, y, width, height) {
 		"Hazel's loyalty is his most important quality.",
 		-1,
 		-1,
-		x + width - 215,
+		x + width / 2 - 85,
 		y + height / 2 - 40,
 		170,
 		125
@@ -40,7 +40,7 @@ function ArgumentDisplay(x, y, width, height) {
 		"Bigwig is a very brave bunny.",
 		-1,
 		-1,
-		x + width - 215,
+		x + width / 2 - 85,
 		y + height / 2 - 170,
 		170,
 		125

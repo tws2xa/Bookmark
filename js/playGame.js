@@ -30,8 +30,10 @@ $(document).ready(function() {
 		var leftPos = scaledHMargin;
 		var rightPos = canvasWidth - scaledHMargin;
 
-		mainDisplay = new MainDisplay(leftPos, upperPos, canvasWidth*.75, canvasHeight*.60);
+		// Main Display View
+		mainDisplay = new MainDisplay(leftPos, upperPos, canvasWidth*0.85, canvasHeight*0.70);
 
+		// Argument Cards Display View
 		var argX = leftPos + mainDisplay.position.width + scaledHMargin
 		argumentDisplay = new ArgumentDisplay(
 			argX,
@@ -39,6 +41,7 @@ $(document).ready(function() {
 			rightPos - argX,
 			mainDisplay.position.height);
 		
+		// Deck Cards Display View
 		var deckYPos = upperPos + mainDisplay.position.height + scaledVMargin;
 		deckDisplay = new DeckDisplay(
 			leftPos,
