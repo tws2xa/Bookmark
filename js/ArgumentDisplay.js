@@ -24,8 +24,8 @@ function ArgumentDisplay(x, y, width, height) {
 	this.cardLinks = [];
 	
 	var card = new Card(
-			0,
-			"Argument",
+		3,
+		"Argument",
 		"Hazel's loyalty is his most important quality.",
 		-1,
 		-1,
@@ -35,7 +35,7 @@ function ArgumentDisplay(x, y, width, height) {
 		125
 		);
 	var card2 = new Card(
-		2,
+		4,
 		"Argument",
 		"Bigwig is a very brave bunny.",
 		-1,
@@ -127,11 +127,26 @@ ArgumentDisplay.prototype.drawLinks = function(context) {
 
 ArgumentDisplay.prototype.mouseClick=function(e, canvasRect){
 	e.preventDefault();
+
+	var xClickPos = (event.clientX - canvasRect.left);
+	var yClickPos = (event.clientY - canvasRect.top);
+	
+	// Loop backwards so that with overlapping cards,
+	// we select the card on top (which feels more natural).
+	for(var cardNum = this.cards.length - 1; cardNum >= 0 ; cardNum--) {
+		if(this.cards[cardNum].getRealPosition().contains(xClickPos, yClickPos)) {
+			if(e.which == 1) { // Left Click
+				this.selectCard(cardNum, [xClickPos, yClickPos]);
+				break;
+			}
+		}
+	}	
 }
 
 ArgumentDisplay.prototype.onMouseDown = function(e, canvasRect) {
 	e.preventDefault();
 
+	/*
 	var xClickPos = (event.clientX - canvasRect.left);
 	var yClickPos = (event.clientY - canvasRect.top);
 	this.dragMousePos = [xClickPos, yClickPos];
@@ -148,11 +163,13 @@ ArgumentDisplay.prototype.onMouseDown = function(e, canvasRect) {
 			}
 		}
 	}	
+	*/
 }
 
 ArgumentDisplay.prototype.onMouseUp = function(e, canvasRect) {
 	e.preventDefault();
 	
+	/*
 	if(this.selectedCard != null && e.which == 1) {
 		this.clearSelectedCard();	
 	} if(this.newLinkStartCard != null && e.which == 3) {
@@ -180,11 +197,13 @@ ArgumentDisplay.prototype.onMouseUp = function(e, canvasRect) {
 
 		this.newLinkStartCard = null;	
 	}
+	*/
 }
 
 ArgumentDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 	e.preventDefault();
 
+	/*
 	var xClickPos = (event.clientX - canvasRect.left);
 	var yClickPos = (event.clientY - canvasRect.top);
 	this.dragMousePos = [xClickPos, yClickPos];
@@ -195,6 +214,7 @@ ArgumentDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 
 		this.selectedCard.moveTo(newCardX, newCardY, this.position);
 	}
+	*/
 }
 
 ArgumentDisplay.prototype.onMouseWheel = function(e, canvasRect) {

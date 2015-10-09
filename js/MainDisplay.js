@@ -23,6 +23,7 @@ function MainDisplay(x, y, width, height) {
 	this.cards = [];
 	this.cardLinks = [];
 
+	/*
 	var card = new Card(
 			0,
 			"Imagery",
@@ -60,6 +61,7 @@ function MainDisplay(x, y, width, height) {
 	this.addCard(card);
 	this.addCard(card2);
 	this.addCard(card3);
+	*/
 }
 
 
@@ -273,6 +275,8 @@ MainDisplay.prototype.addCardLink = function(start, end){
 		}
 	}
 
+	console.log("Adding Link: " + start.uniqueId + ", " + end.uniqueId);
+
 	this.cardLinks.push([start.uniqueId, end.uniqueId]);
 }
 
@@ -286,41 +290,4 @@ MainDisplay.prototype.drawLink = function(center1, center2, context) {
 	context.lineTo(center2[0], center2[1]);
 	context.lineWidth = this.linkSize;
 	context.stroke();
-
-
-	/**
-	 * Horizontal and Vertical Lines Only
-	 *
-	// Sort left from right
-	var leftCardCenter;
-	var rightCardCenter;
-	if(center1[0] < center2[0]) {
-		leftCardCenter = center1;
-		rightCardCenter = center2;
-	} else {
-		leftCardCenter = center2;
-		rightCardCenter = center1;
-	}
-
-	// Draw the link
-	context.fillStyle = this.cardLinkColor;
-
-	// Horizontal Component
-	context.fillRect(
-		leftCardCenter[0],
-		leftCardCenter[1] - this.linkSize / 2,
-		rightCardCenter[0] - leftCardCenter[0],
-		this.linkSize
-	);
-
-	// Vertical Component
-	context.fillRect(
-		rightCardCenter[0] - this.linkSize / 2,
-		leftCardCenter[1],
-		this.linkSize,
-		rightCardCenter[1] - leftCardCenter[1]
-	);
-	 *
-	 *
-	**/
 }

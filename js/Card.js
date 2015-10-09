@@ -27,6 +27,19 @@ function Card(id, type, text, pageStart, pageEnd, xPos, yPos, width, height) {
 	this.scale = 1;
 }
 
+Card.prototype.copy = function() {
+	return new Card(
+		this.uniqueId,
+		this.type,
+		this.text,
+		this.pageNum[0],
+		this.pageNum[1],
+		this.basePosition.x,
+		this.basePosition.y,
+		this.basePosition.width,
+		this.basePosition.height);
+};
+
 Card.prototype.drawTitleText = function(context) {
 	context.textAlign = "center";
 	context.textBaseline="top";

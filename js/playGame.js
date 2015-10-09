@@ -70,7 +70,21 @@ $(document).ready(function() {
 		context.fillStyle = "white";
 		context.fillRect(0, 0, canvasWidth, canvasHeight);
 
-		// Draw Card
+		if(deckDisplay.selectedCard != null) {
+			var card = deckDisplay.selectedCard.copy();
+			deckDisplay.clearSelectedCard();
+			card.moveTo(50, 50);
+			mainDisplay.addCard(card);
+		}
+
+		if(argumentDisplay.selectedCard != null) {
+			var card = argumentDisplay.selectedCard.copy();
+			argumentDisplay.clearSelectedCard();
+			card.moveTo(50, 50);
+			mainDisplay.addCard(card);
+		}
+
+		// Draw Displays
 		mainDisplay.draw(context);
 		deckDisplay.draw(context);
 		argumentDisplay.draw(context);

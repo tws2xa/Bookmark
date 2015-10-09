@@ -22,7 +22,8 @@ function DeckDisplay(x, y, width, height) {
 
 	this.cards = [];
 	this.cardLinks = [];
-var card = new Card(
+	
+	var card = new Card(
 			0,
 			"Imagery",
 			"\"A dazzling claw of lightning streaked down the length of the sky.\"",
@@ -137,11 +138,27 @@ DeckDisplay.prototype.drawLinks = function(context) {
 
 DeckDisplay.prototype.mouseClick=function(e, canvasRect){
 	e.preventDefault();
+
+	var xClickPos = (event.clientX - canvasRect.left);
+	var yClickPos = (event.clientY - canvasRect.top);
+	this.dragMousePos = [xClickPos, yClickPos];
+	
+	// Loop backwards so that with overlapping cards,
+	// we select the card on top (which feels more natural).
+	for(var cardNum = this.cards.length - 1; cardNum >= 0 ; cardNum--) {
+		if(this.cards[cardNum].getRealPosition().contains(xClickPos, yClickPos)) {
+			if(e.which == 1) { // Left Click
+				this.selectCard(cardNum, [xClickPos, yClickPos]);
+				break;
+			}
+		}
+	}
 }
 
 DeckDisplay.prototype.onMouseDown = function(e, canvasRect) {
 	e.preventDefault();
 
+	/*
 	var xClickPos = (event.clientX - canvasRect.left);
 	var yClickPos = (event.clientY - canvasRect.top);
 	this.dragMousePos = [xClickPos, yClickPos];
@@ -158,11 +175,12 @@ DeckDisplay.prototype.onMouseDown = function(e, canvasRect) {
 			}
 		}
 	}	
+	*/
 }
 
 DeckDisplay.prototype.onMouseUp = function(e, canvasRect) {
 	e.preventDefault();
-	
+	/*
 	if(this.selectedCard != null && e.which == 1) {
 		this.clearSelectedCard();	
 	} if(this.newLinkStartCard != null && e.which == 3) {
@@ -190,6 +208,7 @@ DeckDisplay.prototype.onMouseUp = function(e, canvasRect) {
 
 		this.newLinkStartCard = null;	
 	}
+	*/
 }
 
 DeckDisplay.prototype.onMouseDrag = function(e, canvasRect) {
@@ -199,12 +218,14 @@ DeckDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 	var yClickPos = (event.clientY - canvasRect.top);
 	this.dragMousePos = [xClickPos, yClickPos];
 
+	/*
 	if(this.selectedCard != null) {
 		var newCardX = xClickPos + this.selectedCardPointerOffset[0];
 		var newCardY = yClickPos + this.selectedCardPointerOffset[1];
 
 		this.selectedCard.moveTo(newCardX, newCardY, this.position);
 	}
+	*/
 }
 
 DeckDisplay.prototype.onMouseWheel = function(e, canvasRect) {
@@ -287,41 +308,4 @@ DeckDisplay.prototype.drawLink = function(center1, center2, context) {
 	context.lineTo(center2[0], center2[1]);
 	context.lineWidth = this.linkSize;
 	context.stroke();
-
-
-	/**
-	 * Horizontal and Vertical Lines Only
-	 *
-	// Sort left from right
-	var leftCardCenter;
-	var rightCardCenter;
-	if(center1[0] < center2[0]) {
-		leftCardCenter = center1;
-		rightCardCenter = center2;
-	} else {
-		leftCardCenter = center2;
-		rightCardCenter = center1;
-	}
-
-	// Draw the link
-	context.fillStyle = this.cardLinkColor;
-
-	// Horizontal Component
-	context.fillRect(
-		leftCardCenter[0],
-		leftCardCenter[1] - this.linkSize / 2,
-		rightCardCenter[0] - leftCardCenter[0],
-		this.linkSize
-	);
-
-	// Vertical Component
-	context.fillRect(
-		rightCardCenter[0] - this.linkSize / 2,
-		leftCardCenter[1],
-		this.linkSize,
-		rightCardCenter[1] - leftCardCenter[1]
-	);
-	 *
-	 *
-	**/
 }
