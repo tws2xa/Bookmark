@@ -1,8 +1,8 @@
 function MainDisplay(x, y, width, height) {
 	this.position = new Rectangle(x,y,width,height);
-	this.backColor = "#FCE694";	
-	this.shadowColor = "#B9A875"
-	this.cardLinkColor = "#373737";
+	this.backColor = getDisplayBackgroundColor();	
+	this.shadowColor = getDisplayShadowColor();
+	this.cardLinkColor = getCardLinkColor();
 	this.shadowSize = 2;
 
 	this.selectedShadowAddition = 0.5; // The amount to increase the selected card's shadow.
@@ -69,7 +69,7 @@ MainDisplay.prototype.drawLinks = function(context) {
 		var cardPair = [];
 
 		for(var cardNum = 0; cardNum < this.cards.length; cardNum++) {
-			var id = this.cards[cardNum].uniqueId;
+			var id = this.cards[cardNum].getCardUniqueId();
 			if(id == cardLink[0] || id == cardLink[1]) {
 				cardPair.push(this.cards[cardNum]);
 				if(cardPair.length >= 2) {
@@ -136,7 +136,7 @@ MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
 		// Loop backwards so that with overlapping cards,
 		// we select the card on top (which feels more natural).
 		for(var cardNum = this.cards.length - 1; cardNum >= 0 ; cardNum--) {
-			if(this.cards[cardNum].uniqueId == this.newLinkStartCard.uniqueId) {
+			if(this.cards[cardNum].getCardUniqueId() == this.newLinkStartCard.getCardUniqueId()) {
 				continue;
 			}
 			if(this.cards[cardNum].getRealPosition().contains(xClickPos, yClickPos)) {
@@ -225,21 +225,20 @@ MainDisplay.prototype.adjustScale = function(amt, fixPosition) {
 		}
 	}
 }
+
 MainDisplay.prototype.addCardLink = function(start, end){
 
 	// Check it isn't a duplicate link
 	for(var linkNum = 0; linkNum < this.cardLinks.length; linkNum++) {
 		var cardLink = this.cardLinks[linkNum];
-		if( (cardLink[0] == start.uniqueId && cardLink[1] == end.uniqueId)
-			|| (cardLink[0] == end.uniqueId && cardLink[1] == start.uniqueId) ) {
+		if( (cardLink[0] == start.getCardUniqueId() && cardLink[1] == end.getCardUniqueId())
+			|| (cardLink[0] == end.getCardUniqueId() && cardLink[1] == start.getCardUniqueId()) ) {
 			console.log("Link already exists.");
 			return;
 		}
 	}
 
-	console.log("Adding Link: " + start.uniqueId + ", " + end.uniqueId);
-
-	this.cardLinks.push([start.uniqueId, end.uniqueId]);
+	this.cardLinks.push([start.getCardUniqueId(), end.getCardUniqueId()]);
 }
 
 MainDisplay.prototype.drawLink = function(center1, center2, context) {

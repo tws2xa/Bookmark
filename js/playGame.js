@@ -70,7 +70,7 @@ $(document).ready(function() {
 
 	function paint() {
 		// Clear Screen
-		context.fillStyle = "white";
+		context.fillStyle = "#C7DFC5";
 		context.fillRect(0, 0, canvasWidth, canvasHeight);
 
 		if(deckDisplay.selectedCard != null) {
