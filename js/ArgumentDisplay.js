@@ -10,6 +10,6 @@ ArgumentDisplay.prototype.draw = function(context){
 	
 }
 
-ArgumentDisplay.prototype.mouseClick=function(event){
-	console.log(event.clientX - this.position.x);
-	console.log(event.clientY - this.position.y);}
+ArgumentDisplay.prototype.mouseClick=function(event, canvasRect){
+	console.log(event.clientX - canvasRect.left - this.position.x);
+	console.log(event.clientY - canvasRect.top - this.position.y);
