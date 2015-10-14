@@ -2,22 +2,11 @@ $(document).ready(function() {
 	var canvas = $("#canvas")[0];
 	var context = canvas.getContext("2d");
 	var lastClicked;
-	var grid = clickableGrid(4,4,function(el,row,col,i){
-    	console.log("You clicked on element:",el);
-		console.log("You clicked on row:",row);
-		console.log("You clicked on col:",col);
-		console.log("You clicked on item #:",i);
-
-		el.className='clicked';
-		if (lastClicked) lastClicked.className='';
-		lastClicked = el;
-	});
 	var canvasRect;	
 	var vMargin = 0.02;
 	var hMargin = 0.015;
-	var mainDisplay;
-	var deckDisplay;
 	var argumentDisplay;
+	var clickableGrid;
 	
 	setCanvasSize();
 	init();
@@ -39,27 +28,26 @@ $(document).ready(function() {
 		var upperPos = canvasHeight * 0.01;
 		var leftPos = scaledHMargin;
 		var rightPos = canvasWidth - scaledHMargin;
-
-		mainDisplay = new MainDisplay(leftPos, upperPos, canvasWidth*.75, canvasHeight*.60);
-
-		var argX = leftPos + mainDisplay.position.width + scaledHMargin
-		argumentDisplay = new ArgumentDisplay(
-			argX,
-			upperPos,
-			rightPos - argX,
-			mainDisplay.position.height);
-		
-		var deckYPos = upperPos + mainDisplay.position.height + scaledVMargin;
-		deckDisplay = new DeckDisplay(
-			leftPos,
-			deckYPos,
-			rightPos - leftPos,
-			canvasHeight - scaledVMargin - deckYPos);
+	
 
 		canvasRect = canvas.getBoundingClientRect();
 		canvas.addEventListener("click", onClick);
 		canvas.addEventListener("mousedown", onMouseDown);
 		canvas.addEventListener("mouseup", onMouseUp);
+		
+		clickableGrid = new ClickableGrid(
+			leftPos,
+			upperPos,
+			rightPos - leftPos,
+			scaledVMargin
+		);
+		
+		argumentDisplay = new ArgumentDisplay(
+			leftPos,
+			upperPos,
+			rightPos - leftPos,
+			upperPos);
+			
 
 		// Mouse Wheel
 		if (canvas.addEventListener) {
@@ -77,36 +65,17 @@ $(document).ready(function() {
 	
 	function paint() {
 		// Clear Screen
-		context.fillStyle = "white";
+		context.fillStyle = "#4A4A4A";
 		context.fillRect(0, 0, canvasWidth, canvasHeight);
 
 		// Draw Card
-		mainDisplay.draw(context);
-		deckDisplay.draw(context);
 		argumentDisplay.draw(context);
-		
+		clickableGrid.draw(context);
 	}
 
-	document.body.appendChild(grid);
+	
      
-	function clickableGrid( rows, cols, callback ){
-    	var i=0;
-		var grid = document.createElement('table');
-		grid.className = 'grid';
-		for (var r=0;r<rows;++r){
-        	var tr = grid.appendChild(document.createElement('tr'));
-			for (var c=0;c<cols;++c){
-            	var cell = tr.appendChild(document.createElement('td'));
-				cell.innerHTML = ++i;
-				cell.addEventListener('click',(function(el,r,c,i){
-                	return function(){
-                    	callback(el,r,c,i);
-                	}
-            	})(cell,r,c,i),false);
-        	}
-    	}
-		return grid;
-	}
+	
 	
 	function onClick(event){
 		if (mainDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) {

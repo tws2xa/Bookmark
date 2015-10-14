@@ -54,7 +54,7 @@ function getCardBackgroundColor() {
 	if(highContrast) {
 		return "white";
 	} else {
-		return mainColorWarm2;
+		return mainColorWarm1;
 	}
 }
 

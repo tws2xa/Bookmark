@@ -54,7 +54,7 @@ MainDisplay.prototype.drawShadow = function(context) {
 MainDisplay.prototype.draw = function(context){
 	context.fillStyle = this.backColor;
 	context.fillRect(this.position.x, this.position.y, this.position.width, this.position.height);
-	this.drawShadow(context)
+	this.drawShadow(context);
 
 	this.drawLinks(context);
 
