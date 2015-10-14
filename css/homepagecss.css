@@ -28,7 +28,7 @@ li {
 
 .nav {
 padding: 0px;
-background-color: #fce694;
+background-color: #f6fafb;
 }
 
 .nav a:link, a:visited {
@@ -37,7 +37,7 @@ background-color: #fce694;
 	
     font-weight: bold;
     color: #000000;
-    background-color: #fce694;
+    background-color: #f6fafb;
     text-align: center;
     
 padding: 20px;
@@ -48,7 +48,7 @@ padding: 20px;
 }
 
 .nav a:hover, a:active {
-    background-color: #fbda62;
+    background-color: #d3e6eb;
 display:inline
 
 
@@ -85,9 +85,6 @@ display: inline;
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:link, .btn-primary:visited, .btn-primary:active, .btn-primary.active {
     display: inline;
-    
-  
-	
 	border-width: 1px;
 	border-color: #2b545f;
     background-color: #d3e5eb;
