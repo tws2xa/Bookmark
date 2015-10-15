@@ -26,7 +26,7 @@ li {
 
 .nav {
 padding: 0px;
-background-color: #fce694;
+background-color: #f6fafb;
 }
 
 .nav a:link, a:visited {
@@ -35,7 +35,7 @@ background-color: #fce694;
 	
     font-weight: bold;
     color: #000000;
-    background-color: #fce694;
+    background-color: #f6fafb;
     text-align: center;
     
 padding: 20px;
@@ -46,7 +46,7 @@ padding: 20px;
 }
 
 .nav a:hover, a:active {
-    background-color: #fbda62;
+    background-color: #d3e6eb;
 display:inline
 
 
@@ -61,43 +61,6 @@ display:inline
 
 
 
-
-.form-login {
-    background-color: #d3e5eb;
-    padding-top: 5px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 10px;
-    border-color:#d3e5eb;
-    border-width: 0px;
-    box-shadow:0 1px 0 #cfcfcf;
-}
-
-.form-login a:link, a:visited {
-    display: block;
-    font-weight: bold;
-    width: 40px;
-	height: 40px;
-border-width: 1px;
-border-color: #373737;
-    
-    color: #000000;
-    background-color: #fce694;
-    text-align: center;
-    padding: 7px;
-    text-decoration: none;
-    text-transform: uppercase;
-	display:inline;
-min-width: 100%
-}
-
-.form-login a:hover, a:active {
-    background-color: #fbda62;
-color: #000000;
-display:inline
-min-width: 100%
-}
 
 
 h3 {
