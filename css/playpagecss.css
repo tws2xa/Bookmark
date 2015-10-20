@@ -13,7 +13,7 @@ padding:0;
 ul {
     list-style-type: none;
     margin: 0;
-    padding: 13;
+    padding: 13px;
     overflow: hidden;
 padding-left:0%;
 
@@ -52,13 +52,25 @@ display:inline
 
 }
 
+#arg {
+float:right;
+position: relative;
+overflow: scroll;
+overflow-x: hidden;
+}
+
+#deck {
+float:right;
+
+position: relative;
+overflow-x: scroll;
+}
 
 .container .form-login{
 
     padding: 25px;
     position: fixed;
 }
-
 
 
 
