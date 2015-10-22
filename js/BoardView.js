@@ -37,20 +37,20 @@ $(document).ready(function() {
 		canvas.addEventListener("mousedown", onMouseDown);
 		canvas.addEventListener("mouseup", onMouseUp);
 		
-		clickableGrid = new ClickableGrid(
+		boardDisplay = new BoardDisplay(
 			leftPos,
 			upperPos,
 			canvasWidth*0.80,
 			canvasHeight*0.95
 		);
 		
-	/*
-	argumentDisplay = new ArgumentDisplay(
+	
+		/*argumentDisplay = new ArgumentDisplay(
 			leftPos,
 			upperPos,
 			rightPos - leftPos,
-			upperPos);
-*/
+			upperPos);*/
+
 			
 
 		// Mouse Wheel
@@ -69,12 +69,12 @@ $(document).ready(function() {
 	
 	function paint() {
 		// Clear Screen
-		context.fillStyle = "#4A4A4A";
+		context.fillStyle = "C7DFC5";
 		context.fillRect(0, 0, canvasWidth, canvasHeight);
 
 		// Draw Card
 // 		argumentDisplay.draw(context);
-		clickableGrid.draw(context);
+		boardDisplay.draw(context);
 	}
 
 	
