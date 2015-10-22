@@ -30,7 +30,7 @@ ClickableGrid.prototype.draw = function(context){
             
             context.fillStyle = this.gridcolor;
             
-            context.fillRect(this.position.x + (r*this.unitwidth), this.position.y * (c*this.unitheight), this.unitwidth, this.unitheight);
+            context.fillRect(this.position.x + (r*this.position.width/4), this.position.y + (c*this.position.height/4), this.unitwidth, this.unitheight);
             
         }
     }
