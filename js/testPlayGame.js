@@ -15,8 +15,8 @@ $(document).ready(function() {
 	var contextA = canvasA.getContext("2d");
 
 
-	var cardWidth = 170;
-	var cardHeight = 125;
+	var cardWidth = 125;
+	var cardHeight = 170;
 	var cardMargin = 50;
 
 	var deckCards = [];
@@ -52,10 +52,10 @@ $(document).ready(function() {
 
 		canvasM.width = divMWidth;
 		canvasM.height = divMHeight;
-		canvasD.width = width + this.deckCards.length * cardWidth + (this.deckCards.length - 1) * cardMargin;
+		canvasD.width = Math.max(rightPos - argX, this.deckCards.length * cardWidth + (this.deckCards.length + 1) * cardMargin);
 		canvasD.height = canvasHeight - scaledVMargin - deckTop;
-		canvasA.width = rightPos - leftPos;
-		canvasA.height =  canvasHeight - scaledVMargin - deckTop;
+		canvasA.width = rightPos - argX;
+		canvasA.height =  divMHeight;
 
 		// Div sizes
 		setDivRect(divM, canvasM, leftPos, upperPos, divMWidth, divMHeight);
@@ -65,14 +65,10 @@ $(document).ready(function() {
 
 
 	function setDivRect(div, canvas, x, y, width, height) {
-		console.log(x + ", " + y + ", " + width + ", " + height);
 		div.style.left = (x + "px");
 		div.style.top = (y + "px");
 		div.style.width = (width + "px");
-		div.style.height = (height + "px");
-
-		
-	
+		div.style.height = (height + "px");	
 	}
 	
 	
@@ -87,7 +83,7 @@ $(document).ready(function() {
 		argumentDisplay = new ArgumentDisplay(0, 0, canvasA.width, canvasA.height);
 		
 		// Deck Cards Display View
-		deckDisplay = new DeckDisplay(0, 0, canvasD.width, canvasD.height);
+		deckDisplay = new DeckDisplay(0, 0, canvasD.width, canvasD.height, this.deckCards);
 
 		canvasRectA = canvasA.getBoundingClientRect();
 		canvasA.addEventListener("click", onClick);
@@ -184,7 +180,13 @@ $(document).ready(function() {
 			argumentDisplay.mouseClick(event, canvasRectA);
 		}
 		if (deckDisplay.position.contains(event.clientX - canvasRectD.left, event.clientY-canvasRectD.top)) {
-			deckDisplay.mouseClick(event, canvasRectD);
+
+			console.log(canvasRectD.left - divD.scrollLeft);
+
+			var newRect = new Rectangle(canvasRectD.left - divD.scrollLeft, canvasRectD.top, canvasRectD.width, canvasRectD.height);
+
+			deckDisplay.mouseClick(event, newRect);
+		
 		}
 	}
 
@@ -201,8 +203,10 @@ $(document).ready(function() {
 			canvasA.addEventListener("mousemove", deckDisplayMouseDrag);
 		}
 		if (deckDisplay.position.contains(event.clientX - canvasRectD.left, event.clientY-canvasRectD.top)) {
+
 			deckDisplay.onMouseDown(event, canvasRectD);
 			canvasD.addEventListener("mousemove", argsDisplayMouseDrag);
+		
 		}
 
 	}

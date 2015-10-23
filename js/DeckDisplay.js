@@ -1,4 +1,4 @@
-function DeckDisplay(x, y, width, height) {
+function DeckDisplay(x, y, width, height, inCards) {
 	this.position = new Rectangle(x,y,width,height);
 	this.backColor = getDisplayBackgroundColor();	
 	this.shadowColor = getDisplayShadowColor();
@@ -22,59 +22,14 @@ function DeckDisplay(x, y, width, height) {
 	this.cards = [];
 	this.cardLinks = [];
 	
-	var card = new Card(
-		0,
-		"Imagery",
-		"\"A dazzling claw of lightning streaked down the length of the sky.\"",
-		362,
-		-1
-	);
+	var cardWidth = 125;
+	var cardHeight = 170;
+	var cardMargin = 50;
 
-	var card2 = new Card(
-		1,
-		"Tone",
-		"Intense Fear",
-		-1,
-		-1
-	);
-
-	var card3 = new Card(
-		2,
-		"Tone",
-		"Triumph",
-		-1,
-		-1
-	);
-
-	var cardDrawer = new CardDrawer(
-		card,
-		Math.max(x, x + 30),
-		Math.max(y, y + height / 2 - 85),
-		125,
-		170
-
-	);
-
-	var cardDrawer2 = new CardDrawer(
-		card2,
-		Math.max(x, x + 330),
-		Math.max(y, y + height / 2 - 85),
-		125,
-		170
-	);
-
-	var cardDrawer3 = new CardDrawer(
-		card3,
-		Math.max(x, x + 180),
-		Math.max(y, y + height / 2 - 85),
-		125,
-		170
-	);
-
-	this.addCard(cardDrawer);
-	this.addCard(cardDrawer2);
-	this.addCard(cardDrawer3);
-
+	for(var i=0; i<inCards.length; i++) {
+		var drawer = new CardDrawer(inCards[i], cardMargin + i * (cardWidth + cardMargin), Math.max(y, y + height / 2 - 85), cardWidth, cardHeight);
+		this.addCard(drawer);
+	}
 
 	while(this.cards[0].getRealPosition().width > width * (9/10) || this.cards[0].getRealPosition().height > height * (9/10)) {
 		console.log("Scale Down: " + this.defaultCardScale);
@@ -91,27 +46,27 @@ DeckDisplay.prototype.drawShadow = function(context) {
 	/*context.fillStyle = this.shadowColor;
 
 	context.fillRect(
-		this.position.x,
-		this.position.y,
+		this.position.left,
+		this.position.top,
 		this.shadowSize,
 		this.position.height
 	);
 	context.fillRect(
-		this.position.x + this.position.width - this.shadowSize,
-		this.position.y,
+		this.position.left + this.position.width - this.shadowSize,
+		this.position.top,
 		this.shadowSize,
 		this.position.height
 	);
 	context.fillRect(
-		this.position.x,
-		this.position.y + this.position.height - this.shadowSize * 2,
+		this.position.left,
+		this.position.top + this.position.height - this.shadowSize * 2,
 		this.position.width,
 		this.shadowSize * 2);*/
 }
 
 DeckDisplay.prototype.draw = function(context){
 	context.fillStyle = this.backColor;
-	context.fillRect(this.position.x, this.position.y, this.position.width, this.position.height);
+	context.fillRect(this.position.left, this.position.top, this.position.width, this.position.height);
 	this.drawShadow(context)
 
 	for(var cardNum = 0; cardNum < this.cards.length; cardNum++) {
@@ -126,6 +81,8 @@ DeckDisplay.prototype.draw = function(context){
 
 DeckDisplay.prototype.mouseClick=function(e, canvasRect){
 	e.preventDefault();
+
+	console.log("Position: " + event.clientX  + " - " + canvasRect.left);
 
 	var xClickPos = (event.clientX - canvasRect.left);
 	var yClickPos = (event.clientY - canvasRect.top);

@@ -25,8 +25,8 @@ function CardDrawer(card, xPos, yPos, width, height) {
 CardDrawer.prototype.copy = function() {
 	return new CardDrawer(
 		this.card,
-		this.basePosition.x,
-		this.basePosition.y,
+		this.basePosition.left,
+		this.basePosition.top,
 		this.basePosition.width,
 		this.basePosition.height);
 };
@@ -36,7 +36,7 @@ CardDrawer.prototype.drawTitleText = function(context) {
 	context.textBaseline="top";
 	context.font = ("bold " + this.titleFontSize + "px " + this.titleFontName);
 	context.fillStyle = this.textColor;
-	context.fillText(this.card.type, this.getCenter()[0], this.basePosition.y + this.topBuffer, this.basePosition.width);
+	context.fillText(this.card.type, this.getCenter()[0], this.basePosition.top + this.topBuffer, this.basePosition.width);
 }
 
 CardDrawer.prototype.drawBodyText = function(context) {
@@ -44,8 +44,8 @@ CardDrawer.prototype.drawBodyText = function(context) {
 	context.textBaseline="top";
 	context.font = ("normal " + this.normalFontSize + "px " + this.bodyFontName);
 	context.fillStyle = this.textColor;
-	wrapText(context, this.card.text, this.basePosition.x + this.hBuffer,
-		this.basePosition.y  + this.topBuffer + this.titleFontSize*1.5, 
+	wrapText(context, this.card.text, this.basePosition.left + this.hBuffer,
+		this.basePosition.top  + this.topBuffer + this.titleFontSize*1.5, 
 		this.basePosition.width - this.hBuffer * 2, 
 		this.normalFontSize * 1.5);
 }
@@ -65,28 +65,28 @@ CardDrawer.prototype.drawPageNumbers = function(context) {
 	context.font = ("normal " + this.normalFontSize + "px " + this.bodyFontName);
 	context.fillStyle = this.textColor;
 	context.fillText(pgText,
-		this.basePosition.x + this.basePosition.width - this.hBuffer,
-		this.basePosition.y + this.basePosition.height - this.bottomBuffer);
+		this.basePosition.left + this.basePosition.width - this.hBuffer,
+		this.basePosition.top + this.basePosition.height - this.bottomBuffer);
 }
 
 CardDrawer.prototype.drawShadow = function(context) {
 	context.fillStyle = this.shadowColor;
 
 	context.fillRect(
-		this.basePosition.x - this.shadowSize,
-		this.basePosition.y + this.shadowSize,
+		this.basePosition.left - this.shadowSize,
+		this.basePosition.top + this.shadowSize,
 		this.shadowSize,
 		this.basePosition.height
 	);
 	context.fillRect(
-		this.basePosition.x + this.basePosition.width,
-		this.basePosition.y + this.shadowSize,
+		this.basePosition.left + this.basePosition.width,
+		this.basePosition.top + this.shadowSize,
 		this.shadowSize,
 		this.basePosition.height
 	);
 	context.fillRect(
-		this.basePosition.x - this.shadowSize,
-		this.basePosition.y + this.basePosition.height,
+		this.basePosition.left - this.shadowSize,
+		this.basePosition.top + this.basePosition.height,
 		this.basePosition.width + this.shadowSize * 2,
 		this.shadowSize * 2);
 }
@@ -95,7 +95,7 @@ CardDrawer.prototype.draw = function(context) {
 	context.scale(this.scale, this.scale);
 
 	context.fillStyle = this.backColor;
-	context.fillRect(this.basePosition.x, this.basePosition.y, this.basePosition.width, this.basePosition.height);
+	context.fillRect(this.basePosition.left, this.basePosition.top, this.basePosition.width, this.basePosition.height);
 	this.drawShadow(context);
 
 	// Text
@@ -107,7 +107,7 @@ CardDrawer.prototype.draw = function(context) {
 }
 
 CardDrawer.prototype.getCenter = function() {
-	return [this.basePosition.x + this.basePosition.width / 2, this.basePosition.y + this.basePosition.height / 2];
+	return [this.basePosition.left + this.basePosition.width / 2, this.basePosition.top + this.basePosition.height / 2];
 }
 
 CardDrawer.prototype.getCardUniqueId = function() {
@@ -123,11 +123,11 @@ CardDrawer.prototype.getRealPosition = function() {
 }
 
 CardDrawer.prototype.getScaledXPos = function() {
-	return this.basePosition.x * this.scale;
+	return this.basePosition.left * this.scale;
 }
 
 CardDrawer.prototype.getScaledYPos = function() {
-	return this.basePosition.y * this.scale;
+	return this.basePosition.top * this.scale;
 }
 
 CardDrawer.prototype.getScaledWidth = function() {
@@ -148,18 +148,18 @@ CardDrawer.prototype.moveTo = function(pointX, pointY, boundingRectangle) {
 
 	// Clamp to window size
 	if(boundingRectangle != null) {
-		var minXPos = boundingRectangle.x / this.scale;
-		var minYPos = boundingRectangle.y / this.scale;
-		var maxXPos = (boundingRectangle.x + boundingRectangle.width - this.getScaledWidth()) / this.scale;
-		var maxYPos = (boundingRectangle.y + boundingRectangle.height - this.getScaledHeight()) / this.scale;
+		var minXPos = boundingRectangle.left / this.scale;
+		var minYPos = boundingRectangle.top / this.scale;
+		var maxXPos = (boundingRectangle.left + boundingRectangle.width - this.getScaledWidth()) / this.scale;
+		var maxYPos = (boundingRectangle.top + boundingRectangle.height - this.getScaledHeight()) / this.scale;
 
 		scaledX = Math.max(minXPos, Math.min(maxXPos, scaledX));
 		scaledY = Math.max(minYPos, Math.min(maxYPos, scaledY));
 	}
 
 	// Move selected card
-	this.basePosition.x = scaledX;
-	this.basePosition.y = scaledY;
+	this.basePosition.left = scaledX;
+	this.basePosition.top = scaledY;
 }
 
 

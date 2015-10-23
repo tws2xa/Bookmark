@@ -1,14 +1,14 @@
 function Rectangle(x, y, width, height) {
-	this.x = x;
-	this.y = y;
+	this.left = x;
+	this.top = y;
 	this.width = width;
 	this.height = height;
 }
 
 Rectangle.prototype.contains=function(checkx, checky){
-	return (checkx > this.x && checkx < (this.x+this.width) && checky > this.y && checky < (this.y+this.height));
+	return (checkx > this.left && checkx < (this.left+this.width) && checky > this.top && checky < (this.top+this.height));
 }
 
 Rectangle.prototype.getCenter = function() {
-	return [this.x + this.width / 2, this.y + this.height / 2];
+	return [this.left + this.width / 2, this.top + this.height / 2];
 }
