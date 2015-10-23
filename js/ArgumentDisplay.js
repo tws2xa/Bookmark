@@ -68,25 +68,25 @@ function ArgumentDisplay(x, y, width, height) {
 //-------------------------------------------------------------
 
 ArgumentDisplay.prototype.drawShadow = function(context) {
-	context.fillStyle = this.shadowColor;
+	/*context.fillStyle = this.shadowColor;
 
 	context.fillRect(
-		this.position.x - this.shadowSize,
-		this.position.y + this.shadowSize,
+		this.position.x,
+		this.position.y,
 		this.shadowSize,
 		this.position.height
 	);
 	context.fillRect(
-		this.position.x + this.position.width,
-		this.position.y + this.shadowSize,
+		this.position.x + this.position.width - this.shadowSize,
+		this.position.y,
 		this.shadowSize,
 		this.position.height
 	);
 	context.fillRect(
-		this.position.x - this.shadowSize,
-		this.position.y + this.position.height,
-		this.position.width + this.shadowSize * 2,
-		this.shadowSize * 2);
+		this.position.x,
+		this.position.y + this.position.height - this.shadowSize * 2,
+		this.position.width,
+		this.shadowSize * 2);*/
 }
 
 ArgumentDisplay.prototype.draw = function(context){

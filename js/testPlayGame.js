@@ -2,15 +2,18 @@ $(document).ready(function() {
 	
 	
 	var canvasM = $("#canvasM").get(0);
-	
+	var divM = $("#divM").get(0);
 	var contextM = canvasM.getContext("2d");
 	
+
 	var canvasD = $("#canvasD").get(0);
+	var divD = $("#divD").get(0);
 	var contextD = canvasD.getContext("2d");
 	
 	var canvasA = $("#canvasA").get(0);
+	var divsA = $("#divA").get(0);
 	var contextA = canvasA.getContext("2d");
-	
+
 
 	var canvasWidth = window.innerWidth;
 	var canvasHeight = window.innerHeight * 0.94;
@@ -25,7 +28,7 @@ $(document).ready(function() {
 	init();
 
 	function setCanvasSize() {
-	
+		/*
 		var scaledVMargin = canvasHeight * vMargin;
 		var upperPos = canvasHeight * 0.01;
 
@@ -37,7 +40,41 @@ $(document).ready(function() {
 
 		canvasD.width = canvasWidth - (2*(canvasWidth*hMargin));
 		canvasD.height = canvasHeight- (2*(canvasHeight*vMargin)) - (canvasHeight*hMargin) - (canvasHeight*.65);
-	
+		*/
+
+
+		
+		var scaledHMargin = canvasWidth * hMargin;
+		var scaledVMargin = canvasHeight * vMargin;
+		var upperPos = canvasHeight * (0.05 + vMargin);
+		var leftPos = scaledHMargin;
+		var rightPos = canvasWidth - scaledHMargin;
+
+		var divMWidth = canvasWidth *.8;
+		var divMHeight = canvasHeight*.65;
+
+		setDivRect(divM, canvasM, leftPos, upperPos, divMWidth, divMHeight);
+
+		var argX = leftPos + divMWidth + scaledHMargin
+		setDivRect(divA, canvasA, argX, upperPos, rightPos - argX, divMHeight);
+
+		var deckTop = upperPos + divMHeight + scaledVMargin;
+		setDivRect(divD, canvasD, leftPos, deckTop, rightPos - leftPos,  canvasHeight - scaledVMargin - deckTop);
+	}
+
+
+	function setDivRect(div, canvas, x, y, width, height) {
+		console.log(x + ", " + y + ", " + width + ", " + height);
+		div.style.left = (x + "px");
+		div.style.top = (y + "px");
+		div.style.width = (width + "px");
+		div.style.height = (height + "px");
+
+		
+		//canvas.style.left = x;
+		//canvas.style.top = y;
+		canvas.width = width;
+		canvas.height = height;
 
 	}
 	
@@ -46,30 +83,14 @@ $(document).ready(function() {
 		if(typeof game_loop != "undefined") clearInterval(game_loop);
 		game_loop = setInterval(paint, 60);
 		
-		var scaledHMargin = canvasWidth * hMargin;
-		var scaledVMargin = canvasHeight * vMargin;
-		var upperPos = canvasHeight * 0.01;
-		var leftPos = scaledHMargin;
-		var rightPos = canvasWidth - scaledHMargin;
-
 		// Main Display View
-		mainDisplay = new MainDisplay(leftPos, upperPos, canvasWidth*0.80, canvasHeight*0.65);
+		mainDisplay = new MainDisplay(0, 0, canvasM.width, canvasM.height);
 
 		// Argument Cards Display View
-		var argX = leftPos + mainDisplay.position.width + scaledHMargin
-		argumentDisplay = new ArgumentDisplay(
-			0,
-			0,
-			rightPos - argX,
-			mainDisplay.position.height);
+		argumentDisplay = new ArgumentDisplay(0, 0, canvasA.width, canvasA.height);
 		
 		// Deck Cards Display View
-		var deckYPos = upperPos + mainDisplay.position.height + scaledVMargin;
-		deckDisplay = new DeckDisplay(
-			0,
-			0,
-			rightPos - leftPos,
-			canvasHeight - scaledVMargin - deckYPos);
+		deckDisplay = new DeckDisplay(0, 0, canvasD.width, canvasD.height);
 
 		canvasRectA = canvasA.getBoundingClientRect();
 		canvasA.addEventListener("click", onClick);

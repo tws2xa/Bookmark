@@ -52,18 +52,19 @@ display:inline
 
 }
 
-#arg {
+#divA {
 float:right;
 position: relative;
 overflow: scroll;
 overflow-x: hidden;
 }
 
-#deck {
+#divD {
 float:right;
 
 position: relative;
 overflow-x: scroll;
+overflow-y: hidden;
 }
 
 .container .form-login{
