@@ -1,3 +1,14 @@
+//Test deck and getting the test deck
+var testDeck = [];
+for(var i=0; i<30; i++){
+	var card = new Card(i, "Test " + i, "Gotta test this game so hard " + i, i, i+17);
+	testDeck.push(card);
+}
+function getTestDeck(){
+	return testDeck;
+}
+
+
 //Board info
 var board = [];
 var i = 0;
@@ -24,21 +35,38 @@ for(var i=0; i<10; i++){
 	argumentCards.push(card);
 }
 
-var teamId;
-var teamDeck;
-var students;
-
-var testDeck = [];
-for(var i=0; i<30; i++){
-	var card = new Card(i, "Test " + i, "Gotta test this game so hard " + i, i, i+17);
-	testDeck.push(card);
+//Teams
+var teams = [];
+for(var i=0; i<15; i++){
+	var s = [];
+	s.push(getStudents()[i]);
+	s.push(getStudents()[i+1]);
+	var team = new Team(i+1, getTestDeck(), s);
+	teams.push(team);
 }
 
-
-//Getting Data
-function getTestDeck(){
-	return testDeck;
+//Team IDs
+var teamIds = [];
+for(team in getTeams()){
+	teamIds.push(team.id);
 }
+
+//Students
+var students = [];
+for(var i=0; i<15; i++){
+	var student1 = new Student("Henry the " + i, i+1, getTestDeck(), getTeams()[i]);
+	var student2 = new Student("Charles the " + i, (i+1)*2, getTestDeck(), getTeams()[i]);
+	students.push(student1);
+	students.push(student2);
+}
+
+/* --------------------- Above generates data for testing purposes --------------------- */
+
+
+
+/**
+ * Getting Needed data
+ */
 function getBoard(){
 	return board;
 }
@@ -47,17 +75,21 @@ function getArgumentCards(){
 	return argumentCards;
 }
 
-function getTeamId(){
+function getTeams(){
+	return teams;
+}
+
+function getTeamIds(){
 	teamId = [];
 	for(var i=0; i<10; i++){
-		teamId.push(i);
+		teamId.push(getTeams()[i]);
 	}
 	return teamId;
 }
 
 function getTeamDeck(tid){
-	
-	return teamDeck;
+	var index = getTeamIds().indexOf(tid);
+	return getTeams()[index].deck;
 }
 
 function getStudents(){
