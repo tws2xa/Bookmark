@@ -20,6 +20,8 @@ var lightGrayColor = "#F0F0F0";
 var midGrayColor = "#B3B3B3";
 var darkGrayColor = "#4A4A4A";
 
+var playerColors = ["#FF0000","#0000FF", "#008000", "#FFFF00"];
+
 /**
  * Display Colors
  */
@@ -72,4 +74,11 @@ function getCardShadowColor() {
 	} else {
 		return shadowColorWarm2;
 	}
+}
+
+/**
+ * Player colors
+ */
+function getPlayerColor(i){
+	return playerColors[i];
 }

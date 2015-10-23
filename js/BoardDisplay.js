@@ -9,7 +9,6 @@ function BoardDisplay(x, y, width, height){
 	
 	this.elements = [];
 	
-	
 }
 
 BoardDisplay.prototype.createBoard = function(){
