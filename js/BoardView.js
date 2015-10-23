@@ -52,8 +52,6 @@ $(document).ready(function() {
 			upperPos,
 			canvasWidth * 0.17,
 			canvasHeight*0.95);
-		argumentDisplay.cards = getArgumentcards();
-
 			
 
 		// Mouse Wheel
