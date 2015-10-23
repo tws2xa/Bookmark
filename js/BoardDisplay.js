@@ -14,6 +14,7 @@ function BoardDisplay(x, y, width, height){
 BoardDisplay.prototype.draw = function(context){
 	context.fillStyle = this.backgroundColor;
 	context.fillRect(this.position.x, this.position.y, this.position.width, this.position.height);
+	console.log(context);
 	var i = 0;
 	for (var r=0; r<4; ++r){
     	//var tr = this.grid.appendChild(document.createElement('tr'));
@@ -26,11 +27,11 @@ BoardDisplay.prototype.draw = function(context){
                 }
             })(cell,r,c,i),false);*/
             
-            this.elements[r*c] = new BoardItem(this.position.x + (r*this.position.width/4) + 1.5, this.position.y + (c*this.position.height/4) + 1.5, 			this.unitwidth, this.unitheight);
-            this.elements[r*c].draw(context);
-            //context.fillStyle = this.gridcolor;
+            //element = new BoardItem(this.position.x + (r*this.position.width/4) + 1.5, this.position.y + (c*this.position.height/4) + 1.5, this.unitwidth, this.unitheight);
+            //this.grid.appendChild(element);
+            context.fillStyle = this.gridcolor;
             
-            //context.fillRect(this.position.x + (r*this.position.width/4) + 1.5, this.position.y + (c*this.position.height/4) + 1.5, 			this.unitwidth, this.unitheight);
+            context.fillRect(this.position.x + (r*this.position.width/4) + 1.5, this.position.y + (c*this.position.height/4) + 1.5, 			this.unitwidth, this.unitheight);
             
         }
     }

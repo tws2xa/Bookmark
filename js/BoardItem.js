@@ -6,4 +6,5 @@ function BoardItem (x, y, width, height){
 BoardItem.prototype.draw = function(context){
 	context.fillStyle = this.backgroundColor;
 	context.fillRect(this.position.x, this.position.y, this.position.width, this.position.height);
+	console.log(context);
 }
