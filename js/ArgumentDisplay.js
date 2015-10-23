@@ -1,4 +1,4 @@
-function ArgumentDisplay(x, y, width, height) {
+function ArgumentDisplay(x, y, width, height, inCards) {
 	this.position = new Rectangle(x,y,width,height);
 	this.backColor = getDisplayBackgroundColor();	
 	this.shadowColor = getDisplayShadowColor();
@@ -21,7 +21,7 @@ function ArgumentDisplay(x, y, width, height) {
 
 	this.cards = [];
 	this.cardLinks = [];
-	
+	/*
 	var card = new Card(
 		3,
 		"Argument",
@@ -53,12 +53,21 @@ function ArgumentDisplay(x, y, width, height) {
 		170,
 		125
 	);
+	*/
 
-	this.addCard(cardDrawer);
-	this.addCard(cardDrawer2);
-	
-	while(this.cards[0].getRealPosition().width > width * (9/10) || this.cards[0].getRealPosition().height > height * (9/10)) {
-		this.adjustScale(-this.scaleChangeAmt, true);
+	var cardWidth = 170;
+	var cardHeight = 125;
+	var cardMargin = 50;
+
+	for(var i=0; i<inCards.length; i++) {
+		var drawer = new CardDrawer(inCards[i], Math.max(x, x + (width - cardWidth) / 2), cardMargin + i * (cardHeight + cardMargin), cardWidth, cardHeight);
+		this.addCard(drawer);
+	}
+
+	if(this.cards.length > 0) {
+		while(this.cards[0].getRealPosition().width > width * (9/10) || this.cards[0].getRealPosition().height > height * (9/10)) {
+			this.adjustScale(-this.scaleChangeAmt, true);
+		}
 	}
 }
 

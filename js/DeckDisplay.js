@@ -27,13 +27,15 @@ function DeckDisplay(x, y, width, height, inCards) {
 	var cardMargin = 50;
 
 	for(var i=0; i<inCards.length; i++) {
-		var drawer = new CardDrawer(inCards[i], cardMargin + i * (cardWidth + cardMargin), Math.max(y, y + height / 2 - 85), cardWidth, cardHeight);
+		var drawer = new CardDrawer(inCards[i], cardMargin + i * (cardWidth + cardMargin), Math.max(y, y + (height - cardHeight) / 2), cardWidth, cardHeight);
 		this.addCard(drawer);
 	}
 
-	while(this.cards[0].getRealPosition().width > width * (9/10) || this.cards[0].getRealPosition().height > height * (9/10)) {
-		console.log("Scale Down: " + this.defaultCardScale);
-		this.adjustScale(-this.scaleChangeAmt, true);
+	if(this.cards.length > 0) {
+		while(this.cards[0].getRealPosition().width > width * (9/10) || this.cards[0].getRealPosition().height > height * (9/10)) {
+			console.log("Scale Down: " + this.defaultCardScale);
+			this.adjustScale(-this.scaleChangeAmt, true);
+		}
 	}
 }
 
