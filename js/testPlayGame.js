@@ -15,6 +15,13 @@ $(document).ready(function() {
 	var contextA = canvasA.getContext("2d");
 
 
+	var cardWidth = 170;
+	var cardHeight = 125;
+	var cardMargin = 50;
+
+	var deckCards = [];
+
+
 	var canvasWidth = window.innerWidth;
 	var canvasHeight = window.innerHeight * 0.94;
 	var canvasRect;	
@@ -28,37 +35,31 @@ $(document).ready(function() {
 	init();
 
 	function setCanvasSize() {
-		/*
-		var scaledVMargin = canvasHeight * vMargin;
-		var upperPos = canvasHeight * 0.01;
-
-		canvasM.width = canvasWidth *.8;
-		canvasM.height = canvasHeight*.65;
-
-		canvasA.width = canvasWidth-(canvasWidth* hMargin) - (canvasWidth*.01 + (canvasWidth*.8) + canvasWidth*hMargin);
-		canvasA.height = canvasHeight*.65;
-
-		canvasD.width = canvasWidth - (2*(canvasWidth*hMargin));
-		canvasD.height = canvasHeight- (2*(canvasHeight*vMargin)) - (canvasHeight*hMargin) - (canvasHeight*.65);
-		*/
-
-
-		
+		// Needed variables
 		var scaledHMargin = canvasWidth * hMargin;
 		var scaledVMargin = canvasHeight * vMargin;
 		var upperPos = canvasHeight * (0.05 + vMargin);
 		var leftPos = scaledHMargin;
 		var rightPos = canvasWidth - scaledHMargin;
-
+		
 		var divMWidth = canvasWidth *.8;
 		var divMHeight = canvasHeight*.65;
-
-		setDivRect(divM, canvasM, leftPos, upperPos, divMWidth, divMHeight);
-
 		var argX = leftPos + divMWidth + scaledHMargin
-		setDivRect(divA, canvasA, argX, upperPos, rightPos - argX, divMHeight);
-
 		var deckTop = upperPos + divMHeight + scaledVMargin;
+
+		// Canvas sizes
+		this.deckCards = getTestDeck();
+
+		canvasM.width = divMWidth;
+		canvasM.height = divMHeight;
+		canvasD.width = width + this.deckCards.length * cardWidth + (this.deckCards.length - 1) * cardMargin;
+		canvasD.height = canvasHeight - scaledVMargin - deckTop;
+		canvasA.width = rightPos - leftPos;
+		canvasA.height =  canvasHeight - scaledVMargin - deckTop;
+
+		// Div sizes
+		setDivRect(divM, canvasM, leftPos, upperPos, divMWidth, divMHeight);
+		setDivRect(divA, canvasA, argX, upperPos, rightPos - argX, divMHeight);
 		setDivRect(divD, canvasD, leftPos, deckTop, rightPos - leftPos,  canvasHeight - scaledVMargin - deckTop);
 	}
 
@@ -71,11 +72,7 @@ $(document).ready(function() {
 		div.style.height = (height + "px");
 
 		
-		//canvas.style.left = x;
-		//canvas.style.top = y;
-		canvas.width = width;
-		canvas.height = height;
-
+	
 	}
 	
 	
