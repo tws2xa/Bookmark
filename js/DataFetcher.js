@@ -30,7 +30,7 @@ var students;
 
 var testDeck = [];
 for(var i=0; i<30; i++){
-	var card = new Card(i, "Test " + i, "Gotta watch Star Wars " + i, i, i+17);
+	var card = new Card(i, "Test " + i, "Gotta test this game so hard " + i, i, i+17);
 	testDeck.push(card);
 }
 
