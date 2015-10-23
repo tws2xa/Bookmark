@@ -10,6 +10,7 @@ $(document).ready(function() {
 	
 	var canvasWidth = window.innerWidth;
 	var canvasHeight = window.innerHeight * 0.94;
+	var argumentDisplay;
 	
 	setCanvasSize();
 	init();
@@ -37,14 +38,18 @@ $(document).ready(function() {
 		canvas.addEventListener("mousedown", onMouseDown);
 		canvas.addEventListener("mouseup", onMouseUp);
 		
+		console.log("print something");
+		
 		boardDisplay = new BoardDisplay(
 			leftPos,
 			upperPos,
 			canvasWidth*0.80,
 			canvasHeight*0.95
 		);
+		console.log("boar boar");
+		boardDisplay.createBoard();
 		
-	
+		
 		argumentDisplay = new ArgumentDisplay(
 			canvasWidth * 0.85,
 			upperPos,
