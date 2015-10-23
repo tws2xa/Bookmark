@@ -45,11 +45,11 @@ $(document).ready(function() {
 		);
 		
 	
-		/*argumentDisplay = new ArgumentDisplay(
-			leftPos,
+		argumentDisplay = new ArgumentDisplay(
+			canvasWidth * 0.85,
 			upperPos,
-			rightPos - leftPos,
-			upperPos);*/
+			canvasWidth * 0.17,
+			canvasHeight*0.95);
 
 			
 
@@ -73,7 +73,7 @@ $(document).ready(function() {
 		context.fillRect(0, 0, canvasWidth, canvasHeight);
 
 		// Draw Card
-// 		argumentDisplay.draw(context);
+		argumentDisplay.draw(context);
 		boardDisplay.draw(context);
 	}
 
