@@ -23,7 +23,7 @@ $(document).ready(function() {
 	var argumentCards = [];
 
 	var canvasWidth = window.innerWidth;
-	var canvasHeight = window.innerHeight * 0.94;
+	var canvasHeight = window.innerHeight;
 	var canvasRect;	
 	var vMargin = 0.02;
 	var hMargin = 0.015;
@@ -48,7 +48,7 @@ $(document).ready(function() {
 		var deckTop = upperPos + divMHeight + scaledVMargin;
 
 		// Canvas sizes
-		this.deckCards = getTestDeck();
+		this.deckCards = getDeck(-1);
 		this.argumentCards = getArgumentCards();
 
 		canvasM.width = divMWidth;

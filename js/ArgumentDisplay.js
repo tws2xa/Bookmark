@@ -21,39 +21,6 @@ function ArgumentDisplay(x, y, width, height, inCards) {
 
 	this.cards = [];
 	this.cardLinks = [];
-	/*
-	var card = new Card(
-		3,
-		"Argument",
-		"Hazel's loyalty is his most important quality.",
-		-1,
-		-1
-		);
-
-	var card2 = new Card(
-		4,
-		"Argument",
-		"Bigwig is a very brave bunny.",
-		-1,
-		-1
-	);
-
-	var cardDrawer = new CardDrawer (
-		card,
-		Math.max(x, x + width / 2 - 85),
-		Math.max(y, y + height / 2 - 175),
-		170,
-		125
-	);
-
-	var cardDrawer2 = new CardDrawer (
-		card2,
-		Math.max(x, x + width / 2 - 85),
-		Math.max(y, y + height / 2 - 35),
-		170,
-		125
-	);
-	*/
 
 	var cardWidth = 170;
 	var cardHeight = 125;
