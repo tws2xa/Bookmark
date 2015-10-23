@@ -13,7 +13,8 @@ function BoardDisplay(x, y, width, height){
 }
 
 BoardDisplay.prototype.createBoard = function(){
-	for (var r=0; r<4; r++){
+	/*
+for (var r=0; r<4; r++){
 		this.elements.push([]);
 		for(var c=0; c<4; c++){
 			var card = new Card(100+10*r+100*c, "imagery", "yes", 2, 4);
@@ -21,6 +22,8 @@ BoardDisplay.prototype.createBoard = function(){
 			this.elements[r].push(element);
 		}
 	}
+*/
+	this.elements = getBoard(this.position.x, this.position.y, this.position.width, this.position.height);
 }
 
 BoardDisplay.prototype.draw = function(context){

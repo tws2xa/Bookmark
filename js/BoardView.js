@@ -5,12 +5,12 @@ $(document).ready(function() {
 	var canvasRect;	
 	var vMargin = 0.02;
 	var hMargin = 0.015;
-// 	var argumentDisplay;
 	var clickableGrid;
 	
 	var canvasWidth = window.innerWidth;
 	var canvasHeight = window.innerHeight * 0.94;
 	var argumentDisplay;
+	var boardDisplay;
 	
 	setCanvasSize();
 	init();
@@ -38,15 +38,12 @@ $(document).ready(function() {
 		canvas.addEventListener("mousedown", onMouseDown);
 		canvas.addEventListener("mouseup", onMouseUp);
 		
-		console.log("print something");
-		
 		boardDisplay = new BoardDisplay(
 			leftPos,
 			upperPos,
 			canvasWidth*0.80,
 			canvasHeight*0.95
 		);
-		console.log("boar boar");
 		boardDisplay.createBoard();
 		
 		
@@ -55,6 +52,7 @@ $(document).ready(function() {
 			upperPos,
 			canvasWidth * 0.17,
 			canvasHeight*0.95);
+		argumentDisplay.cards = getArgumentcards();
 
 			
 
