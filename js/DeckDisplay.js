@@ -3,7 +3,6 @@ function DeckDisplay(x, y, width, height, inCards) {
 	this.backColor = getDisplayBackgroundColor();	
 	this.shadowColor = getDisplayShadowColor();
 	this.cardLinkColor = getCardLinkColor();
-	this.shadowSize = 2;
 
 	this.selectedShadowAddition = 0.5; // The amount to increase the selected card's shadow.
 	this.selectedScaleAddition = 0; // The amount to increase the selected card's scale.
@@ -30,13 +29,6 @@ function DeckDisplay(x, y, width, height, inCards) {
 		var drawer = new CardDrawer(inCards[i], cardMargin + i * (cardWidth + cardMargin), Math.max(y, y + (height - cardHeight) / 2), cardWidth, cardHeight);
 		this.addCard(drawer);
 	}
-
-	if(this.cards.length > 0) {
-		while(this.cards[0].getRealPosition().width > width * (9/10) || this.cards[0].getRealPosition().height > height * (9/10)) {
-			console.log("Scale Down: " + this.defaultCardScale);
-			this.adjustScale(-this.scaleChangeAmt, true);
-		}
-	}
 }
 
 
@@ -44,32 +36,9 @@ function DeckDisplay(x, y, width, height, inCards) {
 //-----------------------Draw Functions------------------------
 //-------------------------------------------------------------
 
-DeckDisplay.prototype.drawShadow = function(context) {
-	/*context.fillStyle = this.shadowColor;
-
-	context.fillRect(
-		this.position.left,
-		this.position.top,
-		this.shadowSize,
-		this.position.height
-	);
-	context.fillRect(
-		this.position.left + this.position.width - this.shadowSize,
-		this.position.top,
-		this.shadowSize,
-		this.position.height
-	);
-	context.fillRect(
-		this.position.left,
-		this.position.top + this.position.height - this.shadowSize * 2,
-		this.position.width,
-		this.shadowSize * 2);*/
-}
-
 DeckDisplay.prototype.draw = function(context){
 	context.fillStyle = this.backColor;
 	context.fillRect(this.position.left, this.position.top, this.position.width, this.position.height);
-	this.drawShadow(context)
 
 	for(var cardNum = 0; cardNum < this.cards.length; cardNum++) {
 		this.cards[cardNum].draw(context);
@@ -118,8 +87,7 @@ DeckDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 }
 
 DeckDisplay.prototype.onMouseWheel = function(e, canvasRect) {
-	var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
-	this.adjustScale(delta * this.scaleChangeAmt, false);
+
 }
 
 //-------------------------------------------------------------

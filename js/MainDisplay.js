@@ -29,32 +29,9 @@ function MainDisplay(x, y, width, height) {
 //-----------------------Draw Functions------------------------
 //-------------------------------------------------------------
 
-MainDisplay.prototype.drawShadow = function(context) {
-	/*context.fillStyle = this.shadowColor;
-
-	context.fillRect(
-		this.position.left,
-		this.position.top,
-		this.shadowSize,
-		this.position.height
-	);
-	context.fillRect(
-		this.position.left + this.position.width - this.shadowSize,
-		this.position.top,
-		this.shadowSize,
-		this.position.height
-	);
-	context.fillRect(
-		this.position.left,
-		this.position.top + this.position.height - this.shadowSize * 2,
-		this.position.width,
-		this.shadowSize * 2);*/
-}
-
 MainDisplay.prototype.draw = function(context){
 	context.fillStyle = this.backColor;
 	context.fillRect(this.position.left, this.position.top, this.position.width, this.position.height);
-	this.drawShadow(context);
 
 	this.drawLinks(context);
 
@@ -171,6 +148,13 @@ MainDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 MainDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 	var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
 	this.adjustScale(delta * this.scaleChangeAmt, false);
+}
+
+
+
+MainDisplay.prototype.generateChain = function() {
+	console.log("Creating chain!");
+	return null;
 }
 
 //-------------------------------------------------------------
