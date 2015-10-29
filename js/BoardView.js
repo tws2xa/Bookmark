@@ -9,8 +9,8 @@ $(document).ready(function() {
 	
 	var canvasWidth = window.innerWidth;
 	var canvasHeight = window.innerHeight * 0.94;
-	var argumentDisplay;
 	var boardDisplay;
+	var teamsDisplay;
 	
 	setCanvasSize();
 	init();
@@ -47,11 +47,14 @@ $(document).ready(function() {
 		boardDisplay.createBoard();
 		
 		
-		argumentDisplay = new ArgumentDisplay(
-			canvasWidth * 0.85,
+		teamsDisplay = new TeamsDisplay(
+			leftPos+canvasWidth*.82,
 			upperPos,
-			canvasWidth * 0.17,
-			canvasHeight*0.95);
+			canvasWidth*.18,
+			canvasHeight*.95,
+			getTeams()	
+		);
+		teamsDisplay.createTD();
 			
 
 		// Mouse Wheel
@@ -74,8 +77,8 @@ $(document).ready(function() {
 		context.fillRect(0, 0, canvasWidth, canvasHeight);
 
 		// Draw Card
-		argumentDisplay.draw(context);
 		boardDisplay.draw(context);
+		teamsDisplay.draw(context);
 	}
 
 	
