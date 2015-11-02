@@ -1,6 +1,13 @@
 $(document).ready(function() {
-	setCanvasSize();
-	init();
+	if(sessionStorage.studentId == null) {
+		alert("Please Login to Play.");
+		window.location.href = "./login.html";
+	}
+	else {
+		console.log("ID: " + sessionStorage.studentId);
+		setCanvasSize();
+		init();
+	}
 });
 
 var canvasM = $("#canvasM").get(0);

@@ -55,10 +55,8 @@ for(var i=0; i<15; i++){
 
 /* --------------------- Above generates data for testing purposes --------------------- */
 
-
-
 /**
- * Getting Needed data
+ * Requesting Information From the Server
  */
 function getBoard(){
 	return dfBoard;
@@ -93,7 +91,22 @@ function getStudents(){
 	return dfStudents;
 }
 
+// Checks if the given username and password are valid
+// Returns student id if they are valid.
+// Returns null if invalid
+function checkLogin(username, password) {
+	if (username == "my" && password == "password") {
+		return 0;
+	} else if (username == "a" && password == "a") {
+		return 1;
+	}	else {
+		return null;
+	}
+}
 
+/**
+ * Sending Updates to the Server
+ */
 function submitChainToServer(chain) {
 	console.log("Sending chain to server!");
 }

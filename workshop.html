@@ -33,11 +33,30 @@
 			    || (event.keyCode==46));
 
 		}
+
+		function handleSubmit() {
+			if(sessionStorage.studentId == null) {
+				alert("Please Login to Create Cards.");
+				window.location.href = "./login.html";
+				return false;
+			} else {
+				alert("Card Submitted");
+				console.log("Submit Button Clicked!");
+			}
+		}
 	</script>
 </head>
 <body>
 
-<form action="workshop.html" method="POST">
+<script type="text/javascript">
+	// Check they are logged in.
+	if(sessionStorage.studentId == null) {
+		alert("Please Login to Create Cards.");
+		window.location.href = "./login.html";
+	}
+</script>
+
+<form method="POST">
 	<center>
 	<br />
 	<br />
@@ -66,7 +85,7 @@
 				-
 				<input type="text" id="endPage" name="endPage" size = "3" maxlength="4" onkeydown="return validateNumericInput(event)">
 			</td></tr>
-			<tr style="padding:0px;"><td><input class = "btn" type="submit" value="Submit"></td></tr>
+			<tr style="padding:0px;"><td><button class = "btn" value="Submit" onclick="return handleSubmit()">Submit</button></td></tr>
 		</table>
 	</div>
 
