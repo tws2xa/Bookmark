@@ -1,3 +1,13 @@
+body {
+  background-color:#9ec7d3;
+  -webkit-font-smoothing: antialiased;
+  font: normal 14px arial,sans-serif;
+
+margin:0;
+padding:0;
+}
+
+
 .grid { margin:1em auto; border-collapse:collapse }
 .grid td {
     cursor:pointer;
