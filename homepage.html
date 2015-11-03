@@ -1,10 +1,15 @@
 <html>
 <head>
-  <script type="text/javascript"  src="..\Bookmark\js\loginScript.js"></script>
-  <link rel="stylesheet" href="css/bootstrap.min.css"> 
-  <link rel="stylesheet" href="css/homepagecss.css">          
+    <script src="js/Card.js" type="text/javascript"></script>
+    <script src="js/Team.js" type="text/javascript"></script>
+    <script src="js/Student.js" type="text/javascript"></script>
+    <script type="text/javascript"  src="js/loginScript.js"></script>
+    <script type="text/javascript" src="js/DataFetcher.js"></script>
 
-  <title>Bookmark Home</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="css/homepagecss.css">          
+
+    <title>Bookmark Home</title>
 
 </head>
 <body>
@@ -26,7 +31,21 @@
     <center>
         <h1> Welcome to Bookmark! </h1>
         <br>
-        <b>Please <a href="login.html"><font color="blue"><u>login</a></u></font> to begin!</b>
+        <div id="message"></div>
+        <script type = "text/javascript">
+
+        var msgStr = "Hello!";
+        if(sessionStorage.studentId == null) {
+            msgStr = "Hello! Please login to begin.";
+        } else {
+            var studentName = getStudentName(sessionStorage.studentId); // getStudentName Defined in DataFetcher
+            msgStr = ("Hello, " + studentName);
+        }
+        var msgDiv = document.getElementById("message");
+        var textToAdd = document.createTextNode(msgStr);
+        msgDiv.appendChild(textToAdd);
+
+        </script>
     </center>
 
 </body>

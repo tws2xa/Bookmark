@@ -58,19 +58,20 @@ for(var i=0; i<15; i++){
 /**
  * Requesting Information From the Server
  */
-function getBoard(){
+function getBoard(dfStudentId){
 	return dfBoard;
 }
 
-function getArgumentCards(){
+function getArgumentCards(dfStudentId){
+	console.log("Getting argument cards for class with student: " + dfStudentId)
 	return dfArgumentCards;
 }
 
-function getTeams(){
+function getTeams(dfStudentId){
 	return dfTeams;
 }
 
-function getTeamIds(){
+function getTeamIds(dfStudentId){
 	teamId = [];
 	for(var i=0; i<10; i++){
 		teamId.push(getTeams()[i]);
@@ -78,9 +79,15 @@ function getTeamIds(){
 	return teamId;
 }
 
-function getTeamDeck(tid){
-	var index = getTeamIds().indexOf(tid);
-	return getTeams()[index].deck;
+function getTeamDeck(dfStudentId){
+	console.log("Getting deck for team with student: " + dfStudentId);
+	var index = getTeamIds().indexOf(dfStudentId);
+	return getTeams()[0].deck;
+}
+
+function getStudentDeck(dfStudentId){
+	console.log("Getting deck for student: " + dfStudentId);
+	return tfTestDeck;
 }
 
 function getDeck(){
@@ -91,13 +98,24 @@ function getStudents(){
 	return dfStudents;
 }
 
+// Gets the name of the student given the student id
+function getStudentName(dfStudentId) {
+	if(dfStudentId == 0) {
+		return "Bagglepod Montselian";
+	} else if(dfStudentId == 1) {
+		return "Lod Pokit Fuzteller"
+	} else {
+		return "Student #:" + dfStudentId;
+	}
+}
+
 // Checks if the given username and password are valid
 // Returns student id if they are valid.
 // Returns null if invalid
-function checkLogin(username, password) {
-	if (username == "my" && password == "password") {
+function checkLogin(dfUsername, dfUsername) {
+	if (dfUsername == "my" && dfUsername == "password") {
 		return 0;
-	} else if (username == "a" && password == "a") {
+	} else if (dfUsername == "a" && dfUsername == "a") {
 		return 1;
 	}	else {
 		return null;
@@ -107,6 +125,6 @@ function checkLogin(username, password) {
 /**
  * Sending Updates to the Server
  */
-function submitChainToServer(chain) {
-	console.log("Sending chain to server!");
+function submitChainToServer(dfStudentId, dfChain) {
+	console.log("Sending chain to server for student: " + dfStudentId + "!");
 }

@@ -52,8 +52,8 @@ function setCanvasSize() {
 	var deckTop = upperPos + divMHeight + scaledVMargin;
 
 	// Canvas sizes
-	deckCards = getDeck(-1);
-	argumentCards = getArgumentCards();
+	deckCards = getTeamDeck(sessionStorage.studentId);
+	argumentCards = getArgumentCards(sessionStorage.studentId);
 
 	canvasM.width = divMWidth;
 	canvasM.height = divMHeight;
@@ -261,6 +261,6 @@ function argsDisplayMouseDrag(event) {
 
 function onChainSubmit() {
 	var chain = mainDisplay.generateChain();
-	submitChainToServer(chain);
+	submitChainToServer(session.studentId, chain);
 	document.getElementById("canvasM").focus();
 }

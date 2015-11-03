@@ -34,8 +34,7 @@ function setCanvasSize() {
 	var deckTop = upperPos + divMHeight + scaledVMargin;
 
 	// Canvas sizes
-	deckCards = getDeck(-1);
-	argumentCards = getArgumentCards();
+	deckCards = getStudentDeck(sessionStorage.studentId);
 
 	canvasD.width = Math.max(rightPos - argX, deckCards.length * cardWidth + (deckCards.length + 1) * cardMargin);
 	canvasD.height = canvasHeight - scaledVMargin - deckTop;
