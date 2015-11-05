@@ -1,7 +1,10 @@
 //Test deck and getting the test deck
 var tfTestDeck = [];
+tfTestDeck.push(new Card(-1, "Plot Point", "Beowulf fights Grendel with bare hands.", 47, 55));
+tfTestDeck.push(new Card(-2, "Imagery", "\"The monster's whole body was in pain... Sinews split and bone-lappings burst.\"", 55, -1));
+tfTestDeck.push(new Card(-3, "Tone", "Primitive Brutality", -1, -1));
 for(var i=0; i<30; i++){
-	var card = new Card(i, "Test " + i, "Gotta test this game so hard " + i, i, i+17);
+	var card = new Card(i, "Test " + i, "Test Card #" + i, i, i+17);
 	tfTestDeck.push(card);
 }
 
@@ -13,18 +16,19 @@ for (var r=0; r<4; r++){
 	dfBoard.push([]);
 	for(var c=0; c<4; c++){
 		i++;
-		var card = new Card(100+i, "Test " + i, "Gotta watch Star Wars " + i, i, i+17);
+		var card = new Card(100+i, "Test " + i, "Board Card #" + i, i, i+17);
 		dfBoard[r].push(card);
 	}
 }
 
 //Argument Cards info
 var dfArgumentCards = [];
+dfArgumentCards.push(new Card(-4, "Argument", "In defeating monsters, Beowulf risks becoming one himself.", -1, -1));
 for(var i=0; i<10; i++){
 	var card = new Card(
 	1000+i,
 	"Argument",
-	"I am right because " + i,
+	"Test Argument Card #" + i,
 	-1,
 	-1
 	);
