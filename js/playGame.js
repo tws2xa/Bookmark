@@ -10,6 +10,15 @@ $(document).ready(function() {
 	}
 });
 
+	
+	
+function startTimer() {
+	var timer = setInterval(updatePlayPage, 5000);
+	console.log("in timer");
+}
+	
+
+
 var canvasM = $("#canvasM").get(0);
 var divM = $("#divM").get(0);
 var contextM = canvasM.getContext("2d");
@@ -85,7 +94,14 @@ function setDivRect(div, canvas, x, y, width, height) {
 	div.style.height = (height + "px");	
 }
 
+function updatePlayPage(){
+	if (getNeedPlayUpdate(sessionStorage.studentId)) {
+	getPlayStateInfo(sessionStorage.studentId);
+}
+}
+
 function init() {
+	
 	if(typeof game_loop != "undefined") clearInterval(game_loop);
 	game_loop = setInterval(paint, 60);
 	
@@ -145,6 +161,9 @@ function init() {
 	canvasD.oncontextmenu = function(e) {
 		return false;
 	}
+
+	startTimer();
+
 }
 
 function paint() {

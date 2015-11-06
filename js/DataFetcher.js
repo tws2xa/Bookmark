@@ -62,6 +62,22 @@ for(var i=0; i<15; i++){
 /**
  * Requesting Information From the Server
  */
+function getNeedPlayUpdate(dfStudentId) {
+	return true;
+}
+
+function getNeedBoardUpdate(dfStudentId) {
+	return true;
+}
+
+function getPlayStateInfo(dfStudentId) {
+	console.log("state info, " + dfStudentId);
+}
+
+function getBoardStateInfo(dfStudentId) {
+	console.log("state info, " + dfStudentId);
+}	
+
 function getBoard(dfStudentId){
 	return dfBoard;
 }
@@ -131,7 +147,7 @@ function checkLogin(dfUsername, dfUsername) {
 function getValidMovePositions(dfStudentId, dfRollNum) {
 	return [
 	[0,0],
-	[0, 1].
+	[0, 1],
 	[1, 0],
 	[1, 1]
 	];

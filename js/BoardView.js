@@ -15,6 +15,10 @@ $(document).ready(function() {
 	setCanvasSize();
 	init();
 	
+	function startTimer() {
+	var timer = setInterval(updateBoard, 5000);
+	console.log("in timer");
+}
 	
 	
 	function setCanvasSize() {
@@ -69,6 +73,7 @@ $(document).ready(function() {
 		canvas.oncontextmenu = function(e) {
 			return false;
 		}
+	startTimer();
 	}
 	
 	function paint() {
@@ -81,7 +86,11 @@ $(document).ready(function() {
 		teamsDisplay.draw(context);
 	}
 
-	
+	function updateBoard(){
+	if (getNeedBoardUpdate(sessionStorage.studentId)) {
+	getBoardStateInfo(sessionStorage.studentId);
+}
+}
      
 	
 	
