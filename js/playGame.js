@@ -46,8 +46,8 @@ function setCanvasSize() {
 	var leftPos = scaledHMargin;
 	var rightPos = canvasWidth - scaledHMargin;
 	
-	var divMWidth = canvasWidth *.82;
-	var divMHeight = canvasHeight*.65;
+	var divMWidth = canvasWidth *.82; //changed to accomodate Deck Display showing page #s
+	var divMHeight = canvasHeight*.6;
 	var argX = leftPos + divMWidth + scaledHMargin
 	var deckTop = upperPos + divMHeight + scaledVMargin;
 
@@ -65,7 +65,7 @@ function setCanvasSize() {
 	// Div sizes
 	setDivRect(divM, canvasM, leftPos, upperPos, divMWidth, divMHeight);
 	setDivRect(divA, canvasA, argX, upperPos, rightPos - argX, divMHeight);
-	setDivRect(divD, canvasD, leftPos, deckTop, rightPos - leftPos,  canvasHeight - scaledVMargin - deckTop);
+	setDivRect(divD, canvasD, leftPos, deckTop, rightPos - leftPos,  canvasHeight - scaledVMargin*.9 - deckTop + 10); #changed to show page #s
 
 
 

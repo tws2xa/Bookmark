@@ -4,13 +4,9 @@ body {
   -webkit-font-smoothing: antialiased;
   font: normal 14px arial,sans-serif;
 
-margin:0;
-padding:0;
+
 }
 
-.form {
-background-color: #ffffff;
-}
 
 ul {
     list-style-type: none;
@@ -26,6 +22,8 @@ li {
 	
 }
 
+
+
 .nav {
 padding: 0px;
 background-color: #f6fafb;
@@ -34,7 +32,6 @@ background-color: #f6fafb;
 .nav a:link, a:visited {
     display: block;
     width: 150px;
-	
     font-weight: bold;
     color: #000000;
     background-color: #f6fafb;
@@ -55,26 +52,25 @@ display:inline
 }
 
 
-.container .form-login{
-
-    padding: 25px;
-    position: fixed;
-}
 
 
 
+#loginContainer {
 
-.form-login {
-    background-color: #d3e5eb;
-    padding-top: 5px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 10px;
+
+
+    background-color: #ffffff;
+  	
+    border-radius: 5px;
     border-color:#d3e5eb;
     border-width: 0px;
     box-shadow:0 1px 0 #cfcfcf;
+  
+
 }
+
+
+
 
 .btn-primary {
 background-color: #f6fafb;
@@ -93,8 +89,6 @@ display: inline;
     text-align: center;
    
     text-decoration: none;
-    
-	
 	
 }
 
@@ -108,10 +102,4 @@ font-weight: bold;
 
 
 
-.form-control {
-    border-radius: 10px;
-}
 
-.wrapper {
-    text-align: center;
-}
