@@ -261,6 +261,6 @@ function argsDisplayMouseDrag(event) {
 
 function onChainSubmit() {
 	var chain = mainDisplay.generateChain();
-	submitChainToServer(session.studentId, chain);
+	submitChainToServer(sessionStorage.studentId, chain);
 	document.getElementById("canvasM").focus();
 }

@@ -76,7 +76,7 @@ function getTeams(dfStudentId){
 }
 
 function getTeamIds(dfStudentId){
-	teamId = [];
+	var teamId = [];
 	for(var i=0; i<10; i++){
 		teamId.push(getTeams()[i]);
 	}
@@ -126,9 +126,37 @@ function checkLogin(dfUsername, dfUsername) {
 	}
 }
 
+// Returns all valid positions that the team with the given student
+// can move to. [ [x,y], [x,y], [x,y], ...]
+function getValidMovePositions(dfStudentId, dfRollNum) {
+	return [
+	[0,0],
+	[0, 1].
+	[1, 0],
+	[1, 1]
+	];
+}
+
 /**
  * Sending Updates to the Server
  */
+
+// Submits a chain to the server
 function submitChainToServer(dfStudentId, dfChain) {
 	console.log("Sending chain to server for student: " + dfStudentId + "!");
+}
+
+// Tells the server what a team has decided to do on their turn
+// Returns the next state to display
+function sendTurnDecision(dfStudentId, dfTurnDecision) {
+	console.log("Sending Student #" + dfStudentId + " Turn Decision: " + dfTurnDecision);
+}
+
+// Tells the server that the team with the given student would
+// like to move to the given position: [x, y].
+function moveTeamToPosition(dfStudentId, dfMovePos) {
+	var dfMoveX = dfMovePos[0];
+	var dfMoveY = dfMovePos[1];
+
+	console.log("Student #" + dfStudentId + " moving to position (" + dfMoveX + ", " + dfMoveY + ")");
 }
