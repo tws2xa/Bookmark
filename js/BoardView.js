@@ -8,7 +8,7 @@ $(document).ready(function() {
 	var clickableGrid;
 	
 	var canvasWidth = window.innerWidth;
-	var canvasHeight = window.innerHeight * 0.94;
+	var canvasHeight = window.innerHeight * 0.935;
 	var boardDisplay;
 	var teamsDisplay;
 	
@@ -73,7 +73,7 @@ $(document).ready(function() {
 	
 	function paint() {
 		// Clear Screen
-		context.fillStyle = "C7DFC5";
+		context.fillStyle = "#9ec7d3";
 		context.fillRect(0, 0, canvasWidth, canvasHeight);
 
 		// Draw Card
