@@ -1,3 +1,5 @@
+
+
 function MainDisplay(x, y, width, height) {
 	this.position = new Rectangle(x,y,width,height);
 	this.backColor = getDisplayBackgroundColor();	
@@ -22,6 +24,17 @@ function MainDisplay(x, y, width, height) {
 
 	this.cards = [];
 	this.cardLinks = [];
+
+	//state variables
+	this.currentState = 0;
+	this.doNothing = 0;
+	this.challenge = 1;
+	this.move = 2;
+	this.makeChain = 3;
+	this.beingChallenged = 4;
+
+
+	this.setState(this.makeChain);
 }
 
 
@@ -30,14 +43,56 @@ function MainDisplay(x, y, width, height) {
 //-------------------------------------------------------------
 
 MainDisplay.prototype.draw = function(context){
+
 	context.fillStyle = this.backColor;
 	context.fillRect(this.position.left, this.position.top, this.position.width, this.position.height);
 
+	if(this.currentState == this.doNothing) {
+		this.drawDoNothing(context);
+	}
+
+	if(this.currentState == this.challenge) {
+		this.drawChallenge(context);
+	}
+
+	if(this.currentState == this.move) {
+		this.drawMove(context);
+	}
+	if(this.currentState == this.makeChain) {
+		this.drawMakeChain(context);
+		}
+
+	if(this.currentState == this.beingChallenged) {
+		this.drawBeingChallenged(context);
+	}
+	
+
+}
+MainDisplay.prototype.drawDoNothing = function(context) {
+	context.textAlign = "start";
+	context.textBaseline="top";
+	context.font = ("normal 18px segoe ui semibold");
+	context.fillStyle = getCardTextColor(); // Defined in color scheme
+	
+	var currentTurnTeamName = getCurrentTurnTeamName(sessionStorage.studentId);
+
+	context.fillText("It's " + currentTurnTeamName + "'s Turn!", 15, 15);
+}
+MainDisplay.prototype.drawChallenge = function(context) {
+	this.drawMakeChain(context);
+}
+MainDisplay.prototype.drawMove = function(context) {
+
+}
+MainDisplay.prototype.drawMakeChain = function(context) {
 	this.drawLinks(context);
 
 	for(var cardNum = 0; cardNum < this.cards.length; cardNum++) {
 		this.cards[cardNum].draw(context);
 	}
+}
+MainDisplay.prototype.drawBeingChallenged = function(context) {
+
 }
 
 MainDisplay.prototype.drawLinks = function(context) {
@@ -80,6 +135,10 @@ MainDisplay.prototype.mouseClick=function(e, canvasRect){
 MainDisplay.prototype.onMouseDown = function(e, canvasRect) {
 	e.preventDefault();
 
+	if(this.currentState != this.makeChain && this.currentState != this.challenge) {
+		return;
+	}
+
 	var xClickPos = (event.clientX - canvasRect.left);
 	var yClickPos = (event.clientY - canvasRect.top);
 	this.dragMousePos = [xClickPos, yClickPos];
@@ -100,7 +159,11 @@ MainDisplay.prototype.onMouseDown = function(e, canvasRect) {
 
 MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
 	e.preventDefault();
-	
+
+	if(this.currentState != this.makeChain && this.currentState != this.challenge) {
+		return;
+	}
+
 	if(this.selectedCard != null && e.which == 1) {
 		this.clearSelectedCard();	
 	} if(this.newLinkStartCard != null && e.which == 3) {
@@ -132,6 +195,10 @@ MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
 
 MainDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 	e.preventDefault();
+	
+	if(this.currentState != this.makeChain && this.currentState != this.challenge) {
+		return;
+	}
 
 	var xClickPos = (event.clientX - canvasRect.left);
 	var yClickPos = (event.clientY - canvasRect.top);
@@ -162,6 +229,10 @@ MainDisplay.prototype.generateChain = function() {
 //-------------------------------------------------------------
 
 MainDisplay.prototype.addCard = function(card) {
+	if(this.currentState != this.makeChain && this.currentState != this.challenge) {
+		return;
+	}
+
 	card.scale = this.defaultCardScale;
 	this.cards.push(card);
 }
@@ -211,7 +282,6 @@ MainDisplay.prototype.adjustScale = function(amt, fixPosition) {
 }
 
 MainDisplay.prototype.addCardLink = function(start, end){
-
 	// Check it isn't a duplicate link
 	for(var linkNum = 0; linkNum < this.cardLinks.length; linkNum++) {
 		var cardLink = this.cardLinks[linkNum];
@@ -235,4 +305,37 @@ MainDisplay.prototype.drawLink = function(center1, center2, context) {
 	context.lineTo(center2[0], center2[1]);
 	context.lineWidth = this.linkSize;
 	context.stroke();
+}
+
+
+MainDisplay.prototype.setState = function(newStateNum) {
+	var valid = true;
+	if(newStateNum == this.doNothing) {
+		$("#genericSubmitButton").hide();
+		$("#challengeButton").hide();
+		$("#passButton").hide();	
+	} else if(newStateNum == this.challenge) {
+		$("#genericSubmitButton").hide();
+		$("#challengeButton").show();
+		$("#passButton").show();	
+	} else if(newStateNum == this.move) {
+		$("#genericSubmitButton").hide();
+		$("#challengeButton").hide();
+		$("#passButton").hide();	
+	} else if(newStateNum == this.makeChain) {
+		$("#genericSubmitButton").show();
+		$("#challengeButton").hide();
+		$("#passButton").hide();
+	} else if(newStateNum == this.beingChallenged) {
+		$("#genericSubmitButton").hide();
+		$("#challengeButton").hide();
+		$("#passButton").hide();
+	} else {
+		console.log("Error - Unrecognized state: " + newStateNum);
+		valid = false;
+	}
+
+	if(valid) {
+		this.currentState = newStateNum;
+	}
 }

@@ -19,6 +19,10 @@ function startTimer() {
 	
 
 
+
+
+
+//canvas variables
 var canvasM = $("#canvasM").get(0);
 var divM = $("#divM").get(0);
 var contextM = canvasM.getContext("2d");

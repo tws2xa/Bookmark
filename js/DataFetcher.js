@@ -153,6 +153,11 @@ function getValidMovePositions(dfStudentId, dfRollNum) {
 	];
 }
 
+// Get the name of the team whose turn it is
+function getCurrentTurnTeamName(dfStudentId) {
+	return "Gandalf";
+}
+
 /**
  * Sending Updates to the Server
  */
