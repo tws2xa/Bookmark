@@ -67,7 +67,9 @@ BoardDisplay.prototype.createBoard = function(){
 
 BoardDisplay.prototype.draw = function(context){
 	context.fillStyle = this.backgroundColor;
-	this.setState(this.beingChallenged);
+	
+	this.setState(this.move);
+
 	context.fillRect(this.position.left, this.position.top, this.position.width, this.position.height);
 	for (var r=0; r<4; ++r){
 		for (var c=0; c<4; ++c){
