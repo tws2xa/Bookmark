@@ -22,7 +22,11 @@
 </head>
 <body>
 	<!-- Game Canvas -->
-	<canvas id="canvas" style = "margin: 0px;"></canvas>
+
+	<div id="container">
+	<canvas id="canvas" style = "margin: 0px; z-index: 0; position: absolute;"></canvas>
+	<canvas id="chalCanvas" style = "margin: 0px; z-index: 10; position: absolute;"></canvas>
+</div>
 
 	<!-- Jquery -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
