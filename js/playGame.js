@@ -82,7 +82,7 @@ function setCanvasSize() {
 
 
 
-	var submitButton = document.getElementById("chainSubmitButton");
+	var submitButton = document.getElementById("genericSubmitButton");
 	var btnStyle = window.getComputedStyle(submitButton, null); 
 	var submitBtnLeft = leftPos + divMWidth - parseInt(btnStyle.width, 10) - scaledHMargin;
 	var submitBtnTop = upperPos + divMHeight - parseInt(btnStyle.height, 10) - scaledVMargin;
