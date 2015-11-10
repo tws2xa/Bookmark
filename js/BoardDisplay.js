@@ -11,38 +11,26 @@ function BoardDisplay(x, y, width, height){
 
 	//state variables
 	this.currentState = 0;
-	this.doNothing = 0;
-	this.challenge = 1;
-	this.move = 2;
-	this.makeChain = 3;
-	this.beingChallenged = 4;
+	this.displayBoard = 0;
+	this.displayChains = 1;
+	
 
+	this.setState(this.displayBoard);
 	
 	
 }
 
 BoardDisplay.prototype.setState =function(newStateNum) {
 	var valid = true;
-	if(newStateNum == this.doNothing) {
+	if(newStateNum == this.displayBoard) {
 		document.getElementById("chalCanvas").style.visibility="hidden";
 		 document.getElementById("canvas").style.visibility="visible";
 	
-	} else if(newStateNum == this.challenge) {
+	} else if(newStateNum == this.displayChains) {
 		document.getElementById("chalCanvas").style.visibility="visible";
 		 document.getElementById("canvas").style.visibility="hidden";
 
-	} else if(newStateNum == this.move) {
-		document.getElementById("chalCanvas").style.visibility="hidden";
-		 document.getElementById("canvas").style.visibility="visible";
-
-	} else if(newStateNum == this.makeChain) {
-			 document.getElementById("chalCanvas").style.visibility="hidden";
-		 document.getElementById("canvas").style.visibility="visible";
-
-	} else if(newStateNum == this.beingChallenged) {
-		 document.getElementById("chalCanvas").style.visibility="visible";
-		 document.getElementById("canvas").style.visibility="hidden";
-	}
+	} 
 	 else {
 		console.log("Error - Unrecognized state: " + newStateNum);
 		valid = false;
@@ -68,7 +56,7 @@ BoardDisplay.prototype.createBoard = function(){
 BoardDisplay.prototype.draw = function(context){
 	context.fillStyle = this.backgroundColor;
 	
-	this.setState(this.move);
+
 
 	context.fillRect(this.position.left, this.position.top, this.position.width, this.position.height);
 	for (var r=0; r<4; ++r){

@@ -282,8 +282,9 @@ function argsDisplayMouseDrag(event) {
 	argumentDisplay.onMouseDrag(event, newRect);
 }
 
-function onChainSubmit() {
+function onGenericSubmit() {
 	var chain = mainDisplay.generateChain();
 	submitChainToServer(sessionStorage.studentId, chain);
 	document.getElementById("canvasM").focus();
+	console.log("Chain created!");
 }

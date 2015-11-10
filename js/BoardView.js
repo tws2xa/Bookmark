@@ -24,22 +24,15 @@ var lastClicked;
 		var leftPos = scaledHMargin;
 		var rightPos = canvasWidth - scaledHMargin;
 
-	//state variables
-	this.currentState = 0;
-	this.doNothing = 0;
-	this.challenge = 1;
-	this.move = 2;
-	this.makeChain = 3;
-	this.beingChallenged = 4;
-
-	setState(this.move);
+	
 	setCanvasSize();
 	init();
 	
 	function startTimer() {
 	var timer = setInterval(updateBoard, 5000);
 	console.log("in timer");
-	
+
+
 	}
 	
 	
@@ -132,8 +125,9 @@ var lastClicked;
 	function updateBoard(){
 	if (getNeedBoardUpdate(sessionStorage.studentId)) {
 	getBoardStateInfo(sessionStorage.studentId);
-}
-}
+	boardDisplay.setState(boardDisplay.displayChains);
+	}
+	}
      
 	
 	
@@ -192,36 +186,5 @@ function argsDisplayMouseDrag(event) {
 	}
 */
 
-function setState(newStateNum) {
-	var valid = true;
-	if(newStateNum == this.doNothing) {
-		document.getElementById("chalCanvas").style.visibility="hidden";
-		 document.getElementById("canvas").style.visibility="visible";
-	
-	} else if(newStateNum == this.challenge) {
-		document.getElementById("chalCanvas").style.visibility="visible";
-		 document.getElementById("canvas").style.visibility="hidden";
-
-	} else if(newStateNum == this.move) {
-		document.getElementById("chalCanvas").style.visibility="hidden";
-		 document.getElementById("canvas").style.visibility="visible";
-
-	} else if(newStateNum == this.makeChain) {
-			 document.getElementById("chalCanvas").style.visibility="hidden";
-		 document.getElementById("canvas").style.visibility="visible";
-
-	} else if(newStateNum == this.beingChallenged) {
-		 document.getElementById("chalCanvas").style.visibility="visible";
-		 document.getElementById("canvas").style.visibility="hidden";
-	}
-	 else {
-		console.log("Error - Unrecognized state: " + newStateNum);
-		valid = false;
-	}
-
-	if(valid) {
-		this.currentState = newStateNum;
-	}
-}
 
 });

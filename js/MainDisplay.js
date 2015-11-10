@@ -220,8 +220,9 @@ MainDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 
 
 MainDisplay.prototype.generateChain = function() {
-	console.log("Creating chain!");
-	return null;
+	var input = formatCardDrawer(this.cards);
+	var chain = new Chain(input, this.cardLinks);
+	return chain;
 }
 
 //-------------------------------------------------------------
