@@ -314,23 +314,28 @@ MainDisplay.prototype.setState = function(newStateNum) {
 	if(newStateNum == this.doNothing) {
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").hide();
-		$("#passButton").hide();	
+		$("#passButton").hide();		
+		$("#moveTable").hide();
 	} else if(newStateNum == this.challenge) {
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").show();
 		$("#passButton").show();	
+		$("#moveTable").hide();
 	} else if(newStateNum == this.move) {
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").hide();
-		$("#passButton").hide();	
+		$("#passButton").hide();
+		$("#moveTable").show();	
 	} else if(newStateNum == this.makeChain) {
 		$("#genericSubmitButton").show();
 		$("#challengeButton").hide();
-		$("#passButton").hide();
+		$("#passButton").hide();	
+		$("#moveTable").hide();
 	} else if(newStateNum == this.beingChallenged) {
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").hide();
-		$("#passButton").hide();
+		$("#passButton").hide();	
+		$("#moveTable").hide();
 	} else {
 		console.log("Error - Unrecognized state: " + newStateNum);
 		valid = false;

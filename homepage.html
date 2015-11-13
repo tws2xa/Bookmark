@@ -45,6 +45,24 @@
         var textToAdd = document.createTextNode(msgStr);
         msgDiv.appendChild(textToAdd);
 
+        /*
+        webSocket = new WebSocket("localhost:8080/Bookmark/BookmarkServlet");
+
+        webSocket.onopen = function(event){
+            if(event.data === undefined)
+                return; 
+            writeResponse(event.data);
+        };
+
+        webSocket.onmessage = function(event){
+
+            writeResponse(event.data);                    
+        }; 
+        webSocket.onclose = function(event){
+            writeResponse("Connection closed");
+        }; 
+        */
+
         </script>
     </center>
 

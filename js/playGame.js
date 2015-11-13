@@ -50,6 +50,9 @@ var hMargin = 0.015;
 var mainDisplay;
 var deckDisplay;
 var argumentDisplay;
+var moveTable;
+var challengeBtn;
+var passBtn;
 
 function setCanvasSize() {
 	// Needed variables
@@ -80,13 +83,30 @@ function setCanvasSize() {
 	setDivRect(divA, canvasA, argX, upperPos, rightPos - argX, divMHeight);
 	setDivRect(divD, canvasD, leftPos, deckTop, rightPos - leftPos,  canvasHeight - scaledVMargin*.9 - deckTop + 10); //changed to show page #s
 
+	moveTable = document.getElementById("moveTable");
+	moveTable.style.top = divM.style.top;
+	moveTable.style.left = divM.style.left;
+	moveTable.style.zIndex = canvasM.style.zIndex + 1;
+	moveTable.style.width = divM.style.width;
+	moveTable.style.height = divM.style.height;
+	$("#moveTable").hide();
 
+
+	challengeBtn = document.getElementById("challengeButton");
+	var btnStyle = window.getComputedStyle(challengeBtn, null); 
+	var challengeBtnLeft = leftPos + divMWidth - parseInt(btnStyle.width, 10) - scaledHMargin;
+	var btnTop = upperPos + divMHeight - parseInt(btnStyle.height, 10) - scaledVMargin;
+
+	passBtn = document.getElementById("passButton");
+	challengeBtn.style.top = btnTop + "px";
+	challengeBtn.style.left = challengeBtnLeft + "px";
+	passBtn.style.top = btnTop + "px";
+	passBtn.style.left = leftPos + scaledHMargin + "px";
 
 	var submitButton = document.getElementById("genericSubmitButton");
 	var btnStyle = window.getComputedStyle(submitButton, null); 
 	var submitBtnLeft = leftPos + divMWidth - parseInt(btnStyle.width, 10) - scaledHMargin;
-	var submitBtnTop = upperPos + divMHeight - parseInt(btnStyle.height, 10) - scaledVMargin;
-	submitButton.style.top = (submitBtnTop + "px");
+	submitButton.style.top = (btnTop + "px");
 	submitButton.style.left = (submitBtnLeft + "px");
 }
 
@@ -100,8 +120,10 @@ function setDivRect(div, canvas, x, y, width, height) {
 
 function updatePlayPage(){
 	if (getNeedPlayUpdate(sessionStorage.studentId)) {
-	getPlayStateInfo(sessionStorage.studentId);
-}
+		getPlayStateInfo(sessionStorage.studentId);
+		//var newState = (mainDisplay.currentState + 1) % 5;
+		//mainDisplay.setState(newState);
+	}
 }
 
 function init() {
@@ -287,4 +309,16 @@ function onGenericSubmit() {
 	submitChainToServer(sessionStorage.studentId, chain);
 	document.getElementById("canvasM").focus();
 	console.log("Chain created!");
+}
+
+function onPassSubmit() {
+	console.log("Pass Submit!");
+}
+
+function onChallengeSubmit() {
+	console.log("Challenge Submit!");
+}
+
+function moveBtnPress(btnNum) {
+	console.log("You pressed button #" + btnNum);
 }

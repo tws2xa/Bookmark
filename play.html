@@ -52,5 +52,26 @@
 <button id="genericSubmitButton" name="genericSubmitButton" class="btn" onclick="onGenericSubmit()">Submit</button>
 <button id="challengeButton" name="challengeButton" class="btn" onclick="onChallengeSubmit()">Challenge</button>
 <button id="passButton" name="passButton" class="btn" onclick="onPassSubmit()">Pass</button>
+<!-- style="visibility: hidden" -->
+
+<script type="text/javascript">
+
+	document.writeln("<table id='moveTable' border='1' style='position: absolute; cellpadding: 0px; cellspacing:0px'>");
+	for(var horiz=0; horiz<4; horiz+=1) {
+		document.writeln("<tr>");
+		for(var vert=0; vert<4; vert+=1) {
+			var btnNum = horiz*4 + vert;
+			document.writeln("<td align='center'>");
+			document.writeln("<input type='button' class='moveBtn' id=btn" + btnNum + " onclick=moveBtnPress(" + btnNum + ") value='Move " + btnNum + "' style='width: 90%; height: 95%;'>");
+			document.writeln("</td>");
+		}
+		document.writeln("</tr>");
+	}
+	document.writeln("</table>");
+	
+</script>
+
+
+
 </body>
 </html>
