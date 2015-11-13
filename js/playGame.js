@@ -53,6 +53,7 @@ var argumentDisplay;
 var moveTable;
 var challengeBtn;
 var passBtn;
+var turnSelectTable;
 
 function setCanvasSize() {
 	// Needed variables
@@ -83,6 +84,18 @@ function setCanvasSize() {
 	setDivRect(divA, canvasA, argX, upperPos, rightPos - argX, divMHeight);
 	setDivRect(divD, canvasD, leftPos, deckTop, rightPos - leftPos,  canvasHeight - scaledVMargin*.9 - deckTop + 10); //changed to show page #s
 
+	// Turn table
+	turnSelectTable = document.getElementById("turnSelectTable");
+	var tstWidth = divMWidth;
+	var tstHeight = divMHeight / 2;
+	turnSelectTable.style.top = (upperPos + (divMHeight / 2) - (tstHeight / 2));
+	turnSelectTable.style.left = divM.style.left;
+	turnSelectTable.style.zIndex = canvasM.style.zIndex + 1;
+	turnSelectTable.style.width = tstWidth;
+	turnSelectTable.style.height = tstHeight;
+	$("#turnSelectTable").hide();
+
+	// Movement Buttons
 	moveTable = document.getElementById("moveTable");
 	moveTable.style.top = divM.style.top;
 	moveTable.style.left = divM.style.left;
@@ -90,7 +103,6 @@ function setCanvasSize() {
 	moveTable.style.width = divM.style.width;
 	moveTable.style.height = divM.style.height;
 	$("#moveTable").hide();
-
 
 	challengeBtn = document.getElementById("challengeButton");
 	var btnStyle = window.getComputedStyle(challengeBtn, null); 
@@ -321,4 +333,12 @@ function onChallengeSubmit() {
 
 function moveBtnPress(btnNum) {
 	console.log("You pressed button #" + btnNum);
+}
+
+function selectMove() {
+	mainDisplay.setState(mainDisplay.move)
+}
+
+function selectMakeChain() {
+	mainDisplay.setState(mainDisplay.makeChain);
 }

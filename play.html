@@ -52,6 +52,14 @@
 <button id="genericSubmitButton" name="genericSubmitButton" class="btn" onclick="onGenericSubmit()">Submit</button>
 <button id="challengeButton" name="challengeButton" class="btn" onclick="onChallengeSubmit()">Challenge</button>
 <button id="passButton" name="passButton" class="btn" onclick="onPassSubmit()">Pass</button>
+<table id="turnSelectTable" border = "0" style="position: absolute">
+	<tr><td align="center">
+		<button id="selectMoveButton" name="selectMoveButton" class="btn" style="position: relative; width:50%; height: 50%" onclick="selectMove()">Move</button>
+	</tr></td>
+	<tr><td align="center">
+		<button id="selectMakeChainButton" name="selectMakeChainButton" class="btn" style="position: relative; width: 50%; height: 50%" onclick="selectMakeChain()">Create Chain</button>
+	</tr></td>
+</table>
 <!-- style="visibility: hidden" -->
 
 <script type="text/javascript">

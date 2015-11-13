@@ -2,7 +2,7 @@
 
 function MainDisplay(x, y, width, height) {
 	this.position = new Rectangle(x,y,width,height);
-	this.backColor = getDisplayBackgroundColor();	
+	this.backColor = getDisplayBackgroundColor();
 	this.shadowColor = getDisplayShadowColor();
 	this.cardLinkColor = getCardLinkColor();
 	this.shadowSize = 2;
@@ -32,9 +32,10 @@ function MainDisplay(x, y, width, height) {
 	this.move = 2;
 	this.makeChain = 3;
 	this.beingChallenged = 4;
+	this.turnSelect = 5;
 
 
-	this.setState(this.makeChain);
+	this.setState(this.turnSelect);
 }
 
 
@@ -316,27 +317,38 @@ MainDisplay.prototype.setState = function(newStateNum) {
 		$("#challengeButton").hide();
 		$("#passButton").hide();		
 		$("#moveTable").hide();
+		$("#turnSelectTable").hide();
 	} else if(newStateNum == this.challenge) {
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").show();
 		$("#passButton").show();	
 		$("#moveTable").hide();
+		$("#turnSelectTable").hide();
 	} else if(newStateNum == this.move) {
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").hide();
 		$("#passButton").hide();
 		$("#moveTable").show();	
+		$("#turnSelectTable").hide();
 	} else if(newStateNum == this.makeChain) {
 		$("#genericSubmitButton").show();
 		$("#challengeButton").hide();
 		$("#passButton").hide();	
 		$("#moveTable").hide();
+		$("#turnSelectTable").hide();
 	} else if(newStateNum == this.beingChallenged) {
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").hide();
 		$("#passButton").hide();	
 		$("#moveTable").hide();
-	} else {
+		$("#turnSelectTable").hide();
+	} else if(newStateNum == this.turnSelect) {
+		$("#genericSubmitButton").hide();
+		$("#challengeButton").hide();
+		$("#passButton").hide();	
+		$("#moveTable").hide();
+		$("#turnSelectTable").show();
+	}else {
 		console.log("Error - Unrecognized state: " + newStateNum);
 		valid = false;
 	}
