@@ -72,9 +72,9 @@ var lastClicked;
 		
 		teamsDisplay = new TeamsDisplay(
 			leftPos+canvasWidth*.82,
-			upperPos,
+			0,
 			canvasWidth*.18,
-			canvasHeight*.95,
+			canvasHeight,
 			getTeams()	
 		);
 		teamsDisplay.createTD();
@@ -125,7 +125,7 @@ var lastClicked;
 	function updateBoard(){
 	if (getNeedBoardUpdate(sessionStorage.studentId)) {
 	getBoardStateInfo(sessionStorage.studentId);
-	boardDisplay.setState(boardDisplay.displayChains);
+	//boardDisplay.setState(boardDisplay.displayChains);
 	}
 	}
      

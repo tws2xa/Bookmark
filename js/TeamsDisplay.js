@@ -28,4 +28,13 @@ TeamsDisplay.prototype.draw = function(context){
 	for (var i=0; i<this.numTeams; i++){
 		this.drawables[i].draw(context);
 	}
+	context.lineWidth = 3;
+	context.strokeStyle = getCardLinkColor();
+	context.beginPath();
+	context.moveTo(this.position.left, this.position.top);
+	context.lineTo(this.position.left, this.position.height);
+	console.log(this.position.height);
+	context.stroke();
+
+
 }
