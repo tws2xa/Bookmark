@@ -13,6 +13,7 @@ function TeamsDisplay(x, y, width, height, teams){
 TeamsDisplay.prototype.createTD = function(){
 	for(var i=0; i<this.numTeams; i++){
 		var team = new Team(8*100+i, "Team "  + i, [], []);
+		team.myTurn = (i == 0); // First team's turn
 		var teamDraw = new TeamDrawer(
 			team,
 			this.position.left,

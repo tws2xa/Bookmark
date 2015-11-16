@@ -9,12 +9,11 @@ function TeamDrawer(team, xPos, yPos, width, height) {
 
 	this.fontName = "segoe ui semibold";
 	this.fontSize = 18;
+	this.lineHeight = this.fontSize * 1.5;
 
 	this.backColor = team.backColor;
 	this.textColor = getCardTextColor();
 	this.shadowColor = getCardShadowColor();
-
-	this.myTurn = false;
 }
 
 TeamDrawer.prototype.draw = function(context) {
@@ -29,23 +28,19 @@ TeamDrawer.prototype.draw = function(context) {
 
 	// Text
 	var drawStr = "";
-	if(this.myTurn) {
-		drawStr = "> ";
+	if(this.team.myTurn) {
+		drawStr = ">  ";
 	} else {
-		drawStr = "  ";
+		drawStr = "    ";
 	}
 	drawStr += this.team.name + ": " + this.getPoints();
 
 	context.fillText(
 		drawStr,
 		this.basePosition.left + this.hBuffer,
-		this.basePosition.top,
+		this.basePosition.top + this.basePosition.height / 2 - this.lineHeight / 2,
 		this.basePosition.width);
 
-}
-
-TeamDrawer.prototype.getCenter = function() {
-	return [this.basePosition.left + this.basePosition.width / 2, this.basePosition.top + this.basePosition.height / 2];
 }
 
 TeamDrawer.prototype.getTeamId = function() {
