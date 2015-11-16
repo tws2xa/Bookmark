@@ -1,5 +1,7 @@
-function Team(id, deck, students){
+function Team(id, name, deck, students){
 	this.id = id;
+	this.name = name;
 	this.deck = deck;
 	this.students = students;
+	this.backColor = getCardBackgroundColor();
 }

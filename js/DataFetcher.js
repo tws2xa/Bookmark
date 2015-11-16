@@ -38,7 +38,7 @@ for(var i=0; i<10; i++){
 //Teams
 var dfTeams = [];
 for(var i=0; i<4; i++){
-	var t = new Team(i+1, getDeck(), "bruh");
+	var t = new Team(i+1, "Team Name", getDeck(), [i, i*10, i*100]);
 	dfTeams.push(t);
 }
 

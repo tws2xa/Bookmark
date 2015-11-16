@@ -4,27 +4,31 @@ function TeamsDisplay(x, y, width, height, teams){
 	
 	this.teams = teams;
 	this.numTeams = this.teams.length;
-	this.teamCards = [];
 	this.drawables = [];
+	this.teamHeight = this.position.height / 12;
+
+	this.backgroundColor = getDisplayBackgroundColor();
 }
 
 TeamsDisplay.prototype.createTD = function(){
 	for(var i=0; i<this.numTeams; i++){
-		var teamCard = new Card(
-		1000+i,
-		"team" + (i+1),
-		"",
-		-1,
-		-1
-		);
-		this.teamCards.push(teamCard);
-		var teamCardDrawer = new CardDrawer(teamCard, this.position.left, this.position.top + (this.position.height/this.numTeams * i), this.position.width, this.position.height/this.numTeams);
-		teamCardDrawer.backColor = getPlayerColor(i);
-		this.drawables.push(teamCardDrawer);
+		var team = new Team(8*100+i, "Team "  + i, [], []);
+		var teamDraw = new TeamDrawer(
+			team,
+			this.position.left,
+			this.position.top + (this.teamHeight * i),
+			this.position.width,
+			this.teamHeight);
+		teamDraw.backColor = getPlayerColor(i);
+		this.drawables.push(teamDraw);
 	}
 }
 
 TeamsDisplay.prototype.draw = function(context){
+
+	context.fillStyle = this.backgroundColor;
+	context.fillRect(this.position.left, this.position.top, this.position.width, this.position.height);
+
 	for (var i=0; i<this.numTeams; i++){
 		this.drawables[i].draw(context);
 	}
@@ -33,7 +37,6 @@ TeamsDisplay.prototype.draw = function(context){
 	context.beginPath();
 	context.moveTo(this.position.left, this.position.top);
 	context.lineTo(this.position.left, this.position.height);
-	console.log(this.position.height);
 	context.stroke();
 
 

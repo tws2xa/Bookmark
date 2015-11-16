@@ -46,9 +46,6 @@ var lastClicked;
 	function init() {
 		if(typeof game_loop != "undefined") clearInterval(game_loop);
 		game_loop = setInterval(paint, 60);
-		
-		
-	
 
 		canvasRect = canvas.getBoundingClientRect();
 		canvas.addEventListener("click", onClick);
@@ -64,16 +61,16 @@ var lastClicked;
 		boardDisplay = new BoardDisplay(
 			leftPos,
 			upperPos,
-			canvasWidth*0.80,
+			canvasWidth*0.78,
 			canvasHeight*0.95
 		);
 		boardDisplay.createBoard();
 	
 		
 		teamsDisplay = new TeamsDisplay(
-			leftPos+canvasWidth*.82,
+			leftPos+canvasWidth*.8,
 			0,
-			canvasWidth*.18,
+			canvasWidth*.2,
 			canvasHeight,
 			getTeams()	
 		);
