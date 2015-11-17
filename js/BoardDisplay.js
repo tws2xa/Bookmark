@@ -17,6 +17,7 @@ BoardDisplay.prototype.createBoard = function(){
 		this.elements.push([]);
 		for(var c=0; c<4; c++){
 			var element = new CardDrawer(cards[r][c], this.position.left + (r*this.position.width/4) + 1.5, this.position.top + (c*this.position.height/4) + 1.5, this.unitwidth, this.unitheight);
+			
 			this.elements[r].push(element);
 		}
 	}
