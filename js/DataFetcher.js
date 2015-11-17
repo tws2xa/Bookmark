@@ -59,6 +59,8 @@ for(var i=0; i<15; i++){
 
 /* --------------------- Above generates data for testing purposes --------------------- */
 
+var urlBase = window.location.origin + "/Bookmark/bookmark";
+
 /**
  * Requesting Information From the Server
  */
@@ -191,6 +193,17 @@ function moveTeamToPosition(dfStudentId, dfMovePos) {
 
 function createSession(dfTeacherId) {
 	console.log("Creating Session With Teacher: " + dfTeacherId + "!");
+	var sendData = "teacher_id=" + dfTeacherId;
+	$.ajax({
+	  type: 'POST',
+	  url: urlBase,
+	  data: sendData,
+	  async:false
+	}).done(function (data) {
+		console.log("Created Session! Data: " + data);
+	});
+	console.log("Here!");
+	return true;
 }
 
 function joinSession(dfStudentId) {
