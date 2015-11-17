@@ -29,16 +29,15 @@ function setCanvasSize() {
 	var rightPos = canvasWidth - scaledHMargin;
 	
 	var divMWidth = canvasWidth *.82;
-	var divMHeight = canvasHeight*.70;
+	var divMHeight = canvasHeight*.66;
 	var argX = leftPos + divMWidth + scaledHMargin
 	var deckTop = upperPos + divMHeight + scaledVMargin;
 
 	// Canvas sizes
-	deckCards = getDeck(-1);
-	argumentCards = getArgumentCards();
+	deckCards = getStudentDeck(sessionStorage.studentId);
 
 	canvasD.width = Math.max(rightPos - argX, deckCards.length * cardWidth + (deckCards.length + 1) * cardMargin);
-	canvasD.height = canvasHeight - scaledVMargin - deckTop;
+	canvasD.height = canvasHeight - scaledVMargin - deckTop-12;
 	
 	// Div sizes
 	setDivRect(divD, canvasD, leftPos, deckTop, rightPos - leftPos,  canvasHeight - scaledVMargin - deckTop);

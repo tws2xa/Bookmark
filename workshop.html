@@ -13,7 +13,7 @@
 			<a href="board.html">Board</a>
 		</ul>
 		<ul class="pull-right">
-  			<a href="homepage.html">Login</a>
+  			<a href="login.html">Login</a>
   		</ul>
   	</div>
 </div>
@@ -33,18 +33,36 @@
 			    || (event.keyCode==46));
 
 		}
+
+		function handleSubmit() {
+			if(sessionStorage.studentId == null) {
+				alert("Please Login to Create Cards.");
+				window.location.href = "./login.html";
+				return false;
+			} else {
+				alert("Card Submitted");
+				console.log("Submit Button Clicked!");
+			}
+		}
 	</script>
 </head>
 <body>
 
-<form action="workshop.html" method="POST">
+<script type="text/javascript">
+	// Check they are logged in.
+	if(sessionStorage.studentId == null) {
+		alert("Please Login to Create Cards.");
+		window.location.href = "./login.html";
+	}
+</script>
+
+<form method="POST" style="padding: 0">
 	<center>
 	<br />
-	<br />
-	<br />
-	<div class="cardTable">
+	
+	<div class="cardTable" style = "padding-top: 0">
 		<table >
-			<tr><td height = "13%" style = "padding-right: 5%; padding-left: 5%">
+			<tr><td height = "13%" style = "padding-right: 5%; padding-left: 5%;">
 				<!-- Type Dropdown -->
 				<select id="type" name="type" class = "form-control">
 					<option value = "" disabled select selected>Card Type</option>
@@ -53,6 +71,7 @@
 					<option value="tone">Tone</option>
 					<option value="imagery">Imagery</option>
 					<option value="diction">Diction</option>
+					<option value="plot_point">Plot Point</option>
 					<option value="other">Other</option>
 					<option value="test 2">Test 2</option>
 				</select>
@@ -66,10 +85,9 @@
 				-
 				<input type="text" id="endPage" name="endPage" size = "3" maxlength="4" onkeydown="return validateNumericInput(event)">
 			</td></tr>
-			<tr style="padding:0px;"><td><input class = "btn" type="submit" value="Submit"></td></tr>
+			<tr style="padding:0px;"><td><button class = "btn" value="Submit" onclick="return handleSubmit()">Submit</button></td></tr>
 		</table>
 	</div>
-
 
 	<div id="divD" style = "position: absolute; border:0px solid #000000;"><canvas id="canvasD" style = "margin: 0px;"></canvas></div>
 

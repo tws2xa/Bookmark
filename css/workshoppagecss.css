@@ -1,6 +1,6 @@
 
 body {
-  background-color:#C7DFC5;
+  background-color:#9ec7d3;
   -webkit-font-smoothing: antialiased;
   font: normal 14px arial,sans-serif;
 
@@ -52,12 +52,7 @@ display:inline
 
 }
 
-#divA {
-float:right;
-position: relative;
-overflow: scroll;
-overflow-x: hidden;
-}
+
 
 #divD {
 float:right;
@@ -65,12 +60,6 @@ float:right;
 position: relative;
 overflow-x: scroll;
 overflow-y: hidden;
-}
-
-.container .form-login{
-
-    padding: 25px;
-    position: fixed;
 }
 
 
@@ -81,15 +70,12 @@ font-size: 30px;
 font-weight: bold;
 }
 
-
-
 .form-control {
     border-radius: 10px;
+	
 }
 
-.wrapper {
-    text-align: center;
-}
+
 
 .btn {
     -moz-box-shadow: 0px 1px 4px 1px #8c9fa4;
@@ -112,6 +98,7 @@ font-weight: bold;
 
 .cardTable {
     margin:0px;padding:0px;
+
     width:25%;
     height:60%;
     box-shadow: 5px 5px 10px #888888;

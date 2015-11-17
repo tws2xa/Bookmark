@@ -1,8 +1,28 @@
 $(document).ready(function() {
-	setCanvasSize();
-	init();
+	if(sessionStorage.studentId == null) {
+		alert("Please Login to Play.");
+		window.location.href = "./login.html";
+	}
+	else {
+		console.log("ID: " + sessionStorage.studentId);
+		setCanvasSize();
+		init();
+	}
 });
 
+	
+	
+function startTimer() {
+	var timer = setInterval(updatePlayPage, 5000);
+	console.log("in timer");
+}
+	
+
+
+
+
+
+//canvas variables
 var canvasM = $("#canvasM").get(0);
 var divM = $("#divM").get(0);
 var contextM = canvasM.getContext("2d");
@@ -30,6 +50,10 @@ var hMargin = 0.015;
 var mainDisplay;
 var deckDisplay;
 var argumentDisplay;
+var moveTable;
+var challengeBtn;
+var passBtn;
+var turnSelectTable;
 
 function setCanvasSize() {
 	// Needed variables
@@ -39,14 +63,14 @@ function setCanvasSize() {
 	var leftPos = scaledHMargin;
 	var rightPos = canvasWidth - scaledHMargin;
 	
-	var divMWidth = canvasWidth *.82;
-	var divMHeight = canvasHeight*.65;
+	var divMWidth = canvasWidth *.82; //changed to accomodate Deck Display showing page #s
+	var divMHeight = canvasHeight*.6;
 	var argX = leftPos + divMWidth + scaledHMargin
 	var deckTop = upperPos + divMHeight + scaledVMargin;
 
 	// Canvas sizes
-	deckCards = getDeck(-1);
-	argumentCards = getArgumentCards();
+	deckCards = getTeamDeck(sessionStorage.studentId);
+	argumentCards = getArgumentCards(sessionStorage.studentId);
 
 	canvasM.width = divMWidth;
 	canvasM.height = divMHeight;
@@ -58,15 +82,43 @@ function setCanvasSize() {
 	// Div sizes
 	setDivRect(divM, canvasM, leftPos, upperPos, divMWidth, divMHeight);
 	setDivRect(divA, canvasA, argX, upperPos, rightPos - argX, divMHeight);
-	setDivRect(divD, canvasD, leftPos, deckTop, rightPos - leftPos,  canvasHeight - scaledVMargin - deckTop);
+	setDivRect(divD, canvasD, leftPos, deckTop, rightPos - leftPos,  canvasHeight - scaledVMargin*.9 - deckTop + 10); //changed to show page #s
 
+	// Turn table
+	turnSelectTable = document.getElementById("turnSelectTable");
+	var tstWidth = divMWidth;
+	var tstHeight = divMHeight / 2;
+	turnSelectTable.style.top = (upperPos + (divMHeight / 2) - (tstHeight / 2));
+	turnSelectTable.style.left = divM.style.left;
+	turnSelectTable.style.zIndex = canvasM.style.zIndex + 1;
+	turnSelectTable.style.width = tstWidth;
+	turnSelectTable.style.height = tstHeight;
+	$("#turnSelectTable").hide();
 
+	// Movement Buttons
+	moveTable = document.getElementById("moveTable");
+	moveTable.style.top = divM.style.top;
+	moveTable.style.left = divM.style.left;
+	moveTable.style.zIndex = canvasM.style.zIndex + 1;
+	moveTable.style.width = divM.style.width;
+	moveTable.style.height = divM.style.height;
+	$("#moveTable").hide();
 
-	var submitButton = document.getElementById("chainSubmitButton");
+	challengeBtn = document.getElementById("challengeButton");
+	var btnStyle = window.getComputedStyle(challengeBtn, null); 
+	var challengeBtnLeft = leftPos + divMWidth - parseInt(btnStyle.width, 10) - scaledHMargin;
+	var btnTop = upperPos + divMHeight - parseInt(btnStyle.height, 10) - scaledVMargin;
+
+	passBtn = document.getElementById("passButton");
+	challengeBtn.style.top = btnTop + "px";
+	challengeBtn.style.left = challengeBtnLeft + "px";
+	passBtn.style.top = btnTop + "px";
+	passBtn.style.left = leftPos + scaledHMargin + "px";
+
+	var submitButton = document.getElementById("genericSubmitButton");
 	var btnStyle = window.getComputedStyle(submitButton, null); 
 	var submitBtnLeft = leftPos + divMWidth - parseInt(btnStyle.width, 10) - scaledHMargin;
-	var submitBtnTop = upperPos + divMHeight - parseInt(btnStyle.height, 10) - scaledVMargin;
-	submitButton.style.top = (submitBtnTop + "px");
+	submitButton.style.top = (btnTop + "px");
 	submitButton.style.left = (submitBtnLeft + "px");
 }
 
@@ -78,7 +130,16 @@ function setDivRect(div, canvas, x, y, width, height) {
 	div.style.height = (height + "px");	
 }
 
+function updatePlayPage(){
+	if (getNeedPlayUpdate(sessionStorage.studentId)) {
+		getPlayStateInfo(sessionStorage.studentId);
+		//var newState = (mainDisplay.currentState + 1) % 5;
+		//mainDisplay.setState(newState);
+	}
+}
+
 function init() {
+	
 	if(typeof game_loop != "undefined") clearInterval(game_loop);
 	game_loop = setInterval(paint, 60);
 	
@@ -138,6 +199,9 @@ function init() {
 	canvasD.oncontextmenu = function(e) {
 		return false;
 	}
+
+	startTimer();
+
 }
 
 function paint() {
@@ -252,8 +316,29 @@ function argsDisplayMouseDrag(event) {
 	argumentDisplay.onMouseDrag(event, newRect);
 }
 
-function onChainSubmit() {
+function onGenericSubmit() {
 	var chain = mainDisplay.generateChain();
-	submitChainToServer(chain);
+	submitChainToServer(sessionStorage.studentId, chain);
 	document.getElementById("canvasM").focus();
+	console.log("Chain created!");
+}
+
+function onPassSubmit() {
+	console.log("Pass Submit!");
+}
+
+function onChallengeSubmit() {
+	console.log("Challenge Submit!");
+}
+
+function moveBtnPress(btnNum) {
+	console.log("You pressed button #" + btnNum);
+}
+
+function selectMove() {
+	mainDisplay.setState(mainDisplay.move)
+}
+
+function selectMakeChain() {
+	mainDisplay.setState(mainDisplay.makeChain);
 }

@@ -20,7 +20,7 @@ var lightGrayColor = "#F0F0F0";
 var midGrayColor = "#B3B3B3";
 var darkGrayColor = "#4A4A4A";
 
-var playerColors = ["#FF0000","#0000FF", "#008000", "#FFFF00"];
+var playerColors = ["#35CDC9","#A884F5", "#89EB75", "#F5C02D", "#DE4134"];
 
 /**
  * Display Colors
