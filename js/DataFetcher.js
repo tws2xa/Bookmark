@@ -118,6 +118,10 @@ function getStudents(){
 	return dfStudents;
 }
 
+function isTeacherId(dfId) {
+	return true;
+}
+
 // Gets the name of the student given the student id
 function getStudentName(dfStudentId) {
 	if(dfStudentId == 0) {
@@ -158,6 +162,9 @@ function getCurrentTurnTeamName(dfStudentId) {
 	return "Gandalf";
 }
 
+
+
+
 /**
  * Sending Updates to the Server
  */
@@ -180,4 +187,12 @@ function moveTeamToPosition(dfStudentId, dfMovePos) {
 	var dfMoveY = dfMovePos[1];
 
 	console.log("Student #" + dfStudentId + " moving to position (" + dfMoveX + ", " + dfMoveY + ")");
+}
+
+function createSession(dfTeacherId) {
+	console.log("Creating Session With Teacher: " + dfTeacherId + "!");
+}
+
+function joinSession(dfStudentId) {
+	console.log("Joining Session With Student: " + dfStudentId + "!");
 }

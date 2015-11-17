@@ -21,15 +21,19 @@
 	<title>Bookmark Board</title>
 </head>
 <body>
-	<!-- Game Canvas -->
-
-	<div id="container">
-		<canvas id="canvas" style = "margin: 0px; z-index: 0; position: absolute;"></canvas>
-		<canvas id="chalCanvas" style = "margin: 0px; z-index: 10; position: absolute;"></canvas>
-	</div>
 
 	<!-- Jquery -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+	<!-- Game Canvas -->
+	<div id="container">
+		<canvas id="canvas" style = "margin: 0px; z-index: 0; position: absolute;"></canvas>
+		<canvas id="chalCanvas" style = "margin: 0px; z-index: 10; position: absolute;"></canvas>
+		<center>
+			<br><br><br><br>
+			<input type="button" value="Join Session" class = "btn" id="noSessionButton" onclick="return noSessionButtonClicked()">
+		</center>
+	</div>
 
 	<!-- Game Javascript Files -->
 	<script src="js/Card.js" type="text/javascript"></script>
@@ -44,5 +48,6 @@
 	<script src="js/BoardDisplay.js" type="text/javascript"></script>
 	<script src="js/DataFetcher.js" type="text/javascript"></script>
 	<script src="js/TeamsDisplay.js" type="text/javascript"></script>
+
 </body>
 </html>

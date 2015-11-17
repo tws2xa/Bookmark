@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	if(sessionStorage.studentId == null) {
-		alert("Please Login to Play.");
+		// alert("Please Login to Play.");
 		window.location.href = "./login.html";
 	}
 	else {

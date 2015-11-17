@@ -40,5 +40,4 @@ TeamsDisplay.prototype.draw = function(context){
 	context.lineTo(this.position.left, this.position.height);
 	context.stroke();
 
-
 }

@@ -23,3 +23,27 @@ padding:0;
 
   .chalCanvas { z-index: 0; }
   .canvas { z-index: 0;}
+
+
+.btn {
+    -moz-box-shadow: 0px 1px 4px 1px #8c9fa4;
+    -webkit-box-shadow: 0px 1px 4px 1px #8c9fa4;
+    box-shadow: 0px 1px 4px 1px #8c9fa4;
+    background-color:#c1dbe3;
+    display:inline-block;
+    cursor:pointer;
+    color:#373737;
+    font-family:Arial;
+    font-size:13px;
+    font-weight:bold;
+    padding:6px 12px;
+    text-decoration:none;
+    position:relative;
+}
+.btn:focus {
+    outline:0;
+}
+.btn:hover {
+    background-color:#b4cfd6;
+}
+

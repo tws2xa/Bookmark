@@ -16,9 +16,9 @@ function BoardDisplay(x, y, width, height){
 	this.currentState = 0;
 	this.displayBoard = 0;
 	this.displayChains = 1;
-	
+	this.noSession = 2;
 
-	this.setState(this.displayBoard);
+	this.setState(this.noSession);
 	
 	
 }
@@ -26,15 +26,27 @@ function BoardDisplay(x, y, width, height){
 BoardDisplay.prototype.setState =function(newStateNum) {
 	var valid = true;
 	if(newStateNum == this.displayBoard) {
-		document.getElementById("chalCanvas").style.visibility="hidden";
-		 document.getElementById("canvas").style.visibility="visible";
-	
+		$("#chalCanvas").hide();
+		$("#canvas").show();
+		$("#noSessionButton").hide();
 	} else if(newStateNum == this.displayChains) {
-		document.getElementById("chalCanvas").style.visibility="visible";
-		 document.getElementById("canvas").style.visibility="hidden";
+		$("#chalCanvas").show();
+		$("#canvas").hide();
+		$("#noSessionButton").hide();
+	}
+	else if(newStateNum == this.noSession) {
+		$("#chalCanvas").hide();
+		$("#canvas").hide();
 
+		if(isTeacherId(sessionStorage.studentId)) { // isTeacherId defined in DataFetcher
+			$("#noSessionButton").prop("value", "Create Session");
+		} else {
+			$("#noSessionButton").prop("value", "Join Session");			
+		}
+
+		$("#noSessionButton").show();
 	} 
-	 else {
+	else {
 		console.log("Error - Unrecognized state: " + newStateNum);
 		valid = false;
 	}
