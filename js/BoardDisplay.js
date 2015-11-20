@@ -19,8 +19,6 @@ function BoardDisplay(x, y, width, height){
 	this.noSession = 2;
 
 	this.setState(this.noSession);
-	
-	
 }
 
 BoardDisplay.prototype.setState =function(newStateNum) {
@@ -58,7 +56,7 @@ BoardDisplay.prototype.setState =function(newStateNum) {
 
 
 BoardDisplay.prototype.createBoard = function(){
-	var cards = getBoard();
+	var cards = getBoard(); // Defined in DataFetcher
 	for(var r=0; r<4; r++){
 		this.elements.push([]);
 		for(var c=0; c<4; c++){

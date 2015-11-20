@@ -59,7 +59,10 @@ for(var i=0; i<15; i++){
 
 /* --------------------- Above generates data for testing purposes --------------------- */
 
-var urlBase = window.location.origin + "/Bookmark/bookmark";
+var BASE_URL = "http://localhost:8080/Bookmark/bookmark/";
+var BEGIN_SESSION = "begin-session";
+var LOGIN = "login";
+var GET_STUDENT_INFO = "get-student-info";
 
 /**
  * Requesting Information From the Server
@@ -126,26 +129,49 @@ function isTeacherId(dfId) {
 
 // Gets the name of the student given the student id
 function getStudentName(dfStudentId) {
-	if(dfStudentId == 0) {
-		return "Bagglepod Montselian";
-	} else if(dfStudentId == 1) {
-		return "Lod Pokit Fuzteller"
-	} else {
-		return "Student #:" + dfStudentId;
-	}
+	var sendData = "student_id=" + dfStudentId;
+	var targetUrl = BASE_URL + GET_STUDENT_INFO;
+
+	var retData;
+	$.ajax({
+	  type: 'POST',
+	  url: targetUrl,
+	  data: sendData,
+	  async:false
+	}).done(function (data) {
+		console.log("Obtained Student Info: " + data);
+		var student = studentFromXML(data);
+		retData = student.name;
+	}).fail(function (data){
+		console.log("Failure Obtaining Student Info: " + data.status);
+		retData = "Student #" + dfStudentId;
+	});
+
+	return retData;
 }
 
 // Checks if the given username and password are valid
 // Returns student id if they are valid.
 // Returns null if invalid
-function checkLogin(dfUsername, dfUsername) {
-	if (dfUsername == "my" && dfUsername == "password") {
-		return 0;
-	} else if (dfUsername == "a" && dfUsername == "a") {
-		return 1;
-	}	else {
-		return null;
-	}
+function checkLogin(dfUsername, dfPassword) {
+	var sendData = "username=" + dfUsername + "&password=" + dfPassword;
+	var targetUrl = BASE_URL + LOGIN;
+
+	var retData = "";
+	$.ajax({
+	  type: 'POST',
+	  url: targetUrl,
+	  data: sendData,
+	  async:false
+	}).done(function (data) {
+		console.log("Logged in! ID: " + data);
+		retData = parseInt(data);
+	}).fail(function (data){
+		console.log("Failure Logging In: " + data.status);
+		retData = -1;
+	});
+
+	return retData;
 }
 
 // Returns all valid positions that the team with the given student
@@ -193,17 +219,23 @@ function moveTeamToPosition(dfStudentId, dfMovePos) {
 
 function createSession(dfTeacherId) {
 	console.log("Creating Session With Teacher: " + dfTeacherId + "!");
-	var sendData = "teacher_id=" + dfTeacherId;
+	var sendData = "teacher_id=" + dfTeacherId + "&class_id=-1";
+	var targetUrl = BASE_URL + BEGIN_SESSION;
+	var retData = "";
 	$.ajax({
 	  type: 'POST',
-	  url: urlBase,
+	  url: targetUrl,
 	  data: sendData,
 	  async:false
 	}).done(function (data) {
 		console.log("Created Session! Data: " + data);
+		retData = data;
+	}).fail(function (data){
+		console.log("Server Failure: " + data.status);
+		retData = data;
 	});
 	console.log("Here!");
-	return true;
+	return retData;
 }
 
 function joinSession(dfStudentId) {

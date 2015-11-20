@@ -52,7 +52,7 @@ TeamDrawer.prototype.getTeamId = function() {
 //----------------------------------------------------
 
 TeamDrawer.prototype.getPoints = function(){
-	return 10;
+	return this.team.score;
 }
 
 function wrapText(context, text, x, y, maxWidth, lineHeight) {

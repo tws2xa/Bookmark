@@ -5,4 +5,5 @@ function Team(id, name, deck, students){
 	this.students = students;
 	this.backColor = getCardBackgroundColor();
 	this.myTurn = false;
+	this.score = 0;
 }

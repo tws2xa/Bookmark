@@ -69,8 +69,7 @@ function init() {
 		leftPos+canvasWidth*.8,
 		0,
 		canvasWidth*.2,
-		canvasHeight,
-		getTeams()	
+		canvasHeight
 	);
 	teamsDisplay.createTD();
 		
@@ -125,70 +124,48 @@ function updateBoard(){
 
 function noSessionButtonClicked() {
 	console.log("No Session Button Clicked!");
+	var stateXML;
 
 	if(isTeacherId(sessionStorage.studentId)) { // isTeacherId defined in DataFetcher
-		createSession(sessionStorage.studentId); // Defined in data fetcher
+		stateXML = createSession(sessionStorage.studentId); // Defined in data fetcher
 	}
 	else {
-		joinSession(sessionStorage.studentId); // Defined in Data Fetcher
+		stateXML = joinSession(sessionStorage.studentId); // Defined in Data Fetcher
 	}
 
+	handleBoardStateXML(stateXML);
 	boardDisplay.setState(boardDisplay.displayBoard);
+}
+
+function handleBoardStateXML(stateXML) {
+	var turnId = $(stateXML).find("turn_id").text();
+	$(stateXML).find("team").each(function() {
+		var id = $(this).find("team_id").text();
+		var name = $(this).find("team_name").text();
+		var deck = [];
+		var students = [];
+		var score = $(this).find("team_score").text();
+		var team = new Team(id, name, deck, students);
+		team.score = score;
+		teamsDisplay.addTeam(team, id == turnId);
+	});
 }
  
 
 
 function onClick(event){
 	
-	/*
-if (argumentDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) {
-		argumentDisplay.mouseClick(event, canvasRect);
-	}
-*/
-	
 }
 
 function onMouseDown(event){
-	// Register mouse down and add a mouse move listener
-	// only on the area where the mouse was clicked, and
-	// only when the mouse is down 
 	
-	/*
-if (argumentDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) {
-		argumentDisplay.onMouseDown(event, canvasRect);
-		canvas.addEventListener("mousemove", deckDisplayMouseDrag);
-	}
-*/
-	
-
 }
 
 function onMouseUp(event){
-	// Register the event and remove the mouse moved listener
-	
-	/*
-if (argumentDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) {
-		argumentDisplay.onMouseUp(event, canvasRect);
-		canvas.removeEventListener("mousemove", deckDisplayMouseDrag);
-	}
-*/
-	
+
 }
 
 function onMouseWheel(event) {
-	
-	/*
-if (argumentDisplay.position.contains(event.clientX - canvasRect.left, event.clientY-canvasRect.top)) {
-		argumentDisplay.onMouseWheel(event, canvasRect);
-	}
-*/
+
 	
 }
-
-
-
-/*
-function argsDisplayMouseDrag(event) {
-	argumentDisplay.onMouseDrag(event, canvasRect);
-}
-*/
