@@ -8,8 +8,8 @@ function Student(name, id, deck, team){
 function studentFromXML(xmlData) {
 	console.log("Creating Student From XML");
 	var studentXML = $(xmlData).find("student");
-	var id = $(studentXML).find("student_id").text();
-	var name = $(studentXML).find("student_name").text();
+	var id = $(studentXML).find("id").text();
+	var name = $(studentXML).find("name").text();
 	console.log("Student Name: " + name + " StudentID: " + id);
 	return new Student(name, id, [], new Team());
 }

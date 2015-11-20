@@ -62,7 +62,9 @@ for(var i=0; i<15; i++){
 var BASE_URL = "http://localhost:8080/Bookmark/bookmark/";
 var BEGIN_SESSION = "begin-session";
 var LOGIN = "login";
+var GET_PERSON_INFO = "get-person-info";
 var GET_STUDENT_INFO = "get-student-info";
+var IS_TEACHER = "is-teacher";
 
 /**
  * Requesting Information From the Server
@@ -124,13 +126,8 @@ function getStudents(){
 }
 
 function isTeacherId(dfId) {
-	return true;
-}
-
-// Gets the name of the student given the student id
-function getStudentName(dfStudentId) {
-	var sendData = "student_id=" + dfStudentId;
-	var targetUrl = BASE_URL + GET_STUDENT_INFO;
+	var sendData = "id=" + dfId;
+	var targetUrl = BASE_URL + IS_TEACHER;
 
 	var retData;
 	$.ajax({
@@ -139,12 +136,40 @@ function getStudentName(dfStudentId) {
 	  data: sendData,
 	  async:false
 	}).done(function (data) {
-		console.log("Obtained Student Info: " + data);
-		var student = studentFromXML(data);
-		retData = student.name;
+		data = data.trim();
+		console.log("Determined If Teacher: \"" + data + "\"");
+		if(data == "true") {
+			retData = true;
+		} else {
+			retData = false;
+		}
 	}).fail(function (data){
-		console.log("Failure Obtaining Student Info: " + data.status);
-		retData = "Student #" + dfStudentId;
+		console.log("Failure Determining if Teacher: " + data.status);
+		retData = false;
+	});
+
+	return retData;
+}
+
+// Gets the name of the student given the student id
+function getPersonName(dfStudentId) {
+	var sendData = "id=" + dfStudentId;
+	var targetUrl = BASE_URL + GET_PERSON_INFO;
+
+	var retData;
+	$.ajax({
+	  type: 'POST',
+	  url: targetUrl,
+	  data: sendData,
+	  async:false
+	}).done(function (data) {
+		console.log("Obtained Person Info: " + data);
+		var personXML = $(data).find("person");
+		var name = $(personXML).find("name").text();
+		retData = name;
+	}).fail(function (data){
+		console.log("Failure Obtaining Person Info: " + data.status);
+		retData = "Person #" + dfStudentId;
 	});
 
 	return retData;

@@ -33,7 +33,7 @@ TeamDrawer.prototype.draw = function(context) {
 	} else {
 		drawStr = "    ";
 	}
-	drawStr += this.team.name + ": " + this.getPoints();
+	drawStr += ("Team " + this.team.name + ": " + this.getPoints());
 
 	context.fillText(
 		drawStr,

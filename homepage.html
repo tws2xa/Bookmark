@@ -41,7 +41,7 @@
         if(sessionStorage.studentId == null) { 
             msgStr = "Hello! Please login to begin.";
         } else {
-            var studentName = getStudentName(sessionStorage.studentId); // getStudentName Defined in DataFetcher
+            var studentName = getPersonName(sessionStorage.studentId); // getPersonName Defined in DataFetcher
             msgStr = ("Hello, " + studentName);
         }
         var msgDiv = document.getElementById("message");
