@@ -24,6 +24,10 @@ TeamsDisplay.prototype.createTD = function(){
 	}*/
 }
 
+TeamsDisplay.prototype.clearTeams = function() {
+	this.teams = [];
+}
+
 TeamsDisplay.prototype.addTeam = function(team, turn) {
 	team.myTurn = turn; // It is this team's turn
 	var teamDraw = new TeamDrawer(

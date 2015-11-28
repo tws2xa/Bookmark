@@ -61,10 +61,13 @@ for(var i=0; i<15; i++){
 
 var BASE_URL = "http://localhost:8080/Bookmark/bookmark/";
 var BEGIN_SESSION = "begin-session";
+var JOIN_SESSION = "join-session";
 var LOGIN = "login";
 var GET_PERSON_INFO = "get-person-info";
 var GET_STUDENT_INFO = "get-student-info";
 var IS_TEACHER = "is-teacher";
+var CHECK_BOARD_UPDATE = "check-board-update";
+var GET_BOARD_STATE = "get-board-state";
 
 /**
  * Requesting Information From the Server
@@ -73,16 +76,54 @@ function getNeedPlayUpdate(dfStudentId) {
 	return true;
 }
 
-function getNeedBoardUpdate(dfStudentId) {
-	return true;
+function getNeedBoardUpdate(dfId) {
+	var sendData = "id=" + dfId;
+	var targetUrl = BASE_URL + CHECK_BOARD_UPDATE;
+
+	var retData;
+	$.ajax({
+	  type: 'POST',
+	  url: targetUrl,
+	  data: sendData,
+	  async:false
+	}).done(function (data) {
+		data = data.trim();
+		console.log("Determined If Need Board Update: \"" + data + "\"");
+		if(data == "true") {
+			retData = true;
+		} else {
+			retData = false;
+		}
+	}).fail(function (data){
+		console.log("Failure Determining if Need Board Update: " + data.status);
+		retData = false;
+	});
+
+	return retData;
 }
 
 function getPlayStateInfo(dfStudentId) {
 	console.log("state info, " + dfStudentId);
 }
 
-function getBoardStateInfo(dfStudentId) {
-	console.log("state info, " + dfStudentId);
+function getBoardStateInfo(dfId) {
+	console.log("Getting Board State");
+	var sendData = "id=" + dfId;
+	var targetUrl = BASE_URL + GET_BOARD_STATE;
+	var retData = "";
+	$.ajax({
+	  type: 'POST',
+	  url: targetUrl,
+	  data: sendData,
+	  async:false
+	}).done(function (data) {
+		console.log("Obtaned Board State: " + data);
+		retData = data;
+	}).fail(function (data){
+		console.log("Failure Obtaining Board State: " + data.status);
+		retData = "";
+	});
+	return retData;
 }	
 
 function getBoard(dfStudentId){
@@ -243,7 +284,6 @@ function moveTeamToPosition(dfStudentId, dfMovePos) {
 }
 
 function createSession(dfTeacherId) {
-	console.log("Creating Session With Teacher: " + dfTeacherId + "!");
 	var sendData = "teacher_id=" + dfTeacherId + "&class_id=-1";
 	var targetUrl = BASE_URL + BEGIN_SESSION;
 	var retData = "";
@@ -259,10 +299,24 @@ function createSession(dfTeacherId) {
 		console.log("Server Failure: " + data.status);
 		retData = data;
 	});
-	console.log("Here!");
 	return retData;
 }
 
 function joinSession(dfStudentId) {
-	console.log("Joining Session With Student: " + dfStudentId + "!");
+	var sendData = "id=" + dfStudentId;
+	var targetUrl = BASE_URL + JOIN_SESSION;
+	var retData = "";
+	$.ajax({
+	  type: 'POST',
+	  url: targetUrl,
+	  data: sendData,
+	  async:false
+	}).done(function (data) {
+		console.log("Joined Session! Data: " + data);
+		retData = data;
+	}).fail(function (data){
+		console.log("Failure Joining Session: " + data.status);
+		retData = data;
+	});
+	return retData;
 }

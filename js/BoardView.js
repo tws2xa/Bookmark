@@ -117,8 +117,10 @@ function paint() {
 
 function updateBoard(){
 	if (getNeedBoardUpdate(sessionStorage.studentId)) {
-		getBoardStateInfo(sessionStorage.studentId);
-		//boardDisplay.setState(boardDisplay.displayChains);
+		var state = getBoardStateInfo(sessionStorage.studentId);
+		if(state != "") {
+			handleBoardStateXML(state);
+		}
 	}
 }
 
@@ -139,6 +141,7 @@ function noSessionButtonClicked() {
 
 function handleBoardStateXML(stateXML) {
 	var turnId = $(stateXML).find("turn_id").text();
+	teamsDisplay.clearTeams();
 	$(stateXML).find("team").each(function() {
 		var id = $(this).find("team_id").text();
 		var name = $(this).find("team_name").text();
