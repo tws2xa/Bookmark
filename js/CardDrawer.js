@@ -114,6 +114,10 @@ CardDrawer.prototype.getCardUniqueId = function() {
 	return this.card.uniqueId;
 }
 
+CardDrawer.prototype.getType = function() {
+	return this.card.type;
+}
+
 //----------------------------------------------------
 //-------------------Scaling Methods------------------
 //----------------------------------------------------
