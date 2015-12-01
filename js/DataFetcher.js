@@ -68,6 +68,8 @@ var GET_STUDENT_INFO = "get-student-info";
 var IS_TEACHER = "is-teacher";
 var CHECK_BOARD_UPDATE = "check-board-update";
 var GET_BOARD_STATE = "get-board-state";
+var DATABASE_TEST = "database-test";
+
 
 /**
  * Requesting Information From the Server
@@ -316,6 +318,23 @@ function joinSession(dfStudentId) {
 		retData = data;
 	}).fail(function (data){
 		console.log("Failure Joining Session: " + data.status);
+		retData = data;
+	});
+	return retData;
+}
+
+function testDatabase() {
+	var targetUrl = BASE_URL + DATABASE_TEST;
+	var retData = "";
+	$.ajax({
+	  type: 'POST',
+	  url: targetUrl,
+	  async:false
+	}).done(function (data) {
+		console.log("DID IT! " + data);
+		retData = data;
+	}).fail(function (data){
+		console.log("DIDN'T WORK HOW WHAT " + data.status);
 		retData = data;
 	});
 	return retData;
