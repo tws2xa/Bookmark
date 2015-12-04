@@ -75,11 +75,13 @@ BoardDisplay.prototype.createBoard = function(){
 		}
 	}
 	
-	
+	var tr = 0;
+	var tc = 0;
 	for(var t=0; t<this.teams.length; t++){
-		var teamrec = new Rectangle(this.position.left + (t*this.position.width/4) + this.horizontalBuffer, this.position.top + (t*this.position.height/4) + this.verticalBuffer + this.teamheight*t, this.teamwidth, this.teamheight);
+		var teamrec = new Rectangle(this.position.left + (tc*this.position.width/4) + this.horizontalBuffer, this.position.top + (tr*this.position.height/4) + this.verticalBuffer + this.teamheight*t, this.teamwidth, this.teamheight);
 		var teamToken = new PlayerToken(teamrec, getPlayerColor(t), t);
 		this.tokens.push(teamToken);
+		tc++;
 	}
 }
 
