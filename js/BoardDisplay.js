@@ -16,7 +16,7 @@ function BoardDisplay(x, y, width, height, teams){
 	
 	this.teams = teams;
 	this.tokens = [];
-	this.teamwidth = this.unitwidth/8;
+	this.teamwidth = this.unitwidth/20;
 	this.teamheight = this.unitheight/this.teams.length;
 
 	//state variables
