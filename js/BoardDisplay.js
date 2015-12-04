@@ -1,4 +1,4 @@
-function BoardDisplay(x, y, width, height){
+function BoardDisplay(x, y, width, height, teams){
 	this.gridcolor = getCardBackgroundColor();
 	this.backgroundColor = getDisplayBackgroundColor();
 	
@@ -6,11 +6,18 @@ function BoardDisplay(x, y, width, height){
 	
 	this.unitheight = height/4.2;
 	this.unitwidth = width/4.2;
+	
+	
 
 	this.horizontalBuffer = (width - (4*this.unitwidth))/10;
 	this.verticalBuffer = (height - (4*this.unitheight))/10;
 	console.log(this.verticalBuffer + ","  + this.horizontalBuffer);
 	this.elements = [];
+	
+	this.teams = teams;
+	this.tokens = [];
+	this.teamwidth = this.unitwidth/8;
+	this.teamheight = this.unitheight/this.teams.length;
 
 	//state variables
 	this.currentState = 0;
@@ -67,6 +74,13 @@ BoardDisplay.prototype.createBoard = function(){
 			this.elements[r].push(element);
 		}
 	}
+	
+	
+	for(var t=0; t<this.teams.length; t++){
+		var teamrec = new Rectangle(this.position.left + (t*this.position.width/4) + this.horizontalBuffer, this.position.top + (t*this.position.height/4) + this.verticalBuffer + this.teamheight*t, this.teamwidth, this.teamheight);
+		var teamToken = new PlayerToken(teamrec, getPlayerColor(t), t);
+		this.tokens.push(teamToken);
+	}
 }
 
 BoardDisplay.prototype.draw = function(context){
@@ -77,5 +91,9 @@ BoardDisplay.prototype.draw = function(context){
 		for (var c=0; c<4; ++c){
 			this.elements[r][c].draw(context); 
         }
+    }
+    
+    for (var t=0; t<this.tokens.length; t++){
+	    this.tokens[t].draw(context);
     }
 }

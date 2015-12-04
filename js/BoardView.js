@@ -55,16 +55,6 @@ function init() {
 	chalCanvas.addEventListener("mousedown", onMouseDown);
 	chalCanvas.addEventListener("mouseup", onMouseUp);
 
-
-	boardDisplay = new BoardDisplay(
-		leftPos,
-		upperPos,
-		canvasWidth*0.78,
-		canvasHeight*0.95
-	);
-	boardDisplay.createBoard();
-
-	
 	teamsDisplay = new TeamsDisplay(
 		leftPos+canvasWidth*.8,
 		0,
@@ -72,7 +62,15 @@ function init() {
 		canvasHeight
 	);
 	teamsDisplay.createTD();
-		
+	boardDisplay = new BoardDisplay(
+		leftPos,
+		upperPos,
+		canvasWidth*0.78,
+		canvasHeight*0.95,
+		teams = ["what", "is", "this"]
+	);
+	boardDisplay.createBoard();	
+	boardDisplay.teamheight = boardDisplay.unitheight/boardDisplay.teams.length;
 
 	// Mouse Wheel
 	if (canvas.addEventListener) {

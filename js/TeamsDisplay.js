@@ -10,7 +10,7 @@ function TeamsDisplay(x, y, width, height){
 }
 
 TeamsDisplay.prototype.createTD = function(){
-	/*for(var i=0; i<this.numTeams; i++){
+	for(var i=0; i<this.numTeams; i++){
 		var team = new Team(8*100+i, "Team "  + i, [], []);
 		team.myTurn = (i == 0); // First team's turn
 		var teamDraw = new TeamDrawer(
@@ -21,7 +21,7 @@ TeamsDisplay.prototype.createTD = function(){
 			this.teamHeight);
 		teamDraw.backColor = getPlayerColor(i);
 		this.drawables.push(teamDraw);
-	}*/
+	}
 }
 
 TeamsDisplay.prototype.clearTeams = function() {
