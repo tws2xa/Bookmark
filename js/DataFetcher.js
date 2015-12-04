@@ -59,7 +59,7 @@ for(var i=0; i<15; i++){
 
 /* --------------------- Above generates data for testing purposes --------------------- */
 
-var BASE_URL = "http://localhost:8080/Bookmark/bookmark/";
+var BASE_URL = "http://gdrg.cs.virginia.edu:8080/Bookmark/bookmark/";
 var BEGIN_SESSION = "begin-session";
 var JOIN_SESSION = "join-session";
 var LOGIN = "login";
