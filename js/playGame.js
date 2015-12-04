@@ -317,10 +317,17 @@ function argsDisplayMouseDrag(event) {
 }
 
 function onGenericSubmit() {
+	//get baord card?
+
+	//if contains an argument card, good
+	//if the token is on an argument card, good
+	//else issue warning and do not submit
+	//check for previos chains on argument
+
 	var chain = mainDisplay.generateChain();
 	submitChainToServer(sessionStorage.studentId, chain);
 	document.getElementById("canvasM").focus();
-	console.log("Chain created!");
+	console.log("Chain creation attemped.");
 }
 
 function onPassSubmit() {

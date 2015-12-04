@@ -33,7 +33,7 @@ function MainDisplay(x, y, width, height) {
 	this.makeChain = 3;
 	this.beingChallenged = 4;
 	this.turnSelect = 5;
-
+	this.argumentCardOnBoard = false;
 
 	this.setState(this.turnSelect);
 }
@@ -221,9 +221,28 @@ MainDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 
 
 MainDisplay.prototype.generateChain = function() {
+	var pass = false;
+	if(this.cards[0].getType() == "Argument") {
+		pass = true;
+	}
+	else {
+		console.log("You must add an argument card to your chain.");
+	}
+	/*for(var i =0; i < this.cards.length; i++) {
+		
+		if(this.cards[i].getType() == "Argument") {
+
+		//getChain(this.cards[i]);
+			pass = true;
+		}
+	}*/
+	
+	if (pass) {
+
 	var input = formatCardDrawer(this.cards);
 	var chain = new Chain(input, this.cardLinks);
 	return chain;
+	}
 }
 
 //-------------------------------------------------------------
@@ -231,12 +250,29 @@ MainDisplay.prototype.generateChain = function() {
 //-------------------------------------------------------------
 
 MainDisplay.prototype.addCard = function(card) {
+	
+
 	if(this.currentState != this.makeChain && this.currentState != this.challenge) {
 		return;
 	}
+	console.log(card.getType());
+	var cardType = card.getType();
 
+
+	if(this.argumentCardOnBoard === false && !(cardType === "Argument")) {
+		alert("Please add an argument card first!");
+	}
+	else if(this.argumentCardOnBoard === true && (card.getType() === "Argument")) {
+		alert("Only one Argument card allowed on the board at a time!");
+	}
+	else {
+		if (cardType === "Argument") {
+			this.argumentCardOnBoard = true;
+		}
 	card.scale = this.defaultCardScale;
 	this.cards.push(card);
+}
+	
 }
 
 MainDisplay.prototype.selectCard = function(cardIndex, pointerPos) {
