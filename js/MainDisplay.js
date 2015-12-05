@@ -269,10 +269,9 @@ MainDisplay.prototype.addCard = function(card) {
 		if (cardType === "Argument") {
 			this.argumentCardOnBoard = true;
 		}
-	card.scale = this.defaultCardScale;
-	this.cards.push(card);
-}
-	
+		card.scale = this.defaultCardScale;
+		this.cards.push(card);
+	}
 }
 
 MainDisplay.prototype.selectCard = function(cardIndex, pointerPos) {

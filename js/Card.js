@@ -14,3 +14,25 @@ Card.prototype.copy = function() {
 		this.pageNum[0],
 		this.pageNum[1]);
 };
+
+Card.prototype.generateXML = function() {
+	var xmlStr = "<card>";
+	xmlStr += "<id>" + this.uniqueId + "</id>";
+	xmlStr += "<type>" + this.type + "</type>";
+	xmlStr += "<body_text>" + this.text + "</body_text>";
+	xmlStr += "<page_start>" + this.pageNum[0] + "</page_start>";
+	xmlStr += "<page_end>" + this.pageNum[1] + "</page_end>";
+	xmlStr += "</card>";
+	return xmlStr;
+}
+
+
+function createCardFromXML(xmlData) {
+	var cardData = $(xmlData).find("card");
+	var id = $(cardData).find("id").text();
+	var type = $(cardData).find("type").text();
+	var bodyText = $(cardData).find("body_text").text();
+	var pageStart = $(cardData).find("page_start").text();
+	var pageEnd = $(cardData).find("page_end").text();
+	return new Card(id, type, bodyText, pageStart, pageEnd);
+}
