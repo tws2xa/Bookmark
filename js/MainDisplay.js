@@ -228,21 +228,12 @@ MainDisplay.prototype.generateChain = function() {
 	else {
 		console.log("You must add an argument card to your chain.");
 	}
-	/*for(var i =0; i < this.cards.length; i++) {
-		
-		if(this.cards[i].getType() == "Argument") {
-
-		//getChain(this.cards[i]);
-			pass = true;
-		}
-	}*/
 	
-	if (pass) {
-
-	var input = formatCardDrawer(this.cards);
-	var chain = new Chain(input, this.cardLinks);
-	return chain;
-	}
+	//if (pass) {
+		var input = formatCardDrawer(this.cards); // Defined in Chain.js
+		var chain = new Chain(input, this.cardLinks);
+		return chain;
+	//}
 }
 
 //-------------------------------------------------------------

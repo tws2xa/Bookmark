@@ -269,6 +269,7 @@ function getCurrentTurnTeamName(dfStudentId) {
 // Submits a chain to the server
 function submitChainToServer(dfStudentId, dfChain) {
 	console.log("Sending chain to server for student: " + dfStudentId + "!");
+	console.log("Chain XML: " + dfChain.generateXML());
 }
 
 // Tells the server what a team has decided to do on their turn
