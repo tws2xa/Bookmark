@@ -70,6 +70,7 @@ var IS_TEACHER = "is-teacher";
 var CHECK_BOARD_UPDATE = "check-board-update";
 var GET_BOARD_STATE = "get-board-state";
 var DATABASE_TEST = "database-test";
+var SUBMIT_CHAIN = "submit-chain";
 
 
 /**
@@ -268,8 +269,25 @@ function getCurrentTurnTeamName(dfStudentId) {
 
 // Submits a chain to the server
 function submitChainToServer(dfStudentId, dfChain) {
-	console.log("Sending chain to server for student: " + dfStudentId + "!");
-	console.log("Chain XML: " + dfChain.generateXML());
+	// console.log("Sending chain to server for student: " + dfStudentId + "!");
+	// console.log("Chain XML: " + dfChain.generateXML());
+
+	var sendData = "id=" + dfStudentId + "&chain_xml=" +  dfChain.generateXML();
+	var targetUrl = BASE_URL + SUBMIT_CHAIN;
+	var retData = "";
+	$.ajax({
+	  type: 'POST',
+	  url: targetUrl,
+	  data: sendData,
+	  async:false
+	}).done(function (data) {
+		console.log("Chain Submitted! Data: " + data);
+		retData = data;
+	}).fail(function (data){
+		console.log("Chain Submission Failure: " + data.status);
+		retData = data;
+	});
+	return retData;
 }
 
 // Tells the server what a team has decided to do on their turn
