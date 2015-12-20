@@ -33,7 +33,7 @@ Chain.prototype.generateXML = function() {
 		xmlStr += "<card2_id>" + this.links[i][1] + "</card2_id>";
         xmlStr += "</link>";
     }
-    xmlStr += "</links>"
+    xmlStr += "</links>";
 
 
 	xmlStr += "</chain>";
@@ -62,4 +62,34 @@ function formatCardDrawer(cardDrawers) {
 	}
 
 	return ret;
-};
+}
+
+
+/**
+ * Creates a chain from an xml element
+ **/
+function createChainFromXML(xmlData) {
+	var newCardsAndPos = [];
+	var newLinks = [];
+
+	var chainData = $(xmlData).find("chain");
+	var cardsData = $(chainData).find("cards");
+	$(cardsData).find("card_info").each(function(index, element) {
+		var card = createCardFromXML(element);
+		var posData = $(element).find("position");
+		var xPos = $(posData).find("x").text();
+		var yPos = $(posData).find("y").text();
+		var toAdd = [card, [xPos, yPos]];
+		newCardsAndPos.push(toAdd);
+	});
+
+	var linksData = $(chainData).find("links");
+	$(linksData).find("link").each(function (index, element) {
+		var card1Id = $(element).find("card1_id").text();
+		var card2Id = $(element).find("card2_id").text();
+		var linkToAdd = [card1Id, card2Id];
+		newLinks.push(linkToAdd);
+	});
+
+	return new Chain(newCardsAndPos, newLinks);
+}
