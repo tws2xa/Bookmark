@@ -65,6 +65,7 @@ var BEGIN_SESSION = "begin-session";
 var JOIN_SESSION = "join-session";
 var LOGIN = "login";
 var GET_PERSON_INFO = "get-person-info";
+var GET_PERSON_NAME = "get-person-name";
 var GET_STUDENT_INFO = "get-student-info";
 var IS_TEACHER = "is-teacher";
 var CHECK_BOARD_UPDATE = "check-board-update";
@@ -199,7 +200,7 @@ function isTeacherId(dfId) {
 // Gets the name of the student given the student id
 function getPersonName(dfStudentId) {
 	var sendData = "id=" + dfStudentId;
-	var targetUrl = BASE_URL + GET_PERSON_INFO;
+	var targetUrl = BASE_URL + GET_PERSON_NAME;
 
 	var retData;
 	$.ajax({
@@ -208,10 +209,8 @@ function getPersonName(dfStudentId) {
 	  data: sendData,
 	  async:false
 	}).done(function (data) {
-		console.log("Obtained Person Info: " + data);
-		var personXML = $(data).find("person");
-		var name = $(personXML).find("name").text();
-		retData = name;
+		console.log("Obtained Person Name: \"" + data + "\"");
+		retData = data;
 	}).fail(function (data){
 		console.log("Failure Obtaining Person Info: " + data.status);
 		retData = "Person #" + dfStudentId;
