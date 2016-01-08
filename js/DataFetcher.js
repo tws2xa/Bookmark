@@ -72,6 +72,7 @@ var CHECK_BOARD_UPDATE = "check-board-update";
 var GET_BOARD_STATE = "get-board-state";
 var DATABASE_TEST = "database-test";
 var SUBMIT_CHAIN = "submit-chain";
+var GET_STUDENT_DECK = "get-student-deck";
 
 
 /**
@@ -159,8 +160,33 @@ function getTeamDeck(dfStudentId){
 }
 
 function getStudentDeck(dfStudentId){
-	console.log("Getting deck for student: " + dfStudentId);
-	return tfTestDeck;
+	var sendData = "id=" + dfStudentId + "&classId=-1"; // CLASS ID = -1 SHOULD BE TEMPORARY AND ASSUMES ONE CLASS PER STUDENT!!!!
+	var targetUrl = BASE_URL + GET_STUDENT_DECK;
+
+	var retData;
+	$.ajax({
+	  type: 'POST',
+	  url: targetUrl,
+	  data: sendData,
+	  async:false
+	}).done(function (data) {
+		console.log("Received Deck: \"" + data + "\"");
+
+		// Read deck in from XML
+		var newDeck = [];
+		var deckData = $(data).find("deck");
+		$(deckData).find("card").each(function(index, element) {
+			var card = createCardFromXMLCardElement(element);
+			newDeck.push(card);
+		});
+		retData = newDeck;
+
+	}).fail(function (data){
+		console.log("Failure Obtaining Student Deck: " + data.status);
+		retData = [];
+	});
+
+	return retData;
 }
 
 function getDeck(){
