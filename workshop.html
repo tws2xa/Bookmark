@@ -40,8 +40,20 @@
 				window.location.href = "./login.html";
 				return false;
 			} else {
-				alert("Card Submitted");
-				console.log("Submit Button Clicked!");
+				var studentId = sessionStorage.studentId;
+				var cardType = $('#type option:selected').text();
+				var bodyText = $("#mainText").val();
+				var pageStart = $("#startPage").val();
+				var pageEnd = $("#endPage").val();
+
+				if(pageStart == "") {
+					pageStart = -1;
+				}
+				if(pageEnd == "") {
+					pageEnd = -1;
+				}
+
+				createCardForStudent(studentId, cardType, bodyText, pageStart, pageEnd); // Defined in DataFetcher
 			}
 		}
 	</script>

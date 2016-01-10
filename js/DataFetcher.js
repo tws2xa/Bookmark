@@ -73,6 +73,7 @@ var GET_BOARD_STATE = "get-board-state";
 var DATABASE_TEST = "database-test";
 var SUBMIT_CHAIN = "submit-chain";
 var GET_STUDENT_DECK = "get-student-deck";
+var STUDENT_ADD_CARD = "student-add-card";
 
 
 /**
@@ -352,6 +353,31 @@ function createSession(dfTeacherId) {
 function joinSession(dfStudentId) {
 	var sendData = "id=" + dfStudentId;
 	var targetUrl = BASE_URL + JOIN_SESSION;
+	var retData = "";
+	$.ajax({
+	  type: 'POST',
+	  url: targetUrl,
+	  data: sendData,
+	  async:false
+	}).done(function (data) {
+		console.log("Joined Session! Data: " + data);
+		retData = data;
+	}).fail(function (data){
+		console.log("Failure Joining Session: " + data.status);
+		retData = data;
+	});
+	return retData;
+}
+
+function createCardForStudent(dfStudentId, dfCardType, dfBodyText, dfPageStart, dfPageEnd) {
+	var sendData = "id=" + dfStudentId;
+	sendData += ("&classId=-1"); // DUMMY CLASS VALUE. SHOULD REALLY HAVE THE USER DECIDE THIS. ASSUMES 1 CLASS PER STUDENT.
+	sendData += ("&cardType=" + dfCardType);
+	sendData += ("&bodyText=" + dfBodyText);
+	sendData += ("&pageStart=" + dfPageStart);
+	sendData += ("&pageEnd=" + dfPageEnd);
+
+	var targetUrl = BASE_URL + STUDENT_ADD_CARD;
 	var retData = "";
 	$.ajax({
 	  type: 'POST',

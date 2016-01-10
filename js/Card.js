@@ -38,5 +38,7 @@ function createCardFromXMLCardElement(cardData) {
 	var bodyText = $(cardData).find("body_text").text();
 	var pageStart = $(cardData).find("page_start").text();
 	var pageEnd = $(cardData).find("page_end").text();
+	type = type.replace(/_/g, " ");
+
 	return new Card(id, type, bodyText, pageStart, pageEnd);
 }
