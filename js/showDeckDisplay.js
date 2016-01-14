@@ -36,7 +36,8 @@ function setCanvasSize() {
 	// Canvas sizes
 	deckCards = getStudentDeck(sessionStorage.studentId); // Defined in DataFetcher
 
-	canvasD.width = Math.max(rightPos - argX, deckCards.length * cardWidth + (deckCards.length + 1) * cardMargin);
+	// canvasD.width = Math.max(rightPos - argX, deckCards.length * cardWidth + (deckCards.length + 1) * cardMargin);
+	canvasD.width = Math.max(canvasWidth, deckCards.length * cardWidth + (deckCards.length + 1) * cardMargin);
 	canvasD.height = canvasHeight - scaledVMargin - deckTop-12;
 	
 	// Div sizes
