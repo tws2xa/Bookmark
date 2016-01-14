@@ -84,6 +84,7 @@ function paint() {
 		document.getElementById("mainText").value = card.text;
 		var startPage = card.pageNum[0];
 		var endPage = card.pageNum[1];
+		var cardId = card.uniqueId;
 		if(startPage <= 0) {
 			startPage = "";
 		}
@@ -93,6 +94,7 @@ function paint() {
 
 		document.getElementById("startPage").value = startPage;
 		document.getElementById("endPage").value = endPage;
+		document.getElementById("editCardId").value = cardId;
 
 		document.getElementById("type").selectedIndex = 0;
 		var type = card.type.toLowerCase().trim();

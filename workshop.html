@@ -45,6 +45,7 @@
 				var bodyText = $("#mainText").val();
 				var pageStart = $("#startPage").val();
 				var pageEnd = $("#endPage").val();
+				var editId = $("#editCardId").val();
 
 				if(cardType == "Card Type") {
 					alert("Please select a card type from the drop down menu at the top of the card.");
@@ -56,6 +57,11 @@
 					return;
 				}
 
+				editId = editId.trim();
+				if(editId == "") {
+					editId = -1;
+				}
+
 				if(pageStart == "") {
 					pageStart = -1;
 				}
@@ -63,7 +69,7 @@
 					pageEnd = -1;
 				}
 
-				createCardForStudent(studentId, cardType, bodyText, pageStart, pageEnd); // Defined in DataFetcher
+				createCardForStudent(studentId, cardType, bodyText, pageStart, pageEnd, editId); // Defined in DataFetcher
 			}
 		}
 	</script>
@@ -109,6 +115,7 @@
 			</td></tr>
 			<tr style="padding:0px;"><td><button class = "btn" value="Submit" onclick="return handleSubmit()">Submit</button></td></tr>
 		</table>
+		<input type="text" id="editCardId" name="editCardId" size = "5" maxlength="5" style="display: none" disabled="disabled">
 	</div>
 
 	<div id="divD" style = "position: absolute; border:0px solid #000000;"><canvas id="canvasD" style = "margin: 0px;"></canvas></div>

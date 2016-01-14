@@ -369,13 +369,17 @@ function joinSession(dfStudentId) {
 	return retData;
 }
 
-function createCardForStudent(dfStudentId, dfCardType, dfBodyText, dfPageStart, dfPageEnd) {
+function createCardForStudent(dfStudentId, dfCardType, dfBodyText, dfPageStart, dfPageEnd, editId) {
+	// alert ("Start of Create Card");
 	var sendData = "id=" + dfStudentId;
 	sendData += ("&classId=-1"); // DUMMY CLASS VALUE. SHOULD REALLY HAVE THE USER DECIDE THIS. ASSUMES 1 CLASS PER STUDENT.
 	sendData += ("&cardType=" + dfCardType);
 	sendData += ("&bodyText=" + dfBodyText);
 	sendData += ("&pageStart=" + dfPageStart);
 	sendData += ("&pageEnd=" + dfPageEnd);
+	sendData += ("&editId=" + editId); // -1 means new card.
+
+	// alert("CHECKPOINT 1 - Edit ID: " + editId);
 
 	var targetUrl = BASE_URL + STUDENT_ADD_CARD;
 	var retData = "";
