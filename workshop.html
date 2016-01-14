@@ -46,6 +46,16 @@
 				var pageStart = $("#startPage").val();
 				var pageEnd = $("#endPage").val();
 
+				if(cardType == "Card Type") {
+					alert("Please select a card type from the drop down menu at the top of the card.");
+					return;
+				}
+
+				if(bodyText.trim() == "") {
+					alert("You cannot submit a blank card.");
+					return;
+				}
+
 				if(pageStart == "") {
 					pageStart = -1;
 				}
