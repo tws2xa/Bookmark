@@ -77,13 +77,9 @@ var DATABASE_TEST = "database-test";
 var SUBMIT_CHAIN = "submit-chain";
 var GET_STUDENT_DECK = "get-student-deck";
 var STUDENT_ADD_CARD = "student-add-card";
-<<<<<<< HEAD
 var STUDENT_GET_TEAM = "student-get-team";
-=======
 var GET_TEAM_DECK = "get-team-deck";
 var GET_CLASS_ARGUMENT_CARD_DECK = "get-class-argument-card-deck";
-
->>>>>>> origin/master
 
 /**
  * Requesting Information From the Server
@@ -176,7 +172,6 @@ function getArgumentCards(dfStudentId){
     return retData;
 }
 
-<<<<<<< HEAD
 function getTeams(dfStudentId){
 	return dfTeams;
 }
@@ -189,11 +184,6 @@ function getTeamIds(dfStudentId) {
 	return teamId;
 }
 
-function getTeamDeck(dfStudentId){
-	console.log("Getting deck for team with student: " + dfStudentId);
-	var index = getTeamIds().indexOf(dfStudentId);
-	return getTeams()[0].deck;
-=======
 function getTeamDeck(dfStudentId, includeArgumentCards){
     var sendData = "id=" + dfStudentId;
     var targetUrl = BASE_URL + GET_TEAM_DECK;
@@ -230,7 +220,6 @@ function getTeamDeck(dfStudentId, includeArgumentCards){
     });
 
     return retData;
->>>>>>> origin/master
 }
 
 function getStudentDeck(dfStudentId){
