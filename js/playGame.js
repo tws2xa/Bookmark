@@ -63,18 +63,18 @@ function setCanvasSize() {
 	var leftPos = scaledHMargin;
 	var rightPos = canvasWidth - scaledHMargin;
 	
-	var divMWidth = canvasWidth *.82; //changed to accomodate Deck Display showing page #s
+	var divMWidth = canvasWidth *.82; //changed to accommodate Deck Display showing page #s
 	var divMHeight = canvasHeight*.6;
-	var argX = leftPos + divMWidth + scaledHMargin
+	var argX = leftPos + divMWidth + scaledHMargin;
 	var deckTop = upperPos + divMHeight + scaledVMargin;
 
 	// Canvas sizes
-	deckCards = getTeamDeck(sessionStorage.studentId);
-	argumentCards = getArgumentCards(sessionStorage.studentId);
+	deckCards = getTeamDeck(sessionStorage.studentId, false); // Defined in DataFetcher
+	argumentCards = getArgumentCards(sessionStorage.studentId); // Defined in DataFetcher
 
 	canvasM.width = divMWidth;
 	canvasM.height = divMHeight;
-	canvasD.width = Math.max(rightPos - argX, deckCards.length * cardWidth + (deckCards.length + 1) * cardMargin);
+	canvasD.width = Math.max(rightPos - leftPos, deckCards.length * cardWidth + (deckCards.length + 1) * cardMargin);
 	canvasD.height = canvasHeight - scaledVMargin - deckTop;
 	canvasA.width = rightPos - argX;
 	canvasA.height =  Math.max(divMHeight, argumentCards.length * cardWidth + (argumentCards.length + 1) * cardMargin); // Use cardWidth because argument cards are rotated

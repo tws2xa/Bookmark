@@ -35,6 +35,7 @@ for(var i=0; i<10; i++){
 	dfArgumentCards.push(card);
 }
 
+/*
 //Teams
 var dfTeams = [];
 for(var i=0; i<4; i++){
@@ -47,6 +48,7 @@ var dfTeamIds = [];
 for(team in getTeams()){
 	dfTeamIds.push(team.id);
 }
+*/
 
 //Students
 var dfStudents = [];
@@ -75,7 +77,12 @@ var DATABASE_TEST = "database-test";
 var SUBMIT_CHAIN = "submit-chain";
 var GET_STUDENT_DECK = "get-student-deck";
 var STUDENT_ADD_CARD = "student-add-card";
+<<<<<<< HEAD
 var STUDENT_GET_TEAM = "student-get-team";
+=======
+var GET_TEAM_DECK = "get-team-deck";
+
+>>>>>>> origin/master
 
 /**
  * Requesting Information From the Server
@@ -143,6 +150,7 @@ function getArgumentCards(dfStudentId){
 	return dfArgumentCards;
 }
 
+<<<<<<< HEAD
 function getTeams(dfStudentId){
 	return dfTeams;
 }
@@ -159,6 +167,44 @@ function getTeamDeck(dfStudentId){
 	console.log("Getting deck for team with student: " + dfStudentId);
 	var index = getTeamIds().indexOf(dfStudentId);
 	return getTeams()[0].deck;
+=======
+function getTeamDeck(dfStudentId, includeArgumentCards){
+    var sendData = "id=" + dfStudentId;
+    var targetUrl = BASE_URL + GET_TEAM_DECK;
+
+    var retData = [];
+
+    $.ajax({
+        type: 'POST',
+        url: targetUrl,
+        data: sendData,
+        async:false
+    }).done(function (data) {
+        console.log("Received Team Deck: \"" + data + "\"");
+
+        // Read deck in from XML
+        var newDeck = [];
+        var teamDeckData = $(data).find("team_deck");
+        $(teamDeckData).find("deck").each(function (deckIndex, studentDeckData)
+        {
+            $(studentDeckData).find("card").each(function (index, element)
+            {
+                var card = createCardFromXMLCardElement(element);
+                // Don't include argument cards
+				if(includeArgumentCards || card.type != "Argument") {
+                    newDeck.push(card);
+				}
+            });
+        });
+        retData = newDeck;
+
+    }).fail(function (data){
+        console.log("Failure Obtaining Team Deck: " + data.status);
+        retData = [];
+    });
+
+    return retData;
+>>>>>>> origin/master
 }
 
 function getStudentDeck(dfStudentId){
