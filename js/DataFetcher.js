@@ -81,6 +81,7 @@ var STUDENT_ADD_CARD = "student-add-card";
 var STUDENT_GET_TEAM = "student-get-team";
 =======
 var GET_TEAM_DECK = "get-team-deck";
+var GET_CLASS_ARGUMENT_CARD_DECK = "get-class-argument-card-deck";
 
 >>>>>>> origin/master
 
@@ -146,8 +147,33 @@ function getBoard(dfStudentId){
 }
 
 function getArgumentCards(dfStudentId){
-	console.log("Getting argument cards for class with student: " + dfStudentId)
-	return dfArgumentCards;
+    var sendData = "id=" + dfStudentId;
+    var targetUrl = BASE_URL + GET_CLASS_ARGUMENT_CARD_DECK;
+
+    var retData = [];
+    $.ajax({
+        type: 'POST',
+        url: targetUrl,
+        data: sendData,
+        async:false
+    }).done(function (data) {
+        console.log("Successfully Obtained Class Argument Deck: \"" + data + "\"");
+
+        // Read deck in from XML
+        var newDeck = [];
+        var deckData = $(data).find("deck");
+        $(deckData).find("card").each(function(index, element) {
+            var card = createCardFromXMLCardElement(element);
+            newDeck.push(card);
+        });
+        retData = newDeck;
+
+    }).fail(function (data){
+        console.log("Failure Obtaining Class Argument Deck: " + data.status);
+        retData = [];
+    });
+
+    return retData;
 }
 
 <<<<<<< HEAD
@@ -211,14 +237,14 @@ function getStudentDeck(dfStudentId){
 	var sendData = "id=" + dfStudentId + "&classId=-1"; // CLASS ID = -1 SHOULD BE TEMPORARY AND ASSUMES ONE CLASS PER STUDENT!!!!
 	var targetUrl = BASE_URL + GET_STUDENT_DECK;
 
-	var retData;
+	var retData = [];
 	$.ajax({
 	  type: 'POST',
 	  url: targetUrl,
 	  data: sendData,
 	  async:false
 	}).done(function (data) {
-		console.log("Received Deck: \"" + data + "\"");
+		console.log("Received Student Deck: \"" + data + "\"");
 
 		// Read deck in from XML
 		var newDeck = [];
