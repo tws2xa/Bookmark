@@ -86,12 +86,18 @@ MainDisplay.prototype.drawMove = function(context) {
 
 }
 MainDisplay.prototype.drawMakeChain = function(context) {
+
+	//get board card and push its drawer to cards[]
+
+
+
 	this.drawLinks(context);
 
 	for(var cardNum = 0; cardNum < this.cards.length; cardNum++) {
 		this.cards[cardNum].draw(context);
 	}
 }
+
 MainDisplay.prototype.drawBeingChallenged = function(context) {
 
 }

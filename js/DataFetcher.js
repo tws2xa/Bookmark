@@ -58,6 +58,7 @@ for(var i=0; i<15; i++){
 }
 
 /* --------------------- Above generates data for testing purposes --------------------- */
+var maxMoveNum = 2;
 
 var BASE_URL = "http://localhost:8080/Bookmark/bookmark/";
 // var BASE_URL = "http://gdrg.cs.virginia.edu:8080/Bookmark/bookmark/";
@@ -74,7 +75,7 @@ var DATABASE_TEST = "database-test";
 var SUBMIT_CHAIN = "submit-chain";
 var GET_STUDENT_DECK = "get-student-deck";
 var STUDENT_ADD_CARD = "student-add-card";
-
+var STUDENT_GET_TEAM = "student-get-team";
 
 /**
  * Requesting Information From the Server
@@ -146,7 +147,7 @@ function getTeams(dfStudentId){
 	return dfTeams;
 }
 
-function getTeamIds(dfStudentId){
+function getTeamIds(dfStudentId) {
 	var teamId = [];
 	for(var i=0; i<10; i++){
 		teamId.push(getTeams()[i]);
@@ -272,22 +273,81 @@ function checkLogin(dfUsername, dfPassword) {
 
 // Returns all valid positions that the team with the given student
 // can move to. [ [x,y], [x,y], [x,y], ...]
-function getValidMovePositions(dfStudentId, dfRollNum) {
-	return [
-	[0,0],
-	[0, 1],
-	[1, 0],
-	[1, 1]
-	];
-}
+/*function getValidMovePositions(dfStudentId, dfRollNum) {
+
+	var movePos = [];
+	var team = getTeamFromStudentId(dfStudentId);
+
+	var found = false;
+	var teamList = [];
+	var boardData = getBoardStateInfo(boardId);
+	var pos  =[];
+	var posY = 0;
+	var posX = 0;
+
+	teamList = getPositionsFromXMLElement(boardData);
+
+	for(var t : teamList) {
+		if(t === team) {
+			pos = t[1];
+			found = true;
+		}
+	}
+	
+	if (found === true) {
+		posX = pos[0];
+		posY = pos[1];
+	}
+
+	for(var i )
+	
+
+}*/
 
 // Get the name of the team whose turn it is
 function getCurrentTurnTeamName(dfStudentId) {
 	return "Gandalf";
 }
 
+function getTeamFromStudentId (dfStudentId) {
+
+	var sendData = "id=" + dfStudentId;
+	var targetUrl = BASE_URL + STUDENT_GET_TEAM;
+
+	var retData;
+	$.ajax({
+	  type: 'POST',
+	  url: targetUrl,
+	  data: sendData,
+	  async:false
+	}).done(function (data) {
+		console.log("Obtained Team Id: \"" + data + "\"");
+		retData = data;
+	}).fail(function (data){
+		console.log("Failure Obtaining Team Id: " + data.status);
+		retData = "Person #" + dfStudentId;
+	});
+
+	return retData;
+}
 
 
+function getPositionsFromXMLElement(boardData) {
+
+	var teamIdAndPos = [];
+
+	$(boardData).find("team").each(function(index, element) {
+		var teamId = $(element).find("<team_id>");
+		var posData = $(element).find("position");
+		var xPos = $(posData).find("x").text();
+		var yPos = $(posData).find("y").text();
+		var toAdd = [teamId, [xPos, yPos]];
+		teamIdAndPos.push(toAdd);
+	});
+
+	return teamIdAndPos;
+
+}
 
 /**
  * Sending Updates to the Server
@@ -330,6 +390,7 @@ function moveTeamToPosition(dfStudentId, dfMovePos) {
 
 	console.log("Student #" + dfStudentId + " moving to position (" + dfMoveX + ", " + dfMoveY + ")");
 }
+
 
 function createSession(dfTeacherId) {
 	var sendData = "teacher_id=" + dfTeacherId + "&class_id=-1";

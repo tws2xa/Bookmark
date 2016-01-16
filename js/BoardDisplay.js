@@ -99,3 +99,30 @@ BoardDisplay.prototype.draw = function(context){
 	    this.tokens[t].draw(context);
     }
 }
+
+
+
+function getPositionsFromXMLElement(boardData) {
+
+	var teamIdAndPos = [];
+
+	$(boardData).find("team").each(function(index, element) {
+		var teamId = $(element).find("<team_id>");
+		var posData = $(element).find("position");
+		var xPos = $(posData).find("x").text();
+		var yPos = $(posData).find("y").text();
+		var toAdd = [teamId, [xPos, yPos]];
+		teamIdAndPos.push(toAdd);
+	});
+
+	return teamIdAndPos;
+
+	}
+	
+function getCurrentTeamFromXMLElement(boardData) {
+
+	var currentTurnId = $(boardData).find("turn_id").text();
+
+	return currentTurnId;
+	
+	}
