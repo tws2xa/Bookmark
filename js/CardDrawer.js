@@ -1,5 +1,4 @@
 function CardDrawer(card, xPos, yPos, width, height) {
-
 	this.card = card;
 
 	this.basePosition = new Rectangle(xPos, yPos, width, height);

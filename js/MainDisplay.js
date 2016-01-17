@@ -246,30 +246,51 @@ MainDisplay.prototype.generateChain = function() {
 //----------------------Helper Functions-----------------------
 //-------------------------------------------------------------
 
-MainDisplay.prototype.addCard = function(card) {
-	
-
+MainDisplay.prototype.addCard = function(cardDrawer) {
 	if(this.currentState != this.makeChain && this.currentState != this.challenge) {
 		return;
 	}
-	console.log(card.getType());
-	var cardType = card.getType();
+	console.log(cardDrawer.getType());
+	var cardType = cardDrawer.getType();
 
 
 	if(this.argumentCardOnBoard === false && !(cardType === "Argument")) {
 		alert("Please add an argument card first!");
 	}
-	else if(this.argumentCardOnBoard === true && (card.getType() === "Argument")) {
+	else if(this.argumentCardOnBoard === true && (cardDrawer.getType() === "Argument")) {
 		alert("Only one Argument card allowed on the board at a time!");
 	}
 	else {
 		if (cardType === "Argument") {
 			this.argumentCardOnBoard = true;
+			var argChain = getArgumentCardChain(cardDrawer.getCardUniqueId()); // Defined in DataFetcher.
+            if(argChain != null) {
+                this.loadChainOntoCanvas(argChain);
+                return; // Argument card will be added with chain. Do not need to push and scale again.
+            }
 		}
-		card.scale = this.defaultCardScale;
-		this.cards.push(card);
+        cardDrawer.scale = this.defaultCardScale;
+		this.cards.push(cardDrawer);
 	}
-}
+};
+
+MainDisplay.prototype.loadChainOntoCanvas = function(chain) {
+    // Load in the cards
+    for(var cardNum=0; cardNum<chain.cardsAndPos.length; cardNum++) {
+        var card = chain.cardsAndPos[cardNum][0];
+        var pos = chain.cardsAndPos[cardNum][1]; // [x, y]
+        var cardDrawer = new CardDrawer(card, pos[0], pos[1], cardWidth, cardHeight);
+        cardDrawer .scale = this.defaultCardScale;
+        cardDrawer.moveTo(pos[0], pos[1]); // Works around graphical bug.
+        this.cards.push(cardDrawer);
+    }
+
+    // Create links
+    for(var linkNum=0; linkNum<chain.links.length; linkNum++) {
+        var link = chain.links[linkNum];
+        this.addCardLinkFromIDs(link[0], link[1]);
+    }
+};
 
 MainDisplay.prototype.selectCard = function(cardIndex, pointerPos) {
 	if(this.selectedCard != null) {
@@ -286,7 +307,7 @@ MainDisplay.prototype.selectCard = function(cardIndex, pointerPos) {
 	this.selectedCardPointerOffset = [card.getScaledXPos() - pointerPos[0], card.getScaledYPos() - pointerPos[1]];
 	card.shadowSize += this.selectedShadowAddition;
 	card.scale += this.selectedScaleAddition;
-}
+};
 
 MainDisplay.prototype.clearSelectedCard = function() {
 	if(this.selectedCard != null) {
@@ -295,7 +316,7 @@ MainDisplay.prototype.clearSelectedCard = function() {
 		this.selectedCard = null;
 		this.selectedCardPointerOffset = [0, 0];
 	}
-}
+};
 
 MainDisplay.prototype.adjustScale = function(amt, fixPosition) {
 	// Check bounds
@@ -315,18 +336,22 @@ MainDisplay.prototype.adjustScale = function(amt, fixPosition) {
 	}
 }
 
-MainDisplay.prototype.addCardLink = function(start, end){
-	// Check it isn't a duplicate link
-	for(var linkNum = 0; linkNum < this.cardLinks.length; linkNum++) {
-		var cardLink = this.cardLinks[linkNum];
-		if( (cardLink[0] == start.getCardUniqueId() && cardLink[1] == end.getCardUniqueId())
-			|| (cardLink[0] == end.getCardUniqueId() && cardLink[1] == start.getCardUniqueId()) ) {
-			console.log("Link already exists.");
-			return;
-		}
-	}
+MainDisplay.prototype.addCardLinkFromIDs = function(startId, endId) {
+    // Check it isn't a duplicate link
+    for(var linkNum = 0; linkNum < this.cardLinks.length; linkNum++) {
+        var cardLink = this.cardLinks[linkNum];
+        if( (cardLink[0] == startId && cardLink[1] == endId)
+            || (cardLink[0] == endId && cardLink[1] == startId) ) {
+            console.log("Link already exists.");
+            return;
+        }
+    }
 
-	this.cardLinks.push([start.getCardUniqueId(), end.getCardUniqueId()]);
+    this.cardLinks.push([startId, endId]);
+}
+
+MainDisplay.prototype.addCardLink = function(start, end){
+	this.addCardLinkFromIDs(start.getCardUniqueId(), end.getCardUniqueId());
 }
 
 MainDisplay.prototype.drawLink = function(center1, center2, context) {

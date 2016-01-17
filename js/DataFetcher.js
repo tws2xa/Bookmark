@@ -80,6 +80,7 @@ var STUDENT_ADD_CARD = "student-add-card";
 var STUDENT_GET_TEAM = "student-get-team";
 var GET_TEAM_DECK = "get-team-deck";
 var GET_CLASS_ARGUMENT_CARD_DECK = "get-class-argument-card-deck";
+var GET_CHAIN_FOR_ARGUMENT = "get-chain-for-argument";
 
 /**
  * Requesting Information From the Server
@@ -114,6 +115,39 @@ function getNeedBoardUpdate(dfId) {
 	return retData;
 }
 
+/**
+ * Gets the chain associated with
+ * the given argument card id.
+ */
+function getArgumentCardChain(dfCardId) {
+	var sendData = "argument_card_id=" + dfCardId;
+	var targetUrl = BASE_URL + GET_CHAIN_FOR_ARGUMENT;
+
+	var retData = null;
+	$.ajax({
+		type: 'POST',
+		url: targetUrl,
+		data: sendData,
+		async:false
+	}).done(function (data) {
+        console.log("Received Data: \"" + data + "\"");
+        if(typeof(data) == "string" && data.trim() == "null") {
+            // No associated chain
+            retData = null;
+        }
+        else {
+            // Get the chain from xml
+            retData = createChainFromXML(data);
+        }
+	}).fail(function (data){
+		console.log("Failure Determining if Need Board Update: " + data.status);
+		retData = false;
+	});
+
+    console.log("Ret Data: " + retData);
+	return retData;
+}
+
 function getPlayStateInfo(dfStudentId) {
 	console.log("state info, " + dfStudentId);
 }
@@ -129,7 +163,7 @@ function getBoardStateInfo(dfId) {
 	  data: sendData,
 	  async:false
 	}).done(function (data) {
-		console.log("Obtaned Board State: " + data);
+		console.log("Obtained Board State: " + data);
 		retData = data;
 	}).fail(function (data){
 		console.log("Failure Obtaining Board State: " + data.status);
