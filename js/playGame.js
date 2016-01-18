@@ -6,7 +6,11 @@ $(document).ready(function() {
 	else {
 		console.log("ID: " + sessionStorage.studentId);
 		setCanvasSize();
-		init();
+		var success = init();
+        if(!success) {
+            alert("Waiting for teacher to begin session. Please return once the session has started");
+            window.location.href = "./homepage.html";
+        }
 	}
 });
 
@@ -132,17 +136,66 @@ function setDivRect(div, canvas, x, y, width, height) {
 
 function updatePlayPage(){
 	if (getNeedPlayUpdate(sessionStorage.studentId)) {
-		getPlayStateInfo(sessionStorage.studentId);
-		//var newState = (mainDisplay.currentState + 1) % 5;
-		//mainDisplay.setState(newState);
+        // Board state contains everything we need to know for play state.
+		var stateXML = getBoardStateInfo(sessionStorage.studentId); // Defined in Data Fetcher
+        handleStateXML(stateXML);
 	}
+}
+
+function handleStateXML(stateXML) {
+    var mode = getModeInt(stateXML);
+    var sameState = (mode == mainDisplay.currentState);
+
+    if($(stateXML).find("mode").text().trim().toLowerCase() != "Paused") {
+        mainDisplay.setState(mode);
+        var currentTeamName = $(stateXML).find("turn_team_name").text();
+        mainDisplay.currentTurnTeamName = currentTeamName;
+    }
+}
+
+function getModeInt(stateXML) {
+    /*
+     States:
+     doNothing = 0;
+     challenge = 1;
+     move = 2;
+     makeChain = 3;
+     beingChallenged = 4;
+     turnSelect = 5;
+     */
+
+    var modeText = $(stateXML).find("mode").text().trim().toLowerCase();
+    if(modeText == "paused") {
+        return mainDisplay.currentState; // No Change.
+    } else if (modeText == "playerturn") {
+        var yourTurn = $(stateXML).find("your_turn").text().trim().toLowerCase();
+
+        console.log("Your Turn: \"" + yourTurn + "\"");
+        if(yourTurn == "true") {
+            return 5; // Turn Selection
+        } else {
+            return 0; // Do nothing (wait for other team to make a chain).
+        }
+    } else if (modeText == "challenge") {
+        var yourTurn = $(stateXML).find("your_turn").text().trim().toLowerCase();
+
+        if(yourTurn == "true") {
+            return 4; // Being Challenged
+        } else {
+            return 1; // Challenge
+        }
+    }
+
+    this.challenge = 1;
+    this.beingChallenged = 4;
+
 }
 
 function init() {
 	
 	if(typeof game_loop != "undefined") clearInterval(game_loop);
 	game_loop = setInterval(paint, 60);
-	
+
 	// Main Display View
 	mainDisplay = new MainDisplay(0, 0, canvasM.width, canvasM.height);
 
@@ -200,8 +253,15 @@ function init() {
 		return false;
 	}
 
-	startTimer();
+    var sessionInfo = joinSession(sessionStorage.studentId);
+    if(sessionInfo == null) {
+        return false; // Unable to play - no session.
+    } else {
+        handleStateXML(sessionInfo);
+    }
 
+	startTimer();
+    return true;
 }
 
 function paint() {

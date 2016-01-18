@@ -138,6 +138,10 @@ function noSessionButtonClicked() {
 }
 
 function handleBoardStateXML(stateXML) {
+	var mode = $(stateXML).find("mode");
+	if(mode == "Paused") {
+		return; // Do nothing.
+	}
 	var turnId = $(stateXML).find("turn_id").text();
 	teamsDisplay.clearTeams();
 	$(stateXML).find("team").each(function() {

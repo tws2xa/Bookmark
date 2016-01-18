@@ -35,7 +35,9 @@ function MainDisplay(x, y, width, height) {
 	this.turnSelect = 5;
 	this.argumentCardOnBoard = false;
 
-	this.setState(this.turnSelect);
+	this.currentTurnTeamName = "";
+
+	this.setState(this.doNothing);
 }
 
 
@@ -74,10 +76,8 @@ MainDisplay.prototype.drawDoNothing = function(context) {
 	context.textBaseline="top";
 	context.font = ("normal 18px segoe ui semibold");
 	context.fillStyle = getCardTextColor(); // Defined in color scheme
-	
-	var currentTurnTeamName = getCurrentTurnTeamName(sessionStorage.studentId);
 
-	context.fillText("It's " + currentTurnTeamName + "'s Turn!", 15, 15);
+	context.fillText("It's " + this.currentTurnTeamName + "'s Turn!", 15, 15);
 }
 MainDisplay.prototype.drawChallenge = function(context) {
 	this.drawMakeChain(context);

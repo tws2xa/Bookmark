@@ -399,11 +399,6 @@ function checkLogin(dfUsername, dfPassword) {
 
 }*/
 
-// Get the name of the team whose turn it is
-function getCurrentTurnTeamName(dfStudentId) {
-	return "Gandalf";
-}
-
 function getTeamFromStudentId (dfStudentId) {
 
 	var sendData = "id=" + dfStudentId;
@@ -520,7 +515,7 @@ function joinSession(dfStudentId) {
 		retData = data;
 	}).fail(function (data){
 		console.log("Failure Joining Session: " + data.status);
-		retData = data;
+		retData = null;
 	});
 	return retData;
 }
