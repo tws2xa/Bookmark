@@ -416,7 +416,7 @@ MainDisplay.prototype.setState = function(newStateNum) {
 	} else if(newStateNum == this.makingChallengeChain) {
         $("#genericSubmitButton").show();
         $("#challengeButton").hide();
-        $("#passButton").show();
+        $("#passButton").hide();
         $("#moveTable").hide();
         $("#turnSelectTable").hide();
     } else {

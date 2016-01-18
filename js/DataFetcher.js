@@ -81,6 +81,7 @@ var STUDENT_GET_TEAM = "student-get-team";
 var GET_TEAM_DECK = "get-team-deck";
 var GET_CLASS_ARGUMENT_CARD_DECK = "get-class-argument-card-deck";
 var GET_CHAIN_FOR_ARGUMENT = "get-chain-for-argument";
+var PASS_ON_CHALLENGE = "pass-on-challenge";
 
 /**
  * Requesting Information From the Server
@@ -146,6 +147,27 @@ function getArgumentCardChain(dfCardId) {
 
     console.log("Ret Data: " + retData);
 	return retData;
+}
+
+function informServerPassOnChallenge(dfId) {
+	var sendData = "id=" + dfId;
+	var targetUrl = BASE_URL + PASS_ON_CHALLENGE;
+
+	var success = false;
+	$.ajax({
+		type: 'POST',
+		url: targetUrl,
+		data: sendData,
+		async:false
+	}).done(function (data) {
+		console.log("Passed on Challenge: " + data);
+		success = true;
+	}).fail(function (data){
+		console.log("Failure Passing on Challenge: " + data.status);
+		success = false;
+	});
+
+	return success;
 }
 
 function getBoardStateInfo(dfId) {

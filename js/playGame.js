@@ -408,9 +408,10 @@ function onGenericSubmit() {
 	//if contains an argument card, good
 	//if the token is on an argument card, good
 	//else issue warning and do not submit
-	//check for previos chains on argument
+	//check for previous chains on argument
 
 	var chain = mainDisplay.generateChain();
+	mainDisplay.setState(mainDisplay.waitingOnChallenge);
 	submitChainToServer(sessionStorage.studentId, chain);
 	document.getElementById("canvasM").focus();
 	console.log("Chain creation attempted.");
@@ -418,6 +419,7 @@ function onGenericSubmit() {
 
 function onPassSubmit() {
 	mainDisplay.setState(mainDisplay.waitingOnChallenge);
+	informServerPassOnChallenge(sessionStorage.studentId); // Tell server about pass.
 }
 
 function beginChallengeCreation() {
