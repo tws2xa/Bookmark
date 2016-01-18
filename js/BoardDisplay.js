@@ -24,6 +24,7 @@ function BoardDisplay(x, y, width, height, teams){
 	this.displayBoard = 0;
 	this.displayChains = 1;
 	this.noSession = 2;
+	
 
 	this.setState(this.noSession);
 }
@@ -51,6 +52,7 @@ BoardDisplay.prototype.setState =function(newStateNum) {
 
 		$("#noSessionButton").show();
 	} 
+
 	else {
 		console.log("Error - Unrecognized state: " + newStateNum);
 		valid = false;
@@ -118,6 +120,17 @@ function getPositionsFromXMLElement(boardData) {
 	return teamIdAndPos;
 
 	}
+
+function test() {
+	var table = document.getElementById("#moveTable");
+	
+	for(var i=0;i<as.rows.length;i++) {
+
+    	var trs = as.getElementsByTagName("tr")[i];
+    	var cellVal=trs.cells[0]
+	
+	}
+}
 	
 function getCurrentTeamFromXMLElement(boardData) {
 
