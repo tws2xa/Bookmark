@@ -143,17 +143,31 @@ function updatePlayPage(){
 }
 
 function handleStateXML(stateXML) {
-    var mode = getModeInt(stateXML);
-    var sameState = (mode == mainDisplay.currentState);
+    var newState = getStateInt(stateXML);
 
     if($(stateXML).find("mode").text().trim().toLowerCase() != "Paused") {
-        mainDisplay.setState(mode);
+        if(newState != mainDisplay.currentState) {
+            mainDisplay.setState(newState);
+        }
         var currentTeamName = $(stateXML).find("turn_team_name").text();
         mainDisplay.currentTurnTeamName = currentTeamName;
     }
+
+    // Challenge State - Load the Opponent's Chain into Main Display
+    if(mainDisplay.currentState == 1) {
+        var activeTeamTurn = $(stateXML).find("turn_id");
+        var allChainsXML = $(stateXML).find("challenge_chains");
+        $(allChainsXML).find("chain_info").each(function(index, chainInfoXML) {
+            var challengeTeamId = $(chainInfoXML).find("team_id").text().trim();
+            if(challengeTeamId == activeTeamTurn) {
+                var chain = createChainFromXML(chainInfoXML);
+                mainDisplay.loadChainOntoCanvas(chain);
+            }
+        });
+    }
 }
 
-function getModeInt(stateXML) {
+function getStateInt(stateXML) {
     /*
      States:
      doNothing = 0;
@@ -172,7 +186,12 @@ function getModeInt(stateXML) {
 
         console.log("Your Turn: \"" + yourTurn + "\"");
         if(yourTurn == "true") {
-            return 5; // Turn Selection
+            if(mainDisplay.currentState == 2 || mainDisplay.currentState == 3) {
+                // Already selected turn.
+                return mainDisplay.currentState;
+            } else {
+                return 5; // Turn Selection
+            }
         } else {
             return 0; // Do nothing (wait for other team to make a chain).
         }
