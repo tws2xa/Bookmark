@@ -31,7 +31,7 @@ function MainDisplay(x, y, width, height) {
 	this.challenge = 1;
 	this.move = 2;
 	this.makeChain = 3;
-	this.beingChallenged = 4;
+	this.waitingOnChallenge = 4;
 	this.turnSelect = 5;
     this.makingChallengeChain = 6;
 
@@ -67,26 +67,30 @@ MainDisplay.prototype.draw = function(context){
 		this.drawMakeChain(context);
 		}
 
-	if(this.currentState == this.beingChallenged) {
+	if(this.currentState == this.waitingOnChallenge) {
 		this.drawBeingChallenged(context);
 	}
 	
 
-}
+};
+
 MainDisplay.prototype.drawDoNothing = function(context) {
 	context.textAlign = "start";
 	context.textBaseline="top";
 	context.font = ("normal 18px segoe ui semibold");
 	context.fillStyle = getCardTextColor(); // Defined in color scheme
 
-	context.fillText("It's " + this.currentTurnTeamName + "'s Turn!", 15, 15);
-}
+	context.fillText("It's Team " + this.currentTurnTeamName + "'s Turn!", 15, 15);
+};
+
 MainDisplay.prototype.drawChallenge = function(context) {
 	this.drawMakeChain(context);
-}
+};
+
 MainDisplay.prototype.drawMove = function(context) {
 
-}
+};
+
 MainDisplay.prototype.drawMakeChain = function(context) {
 
 	//get board card and push its drawer to cards[]
@@ -98,11 +102,11 @@ MainDisplay.prototype.drawMakeChain = function(context) {
 	for(var cardNum = 0; cardNum < this.cards.length; cardNum++) {
 		this.cards[cardNum].draw(context);
 	}
-}
+};
 
 MainDisplay.prototype.drawBeingChallenged = function(context) {
 
-}
+};
 
 MainDisplay.prototype.drawLinks = function(context) {
 	for(var linkNum = 0; linkNum < this.cardLinks.length; linkNum++) {
@@ -130,7 +134,7 @@ MainDisplay.prototype.drawLinks = function(context) {
 		context.fillRect(this.dragMousePos[0] - this.linkSize, this.dragMousePos[1] - this.linkSize,
 			this.linkSize * 2, this.linkSize * 2);
 	}
-}
+};
 
 
 //-------------------------------------------------------------
@@ -139,7 +143,7 @@ MainDisplay.prototype.drawLinks = function(context) {
 
 MainDisplay.prototype.mouseClick=function(e, canvasRect){
 	e.preventDefault();
-}
+};
 
 MainDisplay.prototype.onMouseDown = function(e, canvasRect) {
 	e.preventDefault();
@@ -165,7 +169,7 @@ MainDisplay.prototype.onMouseDown = function(e, canvasRect) {
 			}
 		}
 	}	
-}
+};
 
 MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
 	e.preventDefault();
@@ -202,7 +206,7 @@ MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
 
 		this.newLinkStartCard = null;	
 	}
-}
+};
 
 MainDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 	e.preventDefault();
@@ -221,12 +225,12 @@ MainDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 
 		this.selectedCard.moveTo(newCardX, newCardY, this.position);
 	}
-}
+};
 
 MainDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 	var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
 	this.adjustScale(delta * this.scaleChangeAmt, false);
-}
+};
 
 
 
@@ -244,7 +248,7 @@ MainDisplay.prototype.generateChain = function() {
 		var chain = new Chain(input, this.cardLinks);
 		return chain;
 	//}
-}
+};
 
 //-------------------------------------------------------------
 //----------------------Helper Functions-----------------------
@@ -397,7 +401,7 @@ MainDisplay.prototype.setState = function(newStateNum) {
 		$("#passButton").hide();	
 		$("#moveTable").hide();
 		$("#turnSelectTable").hide();
-	} else if(newStateNum == this.beingChallenged) {
+	} else if(newStateNum == this.waitingOnChallenge) {
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").hide();
 		$("#passButton").hide();	

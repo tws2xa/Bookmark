@@ -86,14 +86,14 @@ var GET_CHAIN_FOR_ARGUMENT = "get-chain-for-argument";
  * Requesting Information From the Server
  */
 function getNeedPlayUpdate(dfStudentId) {
-	return true;
+	return getNeedBoardUpdate(dfStudentId);
 }
 
 function getNeedBoardUpdate(dfId) {
 	var sendData = "id=" + dfId;
 	var targetUrl = BASE_URL + CHECK_BOARD_UPDATE;
 
-	var retData;
+	var retData = false;
 	$.ajax({
 	  type: 'POST',
 	  url: targetUrl,
@@ -101,14 +101,14 @@ function getNeedBoardUpdate(dfId) {
 	  async:false
 	}).done(function (data) {
 		data = data.trim();
-		console.log("Determined If Need Board Update: \"" + data + "\"");
+		console.log("Determined If " + dfId + " Needs Update: \"" + data + "\"");
 		if(data == "true") {
 			retData = true;
 		} else {
 			retData = false;
 		}
 	}).fail(function (data){
-		console.log("Failure Determining if Need Board Update: " + data.status);
+		console.log("Failure Determining If " + dfId + " Needs Update: " + data.status);
 		retData = false;
 	});
 
@@ -146,10 +146,6 @@ function getArgumentCardChain(dfCardId) {
 
     console.log("Ret Data: " + retData);
 	return retData;
-}
-
-function getPlayStateInfo(dfStudentId) {
-	console.log("state info, " + dfStudentId);
 }
 
 function getBoardStateInfo(dfId) {

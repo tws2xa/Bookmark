@@ -170,16 +170,15 @@ function handleStateXML(stateXML) {
 
 // Note: State and mode are used interchangeably here.
 function getStateInt(stateXML) {
-    /*
-     States:
-     doNothing = 0;
-     challenge = 1;
-     move = 2;
-     makeChain = 3;
-     beingChallenged = 4;
-     turnSelect = 5;
-	 makingChallengeChain = 6;
-     */
+    /* States *
+     doNothing
+     challenge
+     move
+     makeChain
+     waitingOnChallenge
+     turnSelect
+	 makingChallengeChain
+	*/
 
     var modeText = $(stateXML).find("mode").text().trim().toLowerCase();
     if(modeText == "paused") {
@@ -187,34 +186,35 @@ function getStateInt(stateXML) {
     } else if (modeText == "playerturn") {
         var yourTurn = $(stateXML).find("your_turn").text().trim().toLowerCase();
 
-        console.log("Your Turn: \"" + yourTurn + "\"");
         if(yourTurn == "true") {
             if(mainDisplay.currentState == 2 || mainDisplay.currentState == 3) {
                 // Already selected turn.
+				console.log("Player Turn - Your Turn - Made Decision");
                 return mainDisplay.currentState;
             } else {
-                return 5; // Turn Selection
+				console.log("Player Turn - Your Turn - Make Decision");
+                return mainDisplay.turnSelect; // Turn Selection
             }
         } else {
-            return 0; // Do nothing (wait for other team to make a chain).
+			console.log("Player Turn - Not Your Turn - Do Nothing.");
+            return mainDisplay.doNothing; // Do nothing (wait for other team to make a chain).
         }
     } else if (modeText == "challenge") {
         var yourTurn = $(stateXML).find("your_turn").text().trim().toLowerCase();
 
         if(yourTurn == "true") {
-            return 4; // Being Challenged
+			console.log("Challenge - Your Turn - Being Challenged");
+            return mainDisplay.waitingOnChallenge; // Being Challenged
         } else {
-			// Already made decision
-			if(mainDisplay.currentState == mainDisplay.doNothing || mainDisplay.currentState == mainDisplay.makingChallengeChain) {
+			if(mainDisplay.currentState == mainDisplay.waitingOnChallenge || mainDisplay.currentState == mainDisplay.makingChallengeChain) {
+				// Already made decision
+				console.log("Challenge - Not Your Turn - Decided to Challenge or Pass");
 				return mainDisplay.currentState;
 			}
-            return 1; // Challenge Decision (pass or challenge);
+			console.log("Challenge - Not Your Turn - Waiting for Decision");
+            return mainDisplay.challenge; // Challenge Decision (pass or challenge);
         }
     }
-
-    this.challenge = 1;
-    this.beingChallenged = 4;
-
 }
 
 function init() {
@@ -413,11 +413,11 @@ function onGenericSubmit() {
 	var chain = mainDisplay.generateChain();
 	submitChainToServer(sessionStorage.studentId, chain);
 	document.getElementById("canvasM").focus();
-	console.log("Chain creation attemped.");
+	console.log("Chain creation attempted.");
 }
 
 function onPassSubmit() {
-	mainDisplay.setState(mainDisplay.doNothing);
+	mainDisplay.setState(mainDisplay.waitingOnChallenge);
 }
 
 function beginChallengeCreation() {
