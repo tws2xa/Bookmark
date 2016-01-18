@@ -60,7 +60,7 @@ for(var i=0; i<15; i++){
 }
 
 /* --------------------- Above generates data for testing purposes --------------------- */
-var maxMoveNum = 2;
+
 
 var BASE_URL = "http://localhost:8080/Bookmark/bookmark/";
 // var BASE_URL = "http://gdrg.cs.virginia.edu:8080/Bookmark/bookmark/";
@@ -368,7 +368,7 @@ function checkLogin(dfUsername, dfPassword) {
 
 // Returns all valid positions that the team with the given student
 // can move to. [ [x,y], [x,y], [x,y], ...]
-/*function getValidMovePositions(dfStudentId, dfRollNum) {
+function getValidMovePositions(dfStudentId, dfRollNum) {
 
 	var movePos = [];
 	var team = getTeamFromStudentId(dfStudentId);
@@ -382,8 +382,9 @@ function checkLogin(dfUsername, dfPassword) {
 
 	teamList = getPositionsFromXMLElement(boardData);
 
-	for(var t : teamList) {
-		if(t === team) {
+	for(var i = 0; i < teamList.size; i++) {
+		var temp = teamList[i];
+		if(team === temp[0]) {
 			pos = t[1];
 			found = true;
 		}
@@ -394,10 +395,34 @@ function checkLogin(dfUsername, dfPassword) {
 		posY = pos[1];
 	}
 
-	for(var i )
-	
+	var x = 0;
+	var y =0;
+	var validMoves = [];
 
-}*/
+	for(var x = 0; x < dfRollNum; x++) {
+		for(var y =0; y < dfRollNum; y++) {
+			if ((x + y <= dfRollNum) &&  (x+posX < BOARD_WIDTH) && (y+posY < BOARD_HEIGHT)) {
+				validMoves.push([x + posX, y + posY]);
+				console.log(validMoves);
+			}
+
+		}
+	}
+
+	for(var x = 0; x < dfRollNum; x++) {
+		for(var y =0; y < dfRollNum; y++) {
+			if ((x + y <= dfRollNum) &&  (-x+posX > 0) && (-y+posY > 0)) {
+				validMoves.push([-x + posX, -y + posY]);
+				console.log(validMoves);
+			}
+
+		}
+	}
+
+	
+	return validMoves;
+
+}
 
 function getTeamFromStudentId (dfStudentId) {
 
