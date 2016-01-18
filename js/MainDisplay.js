@@ -33,6 +33,8 @@ function MainDisplay(x, y, width, height) {
 	this.makeChain = 3;
 	this.beingChallenged = 4;
 	this.turnSelect = 5;
+    this.makingChallengeChain = 6;
+
 	this.argumentCardOnBoard = false;
 
 	this.currentTurnTeamName = "";
@@ -142,7 +144,8 @@ MainDisplay.prototype.mouseClick=function(e, canvasRect){
 MainDisplay.prototype.onMouseDown = function(e, canvasRect) {
 	e.preventDefault();
 
-	if(this.currentState != this.makeChain && this.currentState != this.challenge) {
+	// Only allow card dragging when making a chain or a challenge
+    if(this.currentState != this.makeChain && this.currentState != this.makingChallengeChain) {
 		return;
 	}
 
@@ -167,7 +170,8 @@ MainDisplay.prototype.onMouseDown = function(e, canvasRect) {
 MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
 	e.preventDefault();
 
-	if(this.currentState != this.makeChain && this.currentState != this.challenge) {
+    // Only allow card selection when creating default
+	if(this.currentState != this.makeChain && this.currentState != this.makingChallengeChain) {
 		return;
 	}
 
@@ -203,7 +207,7 @@ MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
 MainDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 	e.preventDefault();
 	
-	if(this.currentState != this.makeChain && this.currentState != this.challenge) {
+	if(this.currentState != this.makeChain && this.currentState != this.makingChallengeChain) {
 		return;
 	}
 
@@ -405,7 +409,13 @@ MainDisplay.prototype.setState = function(newStateNum) {
 		$("#passButton").hide();	
 		$("#moveTable").hide();
 		$("#turnSelectTable").show();
-	}else {
+	} else if(newStateNum == this.makingChallengeChain) {
+        $("#genericSubmitButton").show();
+        $("#challengeButton").hide();
+        $("#passButton").show();
+        $("#moveTable").hide();
+        $("#turnSelectTable").hide();
+    } else {
 		console.log("Error - Unrecognized state: " + newStateNum);
 		valid = false;
 	}

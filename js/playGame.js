@@ -168,6 +168,7 @@ function handleStateXML(stateXML) {
     }
 }
 
+// Note: State and mode are used interchangeably here.
 function getStateInt(stateXML) {
     /*
      States:
@@ -177,6 +178,7 @@ function getStateInt(stateXML) {
      makeChain = 3;
      beingChallenged = 4;
      turnSelect = 5;
+	 makingChallengeChain = 6;
      */
 
     var modeText = $(stateXML).find("mode").text().trim().toLowerCase();
@@ -202,7 +204,11 @@ function getStateInt(stateXML) {
         if(yourTurn == "true") {
             return 4; // Being Challenged
         } else {
-            return 1; // Challenge
+			// Already made decision
+			if(mainDisplay.currentState == mainDisplay.doNothing || mainDisplay.currentState == mainDisplay.makingChallengeChain) {
+				return mainDisplay.currentState;
+			}
+            return 1; // Challenge Decision (pass or challenge);
         }
     }
 
@@ -411,11 +417,11 @@ function onGenericSubmit() {
 }
 
 function onPassSubmit() {
-	console.log("Pass Submit!");
+	mainDisplay.setState(mainDisplay.doNothing);
 }
 
-function onChallengeSubmit() {
-	console.log("Challenge Submit!");
+function beginChallengeCreation() {
+	mainDisplay.setState(mainDisplay.makingChallengeChain);
 }
 
 function moveBtnPress(btnNum) {
