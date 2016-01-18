@@ -155,11 +155,12 @@ function handleStateXML(stateXML) {
 
     // Challenge State - Load the Opponent's Chain into Main Display
     if(mainDisplay.currentState == 1) {
-        var activeTeamTurn = $(stateXML).find("turn_id");
+        var activeTeamTurnID = $(stateXML).find("turn_id").text().trim();
         var allChainsXML = $(stateXML).find("challenge_chains");
         $(allChainsXML).find("chain_info").each(function(index, chainInfoXML) {
             var challengeTeamId = $(chainInfoXML).find("team_id").text().trim();
-            if(challengeTeamId == activeTeamTurn) {
+            // console.log("Looking for team id " + activeTeamTurnID + " found " + challengeTeamId);
+            if(challengeTeamId == activeTeamTurnID) {
                 var chain = createChainFromXML(chainInfoXML);
                 mainDisplay.loadChainOntoCanvas(chain);
             }
