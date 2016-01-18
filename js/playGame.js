@@ -177,7 +177,6 @@ function getStateInt(stateXML) {
      makeChain
      waitingOnChallenge
      turnSelect
-	 makingChallengeChain
 	*/
 
     var modeText = $(stateXML).find("mode").text().trim().toLowerCase();
@@ -206,7 +205,7 @@ function getStateInt(stateXML) {
 			console.log("Challenge - Your Turn - Being Challenged");
             return mainDisplay.waitingOnChallenge; // Being Challenged
         } else {
-			if(mainDisplay.currentState == mainDisplay.waitingOnChallenge || mainDisplay.currentState == mainDisplay.makingChallengeChain) {
+			if(mainDisplay.currentState == mainDisplay.waitingOnChallenge || mainDisplay.currentState == mainDisplay.makeChain) {
 				// Already made decision
 				console.log("Challenge - Not Your Turn - Decided to Challenge or Pass");
 				return mainDisplay.currentState;
@@ -423,7 +422,8 @@ function onPassSubmit() {
 }
 
 function beginChallengeCreation() {
-	mainDisplay.setState(mainDisplay.makingChallengeChain);
+	mainDisplay.clearChain();
+	mainDisplay.setState(mainDisplay.makeChain);
 }
 
 function moveBtnPress(btnNum) {

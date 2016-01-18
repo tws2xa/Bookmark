@@ -33,7 +33,6 @@ function MainDisplay(x, y, width, height) {
 	this.makeChain = 3;
 	this.waitingOnChallenge = 4;
 	this.turnSelect = 5;
-    this.makingChallengeChain = 6;
 
 	this.argumentCardOnBoard = false;
 
@@ -84,6 +83,13 @@ MainDisplay.prototype.drawDoNothing = function(context) {
 };
 
 MainDisplay.prototype.drawChallenge = function(context) {
+    context.textAlign = "start";
+    context.textBaseline="top";
+    context.font = ("normal 14px segoe ui semibold");
+    context.fillStyle = getCardTextColor(); // Defined in color scheme
+
+    context.fillText("Team " + this.currentTurnTeamName + "'s Chain:", 15, 15);
+
 	this.drawMakeChain(context);
 };
 
@@ -105,7 +111,12 @@ MainDisplay.prototype.drawMakeChain = function(context) {
 };
 
 MainDisplay.prototype.drawBeingChallenged = function(context) {
+    context.textAlign = "start";
+    context.textBaseline="top";
+    context.font = ("normal 18px segoe ui semibold");
+    context.fillStyle = getCardTextColor(); // Defined in color scheme
 
+    context.fillText("Waiting for Challenge Results...", 15, 15);
 };
 
 MainDisplay.prototype.drawLinks = function(context) {
@@ -149,7 +160,7 @@ MainDisplay.prototype.onMouseDown = function(e, canvasRect) {
 	e.preventDefault();
 
 	// Only allow card dragging when making a chain or a challenge
-    if(this.currentState != this.makeChain && this.currentState != this.makingChallengeChain) {
+    if(this.currentState != this.makeChain) {
 		return;
 	}
 
@@ -175,7 +186,7 @@ MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
 	e.preventDefault();
 
     // Only allow card selection when creating default
-	if(this.currentState != this.makeChain && this.currentState != this.makingChallengeChain) {
+	if(this.currentState != this.makeChain) {
 		return;
 	}
 
@@ -211,7 +222,7 @@ MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
 MainDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 	e.preventDefault();
 	
-	if(this.currentState != this.makeChain && this.currentState != this.makingChallengeChain) {
+	if(this.currentState != this.makeChain) {
 		return;
 	}
 
@@ -342,7 +353,7 @@ MainDisplay.prototype.adjustScale = function(amt, fixPosition) {
 			this.cards[cardNum].moveTo(pos.x, pos.y, null);
 		}
 	}
-}
+};
 
 MainDisplay.prototype.addCardLinkFromIDs = function(startId, endId) {
     // Check it isn't a duplicate link
@@ -356,11 +367,11 @@ MainDisplay.prototype.addCardLinkFromIDs = function(startId, endId) {
     }
 
     this.cardLinks.push([startId, endId]);
-}
+};
 
 MainDisplay.prototype.addCardLink = function(start, end){
 	this.addCardLinkFromIDs(start.getCardUniqueId(), end.getCardUniqueId());
-}
+};
 
 MainDisplay.prototype.drawLink = function(center1, center2, context) {
 	
@@ -372,54 +383,60 @@ MainDisplay.prototype.drawLink = function(center1, center2, context) {
 	context.lineTo(center2[0], center2[1]);
 	context.lineWidth = this.linkSize;
 	context.stroke();
+};
+
+MainDisplay.prototype.clearChain = function() {
+    this.cardLinks.length = 0; // Clears the array
+    this.cards.length = 0; // Clears the array
 }
 
 
 MainDisplay.prototype.setState = function(newStateNum) {
 	var valid = true;
+    console.log("Setting New Mode: " + newStateNum);
 	if(newStateNum == this.doNothing) {
+        console.log("\tDo Nothing");
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").hide();
 		$("#passButton").hide();		
 		$("#moveTable").hide();
 		$("#turnSelectTable").hide();
 	} else if(newStateNum == this.challenge) {
+        console.log("\tChallenge");
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").show();
 		$("#passButton").show();	
 		$("#moveTable").hide();
 		$("#turnSelectTable").hide();
 	} else if(newStateNum == this.move) {
+        console.log("\tMove");
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").hide();
 		$("#passButton").hide();
 		$("#moveTable").show();	
 		$("#turnSelectTable").hide();
 	} else if(newStateNum == this.makeChain) {
+        console.log("\tMake Chain");
 		$("#genericSubmitButton").show();
 		$("#challengeButton").hide();
 		$("#passButton").hide();	
 		$("#moveTable").hide();
 		$("#turnSelectTable").hide();
 	} else if(newStateNum == this.waitingOnChallenge) {
+        console.log("\tWaiting on Challenge");
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").hide();
 		$("#passButton").hide();	
 		$("#moveTable").hide();
 		$("#turnSelectTable").hide();
 	} else if(newStateNum == this.turnSelect) {
+        console.log("\tTurn Select");
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").hide();
 		$("#passButton").hide();	
 		$("#moveTable").hide();
 		$("#turnSelectTable").show();
-	} else if(newStateNum == this.makingChallengeChain) {
-        $("#genericSubmitButton").show();
-        $("#challengeButton").hide();
-        $("#passButton").hide();
-        $("#moveTable").hide();
-        $("#turnSelectTable").hide();
-    } else {
+	} else {
 		console.log("Error - Unrecognized state: " + newStateNum);
 		valid = false;
 	}
