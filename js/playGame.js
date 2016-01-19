@@ -442,6 +442,7 @@ function onGenericSubmit() {
 	var chain = mainDisplay.generateChain();
 	mainDisplay.setState(mainDisplay.waitingOnChallenge);
 	submitChainToServer(sessionStorage.studentId, chain);
+	mainDisplay.clearChain();
 	document.getElementById("canvasM").focus();
 	console.log("Chain creation attempted.");
 }
@@ -449,6 +450,7 @@ function onGenericSubmit() {
 function onPassSubmit() {
 	mainDisplay.setState(mainDisplay.waitingOnChallenge);
 	informServerPassOnChallenge(sessionStorage.studentId); // Tell server about pass.
+	mainDisplay.clearChain();
 }
 
 function beginChallengeCreation() {
@@ -465,7 +467,7 @@ function selectMove() {
 }
 
 function selectMakeChain() {
-	mainDisplay.loadBoardCard();
+	mainDisplay.clearChain();
 	mainDisplay.setState(mainDisplay.makeChain);
-	
+	mainDisplay.loadBoardCard();
 }

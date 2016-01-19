@@ -86,8 +86,6 @@ function init() {
 		boardDisplayHeight,
 		isTeacherForBoard
 	);
-	boardDisplay.createBoard();	
-	boardDisplay.teamheight = boardDisplay.unitheight/boardDisplay.teams.length;
 
 	// Mouse Wheel
 	if (canvas.addEventListener) {
@@ -135,8 +133,6 @@ function noSessionButtonClicked() {
 		stateXML = joinSession(sessionStorage.studentId); // Defined in Data Fetcher
 	}
 
-
-
 	handleBoardStateXML(stateXML);
 	boardDisplay.setState(boardDisplay.displayBoard);
 }
@@ -152,6 +148,7 @@ function handleBoardStateXML(stateXML) {
 		}
 		var turnId = $(stateXML).find("turn_id").text();
 		teamsDisplay.clearTeams();
+		boardDisplay.clearTeamTokens();
 		$(stateXML).find("team").each(function () {
 			var id = $(this).find("team_id").text();
 			var name = $(this).find("team_name").text();
@@ -161,6 +158,11 @@ function handleBoardStateXML(stateXML) {
 			var team = new Team(id, name, deck, students);
 			team.score = score;
 			teamsDisplay.addTeam(team, id == turnId);
+
+			var posXML = $(this).find("team_position");
+			var xPos = parseInt($(posXML).find("x").text().trim());
+			var yPos = parseInt($(posXML).find("y").text().trim());
+			boardDisplay.addTeam(team, xPos, yPos);
 		});
 
 		handleBoardXML(stateXML);

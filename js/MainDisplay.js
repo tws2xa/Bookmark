@@ -417,6 +417,7 @@ MainDisplay.prototype.drawLink = function(center1, center2, context) {
 MainDisplay.prototype.clearChain = function() {
     this.cardLinks.length = 0; // Clears the array
     this.cards.length = 0; // Clears the array
+	this.argumentCardOnBoard = false;
 }
 
 

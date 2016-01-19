@@ -12,3 +12,7 @@ Rectangle.prototype.contains=function(checkx, checky){
 Rectangle.prototype.getCenter = function() {
 	return [this.left + this.width / 2, this.top + this.height / 2];
 }
+
+Rectangle.prototype.getString = function() {
+	return ("Position: (" + this.left + ", " + this.top + ") Width = " + this.width + " Height = " + this.height);
+}
