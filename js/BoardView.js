@@ -16,7 +16,6 @@ var canvasWidth = window.innerWidth;
 var canvasHeight = window.innerHeight * 0.935;
 var boardDisplay;
 var teamsDisplay;
-var boardChainDisplay;
 
 var cardWidth = 125;
 var cardHeight = 170;
@@ -47,6 +46,11 @@ function init() {
 	canvas.addEventListener("mousedown", onMouseDown);
 	canvas.addEventListener("mouseup", onMouseUp);
 
+	// Have to grab the buttons and style before they're hidden.
+	var nextBtn = document.getElementById("nextButton");
+	var prevBtn = document.getElementById("prevButton");
+	var btnStyle = window.getComputedStyle(nextBtn, null);
+
 	teamsDisplay = new TeamsDisplay(
 		leftPos+canvasWidth*.8,
 		0,
@@ -64,20 +68,9 @@ function init() {
 	boardDisplay.createBoard();	
 	boardDisplay.teamheight = boardDisplay.unitheight/boardDisplay.teams.length;
 
-	boardChainDisplay = new BoardChainDisplay(
-		leftPos,
-		upperPos,
-		canvasWidth*0.78,
-		canvasHeight*0.95
-	);
-
-	var nextBtn = document.getElementById("nextButton");
-	var prevBtn = document.getElementById("prevButton");
-
-	var btnStyle = window.getComputedStyle(nextBtn, null);
-	var nextBtnLeft = leftPos + boardChainDisplay.position.width - parseInt(btnStyle.width, 10) - scaledHMargin;
-	var btnTop = upperPos + boardChainDisplay.position.height - parseInt(btnStyle.height, 10) - scaledVMargin;
-
+	// Buttons and styles grabbed before they're hidden by boardDisplay.
+	var nextBtnLeft = leftPos + boardDisplay.position.width - parseInt(btnStyle.width, 10) - scaledHMargin;
+	var btnTop = upperPos + boardDisplay.position.height - parseInt(btnStyle.height, 10) - scaledVMargin;
 	nextBtn.style.top = btnTop + "px";
 	nextBtn.style.left = nextBtnLeft + "px";
 	prevBtn.style.top = btnTop + "px";

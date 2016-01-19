@@ -143,5 +143,9 @@ BoardChainDisplay.prototype.clearChain = function() {
 
 BoardChainDisplay.prototype.incrementChainNum = function(amount) {
 	var newNum = (this.currentChainDisplayed + amount) % this.allChainDrawers.length;
+	console.log("Current: " + this.currentChainDisplayed);
+	console.log("New Before Mod: " + (this.currentChainDisplayed + amount));
+	console.log("Mod: " + this.allChainDrawers.length);
+	console.log("New: " + newNum);
 	this.displayChainOnCanvas(newNum);
 };
