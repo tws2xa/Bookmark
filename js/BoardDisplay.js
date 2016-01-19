@@ -38,22 +38,16 @@ BoardDisplay.prototype.setState = function(newStateNum) {
 		console.log("\tDisplay Board");
 		$("#canvas").show();
 		$("#noSessionButton").hide();
-		$("#nextButton").hide();
-		$("#prevButton").hide();
 		valid = true;
 	} else if(newStateNum == this.displayChains) {
 		console.log("\tDisplay Board");
 		$("#canvas").show();
 		$("#noSessionButton").hide();
-		$("#nextButton").show();
-		$("#prevButton").show();
 		valid = true;
 	}
 	else if(newStateNum == this.noSession) {
 		console.log("\tDisplay Board");
 		$("#canvas").hide();
-		$("#nextButton").hide()
-		$("#prevButton").hide();;
 
 		if(isTeacherId(sessionStorage.studentId)) { // isTeacherId defined in DataFetcher
 			$("#noSessionButton").prop("value", "Create Session");
@@ -182,7 +176,7 @@ function getPositionsFromXMLElement(boardData) {
 
 }
 
-/*function loadBoardCard(teamId) {
+function loadBoardCard(teamId) {
 	var pos = [];
 	var cards = [];
 	var xml = getBoardStateInfo();
@@ -190,17 +184,35 @@ function getPositionsFromXMLElement(boardData) {
 	pos = getPositionsFromXMLElement(xml);
 	cards = handleBoardXML(xml);
 
+	var boardCards = [];
+
+
+	if(cards.length === BOARD_WIDTH*BOARD_HEIGHT) {
+		for(var h = 0; h < BOARD_HEIGHT; h++) {
+			boardCards.push([]);
+			for(var w = 0; w < BOARD_WIDTH; w++) {
+				var element = new CardDrawer(boardDeck[h*BOARD_WIDTH + w], 
+					this.position.left + (h*this.position.width/4) + this.horizontalBuffer, 
+					this.position.top + (w*this.position.height/4) + this.verticalBuffer, 
+					this.unitwidth, this.unitheight);
+				this.boardCards[h].push(element);
+			}
+		}
+	}
+
 	for(var i = 0; i < teamIdAndPos.length; i++) {
 		
 		var temp = teamIdAndPos[0];
-		
+		var pos = teamIdAndPos[1];
+
 		if(temp === teamId) {
-			
+
+			return boardCards[pos[0]][pos[1]]; 
 		}
 	}
 
 
-}*/
+}
 
 /*
 function test() {

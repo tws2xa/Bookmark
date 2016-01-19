@@ -1,5 +1,5 @@
 //Test deck and getting the test deck
-var tfTestDeck = [];
+/*var tfTestDeck = [];
 tfTestDeck.push(new Card(-1, "Plot Point", "Beowulf fights Grendel with bare hands.", 47, 55));
 tfTestDeck.push(new Card(-2, "Imagery", "\"The monster's whole body was in pain... Sinews split and bone-lappings burst.\"", 55, -1));
 tfTestDeck.push(new Card(-3, "Tone", "Primitive Brutality", -1, -1));
@@ -7,9 +7,9 @@ for(var i=0; i<30; i++){
 	var card = new Card(i, "Test " + i, "Test Card #" + i, i, i+17);
 	tfTestDeck.push(card);
 }
+*/
 
-
-//Board info
+/*//Board info
 var dfBoard = [];
 var i = 0;
 for (var r=0; r<4; r++){
@@ -19,10 +19,10 @@ for (var r=0; r<4; r++){
 		var card = new Card(100+i, "Test " + i, "Board Card #" + i, i, i+17);
 		dfBoard[r].push(card);
 	}
-}
+}*/
 
 //Argument Cards info
-var dfArgumentCards = [];
+/*var dfArgumentCards = [];
 dfArgumentCards.push(new Card(-4, "Argument", "In defeating monsters, Beowulf risks becoming one himself.", -1, -1));
 for(var i=0; i<10; i++){
 	var card = new Card(
@@ -33,7 +33,7 @@ for(var i=0; i<10; i++){
 	-1
 	);
 	dfArgumentCards.push(card);
-}
+}*/
 
 /*
 //Teams
@@ -49,7 +49,7 @@ for(team in getTeams()){
 	dfTeamIds.push(team.id);
 }
 */
-
+/*
 //Students
 var dfStudents = [];
 for(var i=0; i<15; i++){
@@ -57,7 +57,7 @@ for(var i=0; i<15; i++){
 	var student2 = new Student("Charles the " + i, (i+1)*2, getDeck(),"bruh");
 	dfStudents.push(student1);
 	dfStudents.push(student2);
-}
+}*/
 
 /* --------------------- Above generates data for testing purposes --------------------- */
 
@@ -83,6 +83,7 @@ var GET_TEAM_DECK = "get-team-deck";
 var GET_CLASS_ARGUMENT_CARD_DECK = "get-class-argument-card-deck";
 var GET_CHAIN_FOR_ARGUMENT = "get-chain-for-argument";
 var PASS_ON_CHALLENGE = "pass-on-challenge";
+var GET_BOARD_CARD = "get-board-card";
 var SUBMIT_WINNING_CHAIN = "submit-winning-chain";
 
 /**
@@ -274,6 +275,35 @@ function getTeamDeck(dfStudentId, includeArgumentCards){
     return retData;
 }
 
+function getBoardCardFromServer(dfStudentId){
+    var sendData = "id=" + dfStudentId;
+    var targetUrl = BASE_URL + GET_BOARD_CARD;
+
+    var retData = null;
+
+    $.ajax({
+        type: 'POST',
+        url: targetUrl,
+        data: sendData,
+        async:false
+    }).done(function (data) {
+        console.log("Received Board Card: \"" + data + "\"");
+
+      
+    	var cardData = $(data).find("card");
+        var card = createCardFromXMLCardElement(cardData);
+        retData = card;
+		
+    }).fail(function (data){
+        console.log("Failure Obtaining Board Card: " + data.status);
+        retData = null;
+    
+    });
+
+    return retData;
+}
+
+
 function getStudentDeck(dfStudentId){
 	var sendData = "id=" + dfStudentId + "&classId=-1"; // CLASS ID = -1 SHOULD BE TEMPORARY AND ASSUMES ONE CLASS PER STUDENT!!!!
 	var targetUrl = BASE_URL + GET_STUDENT_DECK;
@@ -304,13 +334,13 @@ function getStudentDeck(dfStudentId){
 	return retData;
 }
 
-function getDeck(){
-	return tfTestDeck;
-}
+// function getDeck(){
+// 	return tfTestDeck;
+// }
 
-function getStudents(){
-	return dfStudents;
-}
+// function getStudents(){
+// 	return dfStudents;
+// }
 
 
 function isTeacherId(dfId) {
@@ -466,25 +496,6 @@ function getTeamFromStudentId (dfStudentId) {
 
 	return retData;
 }
-
-
-function getPositionsFromXMLElement(boardData) {
-
-	var teamIdAndPos = [];
-
-	$(boardData).find("team").each(function(index, element) {
-		var teamId = $(element).find("<team_id>");
-		var posData = $(element).find("position");
-		var xPos = $(posData).find("x").text();
-		var yPos = $(posData).find("y").text();
-		var toAdd = [teamId, [xPos, yPos]];
-		teamIdAndPos.push(toAdd);
-	});
-
-	return teamIdAndPos;
-
-}
-
 
 
 /**
