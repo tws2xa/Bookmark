@@ -1,4 +1,4 @@
-function BoardDisplay(x, y, width, height){
+function BoardDisplay(x, y, width, height, isTeacherForBoard){
 	this.gridcolor = getCardBackgroundColor();
 	this.backgroundColor = getDisplayBackgroundColor();
 	
@@ -28,6 +28,8 @@ function BoardDisplay(x, y, width, height){
 	// Displays chains in challenges.
 	this.chainDisplay = new BoardChainDisplay(x, y, width, height);
 
+	this.isTeacher = isTeacherForBoard;
+
 	this.setState(this.noSession);
 }
 
@@ -38,16 +40,29 @@ BoardDisplay.prototype.setState = function(newStateNum) {
 		console.log("\tDisplay Board");
 		$("#canvas").show();
 		$("#noSessionButton").hide();
+		$("#nextButton").hide();
+		$("#prevButton").hide();
+		$("#winnerButton").hide();
 		valid = true;
 	} else if(newStateNum == this.displayChains) {
 		console.log("\tDisplay Board");
 		$("#canvas").show();
 		$("#noSessionButton").hide();
+		$("#nextButton").show();
+		$("#prevButton").show();
+		if(this.isTeacher) {
+			$("#winnerButton").show();
+		} else {
+			$("#winnerButton").hide();
+		}
 		valid = true;
 	}
 	else if(newStateNum == this.noSession) {
 		console.log("\tDisplay Board");
 		$("#canvas").hide();
+		$("#nextButton").hide();
+		$("#prevButton").hide();
+		$("#winnerButton").hide();
 
 		if(isTeacherId(sessionStorage.studentId)) { // isTeacherId defined in DataFetcher
 			$("#noSessionButton").prop("value", "Create Session");

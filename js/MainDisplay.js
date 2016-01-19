@@ -306,8 +306,8 @@ MainDisplay.prototype.loadChainOntoCanvas = function(chain) {
 
 		for(var i=0; i<this.cards.length; i++) {
 			if(this.cards[i].getCardUniqueId() == cardDrawer.getCardUniqueId()) {
-				this.cards.splice(i, 1);
-				return; // Card already on board. Remove it.
+				this.cards.splice(i, 1); // Card already on board. Remove it.
+				break;
 			}
 		}
 
@@ -328,9 +328,17 @@ MainDisplay.prototype.loadBoardCard = function() {
 
 	var cardDrawer = new CardDrawer(card, 50, 50, cardWidth, cardHeight);
 
-	this.cards.push(cardDrawer); 
+	if (card.type === "Argument" || card.type === "argument") {
+		this.argumentCardOnBoard = true;
+		/*var argChain = getArgumentCardChain(cardDrawer.getCardUniqueId()); // Defined in DataFetcher.
+		if(argChain != null) {
+			this.loadChainOntoCanvas(argChain);
+			return; // Argument card will be added with chain. Do not need to push and scale again.
+		}*/
+	}
 
-}
+	this.cards.push(cardDrawer);
+};
 
 MainDisplay.prototype.selectCard = function(cardIndex, pointerPos) {
 	if(this.selectedCard != null) {

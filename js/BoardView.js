@@ -25,6 +25,8 @@ var scaledVMargin = canvasHeight * vMargin;
 var upperPos = canvasHeight * 0.01;
 var leftPos = scaledHMargin;
 var rightPos = canvasWidth - scaledHMargin;
+
+var isTeacherForBoard = false;
 	
 function startTimer() {
 	var timer = setInterval(updateBoard, 5000);
@@ -67,6 +69,8 @@ function init() {
 	winBtn.style.top = btnTop + "px";
 	winBtn.style.left = winBtnLeft + "px";
 
+	isTeacherForBoard = isTeacherId(sessionStorage.studentId);
+
 	teamsDisplay = new TeamsDisplay(
 		leftPos+canvasWidth*.8,
 		0,
@@ -79,7 +83,8 @@ function init() {
 		leftPos,
 		upperPos,
 		boardDisplayWidth,
-		boardDisplayHeight
+		boardDisplayHeight,
+		isTeacherForBoard
 	);
 	boardDisplay.createBoard();	
 	boardDisplay.teamheight = boardDisplay.unitheight/boardDisplay.teams.length;
@@ -123,7 +128,7 @@ function noSessionButtonClicked() {
 	console.log("No Session Button Clicked!");
 	var stateXML;
 
-	if(isTeacherId(sessionStorage.studentId)) { // isTeacherId defined in DataFetcher
+	if(isTeacherForBoard) { // isTeacherId defined in DataFetcher
 		stateXML = createSession(sessionStorage.studentId); // Defined in data fetcher
 	}
 	else {
