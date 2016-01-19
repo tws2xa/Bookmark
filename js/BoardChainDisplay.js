@@ -30,6 +30,13 @@ BoardChainDisplay.prototype.draw = function(context){
 	context.fillStyle = this.backColor;
 	context.fillRect(this.position.left, this.position.top, this.position.width, this.position.height);
 
+	context.textAlign = "start";
+	context.textBaseline="top";
+	context.font = ("normal 18px segoe ui semibold");
+	context.fillStyle = getCardTextColor(); // Defined in color scheme
+
+	var dispNum = this.currentChainDisplayed + 1;
+	context.fillText("Chain #" + dispNum + ":", this.position.left + 5, this.position.top + 5);
 	this.drawChain(context);
 };
 
@@ -111,9 +118,9 @@ BoardChainDisplay.prototype.displayChainOnCanvas = function(displayNum) {
 		return; // No valid chain.
 	}
 
-	this.clearChain();
-	this.cardDrawers = this.allChainDrawers[displayNum];
-	this.cardLinks = this.allCardLinks[displayNum];
+	this.clearChainDisplay();
+	this.cardDrawers = this.allChainDrawers[displayNum].slice(); // Slice triggers copy by value, not reference
+	this.cardLinks = this.allCardLinks[displayNum].slice(); // Slice triggers copy by value, not reference
 	this.currentChainDisplayed = displayNum;
 	console.log("Displaying Chain #" + this.currentChainDisplayed);
 };
@@ -136,16 +143,17 @@ BoardChainDisplay.prototype.adjustScale = function(amt, fixPosition) {
 	}
 };
 
-BoardChainDisplay.prototype.clearChain = function() {
+BoardChainDisplay.prototype.removeAllChains = function() {
+	this.allCardLinks.length = 0;
+	this.allChainDrawers.length = 0;
+}
+
+BoardChainDisplay.prototype.clearChainDisplay = function() {
     this.cardLinks.length = 0; // Clears the array
     this.cardDrawers.length = 0; // Clears the array
 };
 
 BoardChainDisplay.prototype.incrementChainNum = function(amount) {
-	var newNum = (this.currentChainDisplayed + amount) % this.allChainDrawers.length;
-	console.log("Current: " + this.currentChainDisplayed);
-	console.log("New Before Mod: " + (this.currentChainDisplayed + amount));
-	console.log("Mod: " + this.allChainDrawers.length);
-	console.log("New: " + newNum);
+	var newNum = Math.min(this.allChainDrawers.length-1, Math.max(0, this.currentChainDisplayed + amount));
 	this.displayChainOnCanvas(newNum);
 };

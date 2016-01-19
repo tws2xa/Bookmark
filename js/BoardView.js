@@ -46,10 +46,20 @@ function init() {
 	canvas.addEventListener("mousedown", onMouseDown);
 	canvas.addEventListener("mouseup", onMouseUp);
 
+	var boardDisplayWidth = canvasWidth*0.78;
+	var boardDisplayHeight = canvasHeight*0.95;
+
 	// Have to grab the buttons and style before they're hidden.
 	var nextBtn = document.getElementById("nextButton");
 	var prevBtn = document.getElementById("prevButton");
 	var btnStyle = window.getComputedStyle(nextBtn, null);
+
+	var nextBtnLeft = leftPos + boardDisplayWidth - parseInt(btnStyle.width, 10) - scaledHMargin;
+	var btnTop = upperPos + boardDisplayHeight - parseInt(btnStyle.height, 10) - scaledVMargin;
+	nextBtn.style.top = btnTop + "px";
+	nextBtn.style.left = nextBtnLeft + "px";
+	prevBtn.style.top = btnTop + "px";
+	prevBtn.style.left = leftPos + scaledHMargin + "px";
 
 	teamsDisplay = new TeamsDisplay(
 		leftPos+canvasWidth*.8,
@@ -62,19 +72,11 @@ function init() {
 	boardDisplay = new BoardDisplay(
 		leftPos,
 		upperPos,
-		canvasWidth*0.78,
-		canvasHeight*0.95
+		boardDisplayWidth,
+		boardDisplayHeight
 	);
 	boardDisplay.createBoard();	
 	boardDisplay.teamheight = boardDisplay.unitheight/boardDisplay.teams.length;
-
-	// Buttons and styles grabbed before they're hidden by boardDisplay.
-	var nextBtnLeft = leftPos + boardDisplay.position.width - parseInt(btnStyle.width, 10) - scaledHMargin;
-	var btnTop = upperPos + boardDisplay.position.height - parseInt(btnStyle.height, 10) - scaledVMargin;
-	nextBtn.style.top = btnTop + "px";
-	nextBtn.style.left = nextBtnLeft + "px";
-	prevBtn.style.top = btnTop + "px";
-	prevBtn.style.left = leftPos + scaledHMargin + "px";
 
 	// Mouse Wheel
 	if (canvas.addEventListener) {
@@ -157,6 +159,7 @@ function handleBoardStateXML(stateXML) {
 			boardDisplay.setState(boardDisplay.displayChains);
 		}
 
+		boardDisplay.chainDisplay.removeAllChains();
 		var allChainsXML = $(stateXML).find("challenge_chains");
 		$(allChainsXML).find("chain_info").each(function(index, chainInfoXML) {
 			var chain = createChainFromXML(chainInfoXML);
