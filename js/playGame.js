@@ -192,7 +192,6 @@ function handleStateXML(stateXML) {
         var allChainsXML = $(stateXML).find("challenge_chains");
         $(allChainsXML).find("chain_info").each(function(index, chainInfoXML) {
             var challengeTeamId = $(chainInfoXML).find("team_id").text().trim();
-            // console.log("Looking for team id " + activeTeamTurnID + " found " + challengeTeamId);
             if(challengeTeamId == activeTeamTurnID) {
                 var chain = createChainFromXML(chainInfoXML);
                 mainDisplay.loadChainOntoCanvas(chain);
@@ -211,7 +210,6 @@ function getStateInt(stateXML) {
      waitingOnChallenge
      turnSelect
 	*/
-
     var modeText = $(stateXML).find("mode").text().trim().toLowerCase();
     if(modeText == "paused") {
         return mainDisplay.currentState; // No Change.
@@ -221,36 +219,35 @@ function getStateInt(stateXML) {
         if(yourTurn == "true") {
             if(mainDisplay.currentState == 2 || mainDisplay.currentState == 3) {
                 // Already selected turn.
-				console.log("Player Turn - Your Turn - Made Decision");
+				// console.log("Player Turn - Your Turn - Made Decision");
                 return mainDisplay.currentState;
             } else {
-				console.log("Player Turn - Your Turn - Make Decision");
+				// console.log("Player Turn - Your Turn - Make Decision");
                 return mainDisplay.turnSelect; // Turn Selection
             }
         } else {
-			console.log("Player Turn - Not Your Turn - Do Nothing.");
+			// console.log("Player Turn - Not Your Turn - Do Nothing.");
             return mainDisplay.doNothing; // Do nothing (wait for other team to make a chain).
         }
     } else if (modeText == "challenge") {
         var yourTurn = $(stateXML).find("your_turn").text().trim().toLowerCase();
 
         if(yourTurn == "true") {
-			console.log("Challenge - Your Turn - Being Challenged");
+			// console.log("Challenge - Your Turn - Being Challenged");
             return mainDisplay.waitingOnChallenge; // Being Challenged
         } else {
 			if(mainDisplay.currentState == mainDisplay.waitingOnChallenge || mainDisplay.currentState == mainDisplay.makeChain) {
 				// Already made decision
-				console.log("Challenge - Not Your Turn - Decided to Challenge or Pass");
+				// console.log("Challenge - Not Your Turn - Decided to Challenge or Pass");
 				return mainDisplay.currentState;
 			}
-			console.log("Challenge - Not Your Turn - Waiting for Decision");
+			// console.log("Challenge - Not Your Turn - Waiting for Decision");
             return mainDisplay.challenge; // Challenge Decision (pass or challenge);
         }
     }
 }
 
 function init() {
-	
 	if(typeof game_loop != "undefined") clearInterval(game_loop);
 	game_loop = setInterval(paint, 60);
 

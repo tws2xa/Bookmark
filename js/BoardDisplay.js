@@ -1,4 +1,4 @@
-function BoardDisplay(x, y, width, height, teams){
+function BoardDisplay(x, y, width, height){
 	this.gridcolor = getCardBackgroundColor();
 	this.backgroundColor = getDisplayBackgroundColor();
 	
@@ -14,10 +14,10 @@ function BoardDisplay(x, y, width, height, teams){
 	console.log(this.verticalBuffer + ","  + this.horizontalBuffer);
 	this.elements = [];
 	
-	this.teams = teams;
+	this.teams = [];
 	this.tokens = [];
 	this.teamwidth = this.unitwidth/20;
-	this.teamheight = this.unitheight/this.teams.length;
+	this.teamheight = this.unitheight/3;
 
 	//state variables
 	this.currentState = 0;
@@ -32,15 +32,21 @@ function BoardDisplay(x, y, width, height, teams){
 }
 
 BoardDisplay.prototype.setState = function(newStateNum) {
+	console.log("Setting Board State :" + newStateNum);
 	var valid = true;
 	if(newStateNum == this.displayBoard) {
+		console.log("\tDisplay Board");
 		$("#canvas").show();
 		$("#noSessionButton").hide();
+		valid = true;
 	} else if(newStateNum == this.displayChains) {
+		console.log("\tDisplay Board");
 		$("#canvas").show();
 		$("#noSessionButton").hide();
+		valid = true;
 	}
 	else if(newStateNum == this.noSession) {
+		console.log("\tDisplay Board");
 		$("#canvas").hide();
 
 		if(isTeacherId(sessionStorage.studentId)) { // isTeacherId defined in DataFetcher
@@ -50,8 +56,8 @@ BoardDisplay.prototype.setState = function(newStateNum) {
 		}
 
 		$("#noSessionButton").show();
-	} 
-
+		valid = true;
+	}
 	else {
 		console.log("Error - Unrecognized state: " + newStateNum);
 		valid = false;
@@ -60,7 +66,7 @@ BoardDisplay.prototype.setState = function(newStateNum) {
 	if(valid) {
 		this.currentState = newStateNum;
 	}
-}
+};
 
 
 BoardDisplay.prototype.createBoard = function(){
