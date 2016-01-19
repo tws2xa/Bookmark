@@ -21,11 +21,44 @@ function startTimer() {
 	console.log("in timer");
 }
 	
+/*
 
+function displayViableMoves() {
+	
+	var list = getPosition
 
+	var list2 = [];
 
+	var table = document.getElementById("moveTable");
+	
+	for (var x  =0; x < list.length; x++) {
+	
+		var temp = list[x];
 
+	for (var i = 0, row; row = table.rows[i]; i++) {
+  
+   		for (var j = 0, col; col = row.cells[j]; j++) {
+			row.cells[j].style.visibility = "hidden";
 
+  			if (i === temp[0] && j === temp[1]) {
+    			list2.push([i,j]);
+       			
+    		 }
+        
+  		 	}  
+		}
+	}
+
+	for(var y = 0; y < list2.length; y++) {
+		var temp = list2[y];
+
+		var roww = table.rows[temp[0]];
+		
+  		roww.cells[temp[1]].style.visibility = "visible";
+	}
+}
+
+*/
 //canvas variables
 var canvasM = $("#canvasM").get(0);
 var divM = $("#divM").get(0);
