@@ -120,8 +120,7 @@ BoardDisplay.prototype.drawBoard = function(context) {
 				break; 
 			}
 
-			console.log(typeof(this.elements[r][c]));
-			console.log(this.elements[r][c]);
+		
 			this.elements[r][c].draw(context);
 		}
 	}
@@ -181,8 +180,29 @@ function getPositionsFromXMLElement(boardData) {
 
 	return teamIdAndPos;
 
+}
+
+/*function loadBoardCard(teamId) {
+	var pos = [];
+	var cards = [];
+	var xml = getBoardStateInfo();
+
+	pos = getPositionsFromXMLElement(xml);
+	cards = handleBoardXML(xml);
+
+	for(var i = 0; i < teamIdAndPos.length; i++) {
+		
+		var temp = teamIdAndPos[0];
+		
+		if(temp === teamId) {
+			
+		}
 	}
 
+
+}*/
+
+/*
 function test() {
 	var table = document.getElementById("#moveTable");
 	
@@ -192,7 +212,10 @@ function test() {
     	var cellVal=trs.cells[0]
 	
 	}
-}
+}*/
+
+
+
 	
 function getCurrentTeamFromXMLElement(boardData) {
 
