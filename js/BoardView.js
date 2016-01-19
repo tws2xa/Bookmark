@@ -178,22 +178,13 @@ function handleBoardXML(info) {
 	var boardData = $(info).find("board_cards");
 
 	$(boardData).find("card").each(function(index, element) {
-		var newCard = createCardFromXML(element);
+		var newCard = createCardFromXMLCardElement(element);
 		boardCards.push(newCard);
 	});
 
-	var board = [[]];
-
-	if(boardCards.length === BOARD_WIDTH*BOARD_HEIGHT) {
-		for(var h = 0; h < BOARD_HEIGHT; h++) {
-			for(var w = 0; w < BOARD_WIDTH; w++) {
-				board[h][w] = boardCards[h*BOARD_WIDTH + w];
-			}
-		}
-	}
-
 	
-	return board;
+	
+	boardDisplay.setBoardCards(boardCards);
 }
 
 function onPrevButtonClicked() {

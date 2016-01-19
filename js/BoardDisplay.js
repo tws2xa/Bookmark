@@ -12,7 +12,7 @@ function BoardDisplay(x, y, width, height){
 	this.horizontalBuffer = (width - (4*this.unitwidth))/10;
 	this.verticalBuffer = (height - (4*this.unitheight))/10;
 	console.log(this.verticalBuffer + ","  + this.horizontalBuffer);
-	this.elements = [];
+	this.elements = [[]];
 	
 	this.teams = [];
 	this.tokens = [];
@@ -70,7 +70,7 @@ BoardDisplay.prototype.setState = function(newStateNum) {
 
 
 BoardDisplay.prototype.createBoard = function(){
-	var cards = getBoard(); // Defined in DataFetcher
+	/*var cards = getBoard(); // Defined in DataFetcher
 	for(var r=0; r<4; r++){
 		this.elements.push([]);
 		for(var c=0; c<4; c++){
@@ -80,7 +80,7 @@ BoardDisplay.prototype.createBoard = function(){
 				this.unitwidth, this.unitheight);
 			this.elements[r].push(element);
 		}
-	}
+	}*/
 	
 	var tr = 0;
 	var tc = 0;
@@ -105,7 +105,17 @@ BoardDisplay.prototype.draw = function(context){
 
 BoardDisplay.prototype.drawBoard = function(context) {
 	for (var r=0; r<4; ++r){
+		if(this.elements.length < r) {
+			break;
+		}
+
 		for (var c=0; c<4; ++c){
+			if(this.elements[r].length < c) {
+				break; 
+			}
+
+			console.log(typeof(this.elements[r][c]));
+			console.log(this.elements[r][c]);
 			this.elements[r][c].draw(context);
 		}
 	}
@@ -118,7 +128,36 @@ BoardDisplay.prototype.drawBoard = function(context) {
 
 
 
+BoardDisplay.prototype.setBoardCards = function(boardDeck) {
+	/*var cards = getBoard(); // Defined in DataFetcher
+	for(var r=0; r<4; r++){
+		this.elements.push([]);
+		for(var c=0; c<4; c++){
+			var element = new CardDrawer(cards[r][c], 
+				this.position.left + (r*this.position.width/4) + this.horizontalBuffer, 
+				this.position.top + (c*this.position.height/4) + this.verticalBuffer, 
+				this.unitwidth, this.unitheight);
+			this.elements[r].push(element);
+		}
+	}*/
 
+	this.elements = [];
+
+	if(boardDeck.length === BOARD_WIDTH*BOARD_HEIGHT) {
+		for(var h = 0; h < BOARD_HEIGHT; h++) {
+			this.elements.push([]);
+			for(var w = 0; w < BOARD_WIDTH; w++) {
+				var element = new CardDrawer(boardDeck[h*BOARD_WIDTH + w], 
+					this.position.left + (h*this.position.width/4) + this.horizontalBuffer, 
+					this.position.top + (w*this.position.height/4) + this.verticalBuffer, 
+					this.unitwidth, this.unitheight);
+				this.elements[h].push(element);
+			}
+		}
+	}
+
+
+}
 
 
 function getPositionsFromXMLElement(boardData) {
