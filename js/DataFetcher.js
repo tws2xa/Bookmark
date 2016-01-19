@@ -83,6 +83,7 @@ var GET_TEAM_DECK = "get-team-deck";
 var GET_CLASS_ARGUMENT_CARD_DECK = "get-class-argument-card-deck";
 var GET_CHAIN_FOR_ARGUMENT = "get-chain-for-argument";
 var PASS_ON_CHALLENGE = "pass-on-challenge";
+var SUBMIT_WINNING_CHAIN = "submit-winning-chain";
 
 /**
  * Requesting Information From the Server
@@ -508,6 +509,26 @@ function submitChainToServer(dfStudentId, dfChain) {
 		retData = data;
 	}).fail(function (data){
 		console.log("Chain Submission Failure: " + data.status);
+		retData = data;
+	});
+	return retData;
+}
+
+// Submits a chain to the server
+function submitWinningChainToServer(dfStudentId, dfChain) {
+	var sendData = "id=" + dfStudentId + "&chain_xml=" +  dfChain.generateXML();
+	var targetUrl = BASE_URL + SUBMIT_WINNING_CHAIN;
+	var retData = "";
+	$.ajax({
+		type: 'POST',
+		url: targetUrl,
+		data: sendData,
+		async:false
+	}).done(function (data) {
+		console.log("Winning Chain Submitted! Data: " + data);
+		retData = data;
+	}).fail(function (data){
+		console.log("Winning Chain Submission Failure: " + data.status);
 		retData = data;
 	});
 	return retData;

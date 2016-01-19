@@ -13,8 +13,7 @@ function BoardChainDisplay(x, y, width, height) {
 	this.scaleMin = 0.2;
 	this.scaleMax = 1.5;
 
-	this.allChainDrawers = []; // A list of lists for every chain
-	this.allCardLinks = []; // A list of lists for every chain
+	this.allChains = [];
 	this.currentChainDisplayed = -1;
 
 	this.cardDrawers = [];
@@ -85,42 +84,42 @@ BoardChainDisplay.prototype.drawLink = function(center1, center2, context) {
 //-------------------------------------------------------------
 
 BoardChainDisplay.prototype.addChainToCanvas = function(chain) {
-	var tmpCardDrawers = [];
-	var tmpLinks = [];
-
-    // Load in the cards
-    for(var cardNum=0; cardNum<chain.cardsAndPos.length; cardNum++) {
-        var card = chain.cardsAndPos[cardNum][0];
-        var pos = chain.cardsAndPos[cardNum][1]; // [x, y]
-		var xPos = parseInt(pos[0]) + parseInt(this.position.left);
-		var yPos = parseInt(pos[1]) + parseInt(this.position.top);
-        var cardDrawer = new CardDrawer(card, pos[0] + this.position.left, pos[1] + this.position.top, cardWidth, cardHeight);
-        cardDrawer .scale = this.defaultCardScale;
-        cardDrawer.moveTo(xPos, yPos); // Works around graphical bug.
-        tmpCardDrawers.push(cardDrawer);
-    }
-
-    // Create links
-    for(var linkNum=0; linkNum<chain.links.length; linkNum++) {
-        var link = chain.links[linkNum];
-        tmpLinks.push(link);
-    }
-
-	this.allChainDrawers.push(tmpCardDrawers);
-	this.allCardLinks.push(tmpLinks);
-
-	this.displayChainOnCanvas(this.allChainDrawers.length - 1); // Display the most recently added chain.
+	this.allChains.push(chain);
+	this.displayChainNumOnCanvas(this.allChains.length - 1); // Display the most recently added chain.
 };
 
-BoardChainDisplay.prototype.displayChainOnCanvas = function(displayNum) {
-	if(displayNum < 0 || displayNum >= this.allChainDrawers.length) {
+BoardChainDisplay.prototype.displayChainNumOnCanvas = function(displayNum) {
+	if(displayNum < 0 || displayNum >= this.allChains.length) {
 		console.log("Trying to display invalid chain number: " + displayNum);
 		return; // No valid chain.
 	}
 
 	this.clearChainDisplay();
-	this.cardDrawers = this.allChainDrawers[displayNum].slice(); // Slice triggers copy by value, not reference
-	this.cardLinks = this.allCardLinks[displayNum].slice(); // Slice triggers copy by value, not reference
+
+	var chainToShow = this.allChains[displayNum];
+	var tmpCardDrawers = [];
+	var tmpLinks = [];
+	// Load in the cards
+	for(var cardNum=0; cardNum<chainToShow.cardsAndPos.length; cardNum++) {
+		var card = chainToShow.cardsAndPos[cardNum][0];
+		var pos = chainToShow.cardsAndPos[cardNum][1]; // [x, y]
+		var xPos = parseInt(pos[0]) + parseInt(this.position.left);
+		var yPos = parseInt(pos[1]) + parseInt(this.position.top);
+		var cardDrawer = new CardDrawer(card, pos[0] + this.position.left, pos[1] + this.position.top, cardWidth, cardHeight);
+		cardDrawer .scale = this.defaultCardScale;
+		cardDrawer.moveTo(xPos, yPos); // Works around graphical bug.
+		tmpCardDrawers.push(cardDrawer);
+	}
+
+	// Create links
+	for(var linkNum=0; linkNum<chainToShow.links.length; linkNum++) {
+		var link = chainToShow.links[linkNum];
+		tmpLinks.push(link);
+	}
+
+	this.cardDrawers = tmpCardDrawers.slice(); // Slice triggers copy by value, not reference
+	this.cardLinks = tmpLinks.slice(); // Slice triggers copy by value, not reference
+
 	this.currentChainDisplayed = displayNum;
 	console.log("Displaying Chain #" + this.currentChainDisplayed);
 };
@@ -144,8 +143,7 @@ BoardChainDisplay.prototype.adjustScale = function(amt, fixPosition) {
 };
 
 BoardChainDisplay.prototype.removeAllChains = function() {
-	this.allCardLinks.length = 0;
-	this.allChainDrawers.length = 0;
+	this.allChains.length = 0;
 }
 
 BoardChainDisplay.prototype.clearChainDisplay = function() {
@@ -154,6 +152,10 @@ BoardChainDisplay.prototype.clearChainDisplay = function() {
 };
 
 BoardChainDisplay.prototype.incrementChainNum = function(amount) {
-	var newNum = Math.min(this.allChainDrawers.length-1, Math.max(0, this.currentChainDisplayed + amount));
-	this.displayChainOnCanvas(newNum);
+	var newNum = Math.min(this.allChains.length-1, Math.max(0, this.currentChainDisplayed + amount));
+	this.displayChainNumOnCanvas(newNum);
 };
+
+BoardChainDisplay.prototype.getCurrentDisplayChain = function() {
+	return this.allChains[this.currentChainDisplayed];
+}

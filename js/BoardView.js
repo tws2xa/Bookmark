@@ -55,11 +55,17 @@ function init() {
 	var btnStyle = window.getComputedStyle(nextBtn, null);
 
 	var nextBtnLeft = leftPos + boardDisplayWidth - parseInt(btnStyle.width, 10) - scaledHMargin;
-	var btnTop = upperPos + boardDisplayHeight - parseInt(btnStyle.height, 10) - scaledVMargin;
+	var btnTop = upperPos + boardDisplayHeight - parseInt(btnStyle.height, 10) - scaledVMargin/2;
 	nextBtn.style.top = btnTop + "px";
 	nextBtn.style.left = nextBtnLeft + "px";
 	prevBtn.style.top = btnTop + "px";
 	prevBtn.style.left = leftPos + scaledHMargin + "px";
+
+	var winBtn = document.getElementById("winnerButton");
+	var winBtnStyle = window.getComputedStyle(winBtn);
+	var winBtnLeft = (leftPos + boardDisplayWidth / 2 - parseInt(winBtnStyle.width, 10)/2);
+	winBtn.style.top = btnTop + "px";
+	winBtn.style.left = winBtnLeft + "px";
 
 	teamsDisplay = new TeamsDisplay(
 		leftPos+canvasWidth*.8,
@@ -189,6 +195,11 @@ function onPrevButtonClicked() {
 
 function onNextButtonClicked() {
 	boardDisplay.chainDisplay.incrementChainNum(1);
+}
+
+function onWinnerButtonClicked() {
+	var winnerChain = boardDisplay.chainDisplay.getCurrentDisplayChain();
+	submitWinningChainToServer(sessionStorage.studentId, winnerChain);
 }
 
 function onClick(event){
