@@ -211,7 +211,6 @@ function getStateInt(stateXML) {
      waitingOnChallenge
      turnSelect
 	*/
-
     var modeText = $(stateXML).find("mode").text().trim().toLowerCase();
     if(modeText == "paused") {
         return mainDisplay.currentState; // No Change.
@@ -250,7 +249,6 @@ function getStateInt(stateXML) {
 }
 
 function init() {
-	
 	if(typeof game_loop != "undefined") clearInterval(game_loop);
 	game_loop = setInterval(paint, 60);
 

@@ -5,14 +5,9 @@ $(document).ready(function() {
 
 var canvas = $("#canvas")[0];
 var context = canvas.getContext("2d");
-	
-
-// var chalCanvas = $("#chalCanvas")[0];
-// var chalContext = chalCanvas.getContext("2d");
 
 var lastClicked;
-var canvasRect;	
-var chalCanvasRect;
+var canvasRect;
 var vMargin = 0.02;
 var hMargin = 0.015;
 var clickableGrid;
@@ -22,6 +17,9 @@ var canvasHeight = window.innerHeight * 0.935;
 var boardDisplay;
 var teamsDisplay;
 var boardChainDisplay;
+
+var cardWidth = 125;
+var cardHeight = 170;
 
 var scaledHMargin = canvasWidth * hMargin;
 var scaledVMargin = canvasHeight * vMargin;
@@ -38,8 +36,6 @@ function startTimer() {
 function setCanvasSize() {
 	canvas.width = canvasWidth;
 	canvas.height = canvasHeight;
-	// chalCanvas.width = canvasWidth;
-	// chalCanvas.height = canvasHeight;
 }
 
 function init() {
@@ -50,13 +46,6 @@ function init() {
 	canvas.addEventListener("click", onClick);
 	canvas.addEventListener("mousedown", onMouseDown);
 	canvas.addEventListener("mouseup", onMouseUp);
-
-	/*
-	chalCanvasRect = chalCanvas.getBoundingClientRect();
-	chalCanvas.addEventListener("click", onClick);
-	chalCanvas.addEventListener("mousedown", onMouseDown);
-	chalCanvas.addEventListener("mouseup", onMouseUp);
-	*/
 
 	teamsDisplay = new TeamsDisplay(
 		leftPos+canvasWidth*.8,
@@ -70,8 +59,7 @@ function init() {
 		leftPos,
 		upperPos,
 		canvasWidth*0.78,
-		canvasHeight*0.95,
-		teams = ["what", "is", "this"]
+		canvasHeight*0.95
 	);
 	boardDisplay.createBoard();	
 	boardDisplay.teamheight = boardDisplay.unitheight/boardDisplay.teams.length;
@@ -91,25 +79,10 @@ function init() {
 		canvas.addEventListener("DOMMouseScroll", onMouseWheel);
 	}
 
-	/*
-	if (chalCanvas.addEventListener) {
-		// IE9, Chrome, Safari, Opera
-		chalCanvas.addEventListener("mousewheel", onMouseWheel);
-		// Firefox
-		chalCanvas.addEventListener("DOMMouseScroll", onMouseWheel);
-	}
-	*/
-
 	// Prevent context menu appearing on right click
 	canvas.oncontextmenu = function(e) {
 		return false;
 	}
-
-	/*
-	chalCanvas.oncontextmenu = function(e) {
-		return false;
-	}
-	*/
 
 	startTimer();
 }
@@ -175,6 +148,11 @@ function handleBoardStateXML(stateXML) {
 			boardDisplay.setState(boardDisplay.displayChains);
 		}
 
+		var allChainsXML = $(stateXML).find("challenge_chains");
+		$(allChainsXML).find("chain_info").each(function(index, chainInfoXML) {
+			var chain = createChainFromXML(chainInfoXML);
+			boardDisplay.chainDisplay.addChainToCanvas(chain);
+		});
 	}
 }
  
