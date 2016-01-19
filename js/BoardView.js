@@ -71,6 +71,18 @@ function init() {
 		canvasHeight*0.95
 	);
 
+	var nextBtn = document.getElementById("nextButton");
+	var prevBtn = document.getElementById("prevButton");
+
+	var btnStyle = window.getComputedStyle(nextBtn, null);
+	var nextBtnLeft = leftPos + boardChainDisplay.position.width - parseInt(btnStyle.width, 10) - scaledHMargin;
+	var btnTop = upperPos + boardChainDisplay.position.height - parseInt(btnStyle.height, 10) - scaledVMargin;
+
+	nextBtn.style.top = btnTop + "px";
+	nextBtn.style.left = nextBtnLeft + "px";
+	prevBtn.style.top = btnTop + "px";
+	prevBtn.style.left = leftPos + scaledHMargin + "px";
+
 	// Mouse Wheel
 	if (canvas.addEventListener) {
 		// IE9, Chrome, Safari, Opera
@@ -155,8 +167,14 @@ function handleBoardStateXML(stateXML) {
 		});
 	}
 }
- 
 
+function onPrevButtonClicked() {
+	boardDisplay.chainDisplay.incrementChainNum(-1);
+}
+
+function onNextButtonClicked() {
+	boardDisplay.chainDisplay.incrementChainNum(1);
+}
 
 function onClick(event){
 	

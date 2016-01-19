@@ -111,6 +111,7 @@ BoardChainDisplay.prototype.displayChainOnCanvas = function(displayNum) {
 		return; // No valid chain.
 	}
 
+	this.clearChain();
 	this.cardDrawers = this.allChainDrawers[displayNum];
 	this.cardLinks = this.allCardLinks[displayNum];
 	this.currentChainDisplayed = displayNum;
@@ -138,4 +139,9 @@ BoardChainDisplay.prototype.adjustScale = function(amt, fixPosition) {
 BoardChainDisplay.prototype.clearChain = function() {
     this.cardLinks.length = 0; // Clears the array
     this.cardDrawers.length = 0; // Clears the array
+};
+
+BoardChainDisplay.prototype.incrementChainNum = function(amount) {
+	var newNum = (this.currentChainDisplayed + amount) % this.allChainDrawers.length;
+	this.displayChainOnCanvas(newNum);
 };
