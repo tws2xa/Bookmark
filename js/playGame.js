@@ -465,5 +465,7 @@ function selectMove() {
 }
 
 function selectMakeChain() {
+	mainDisplay.loadBoardCard();
 	mainDisplay.setState(mainDisplay.makeChain);
+	
 }

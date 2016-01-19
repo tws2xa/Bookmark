@@ -272,6 +272,7 @@ MainDisplay.prototype.addCard = function(cardDrawer) {
 	if(this.argumentCardOnBoard === false && !(cardType === "Argument")) {
 		alert("Please add an argument card first!");
 	}
+
 	else if(this.argumentCardOnBoard === true && (cardDrawer.getType() === "Argument")) {
 		alert("Only one Argument card allowed on the board at a time!");
 	}
@@ -306,6 +307,17 @@ MainDisplay.prototype.loadChainOntoCanvas = function(chain) {
         this.addCardLinkFromIDs(link[0], link[1]);
     }
 };
+
+
+MainDisplay.prototype.loadBoardCard = function() {
+	console.log("called loadBoardCard");
+	var card = getBoardCardFromServer(sessionStorage.studentId);
+
+	var cardDrawer = new CardDrawer(card, 50, 50, cardWidth, cardHeight);
+
+	this.cards.push(cardDrawer); 
+
+}
 
 MainDisplay.prototype.selectCard = function(cardIndex, pointerPos) {
 	if(this.selectedCard != null) {
