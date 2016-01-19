@@ -7,8 +7,8 @@ var canvas = $("#canvas")[0];
 var context = canvas.getContext("2d");
 	
 
-var chalCanvas = $("#chalCanvas")[0];
-var chalContext = chalCanvas.getContext("2d");
+// var chalCanvas = $("#chalCanvas")[0];
+// var chalContext = chalCanvas.getContext("2d");
 
 var lastClicked;
 var canvasRect;	
@@ -21,6 +21,7 @@ var canvasWidth = window.innerWidth;
 var canvasHeight = window.innerHeight * 0.935;
 var boardDisplay;
 var teamsDisplay;
+var boardChainDisplay;
 
 var scaledHMargin = canvasWidth * hMargin;
 var scaledVMargin = canvasHeight * vMargin;
@@ -37,8 +38,8 @@ function startTimer() {
 function setCanvasSize() {
 	canvas.width = canvasWidth;
 	canvas.height = canvasHeight;
-	chalCanvas.width = canvasWidth;
-	chalCanvas.height = canvasHeight;
+	// chalCanvas.width = canvasWidth;
+	// chalCanvas.height = canvasHeight;
 }
 
 function init() {
@@ -49,11 +50,13 @@ function init() {
 	canvas.addEventListener("click", onClick);
 	canvas.addEventListener("mousedown", onMouseDown);
 	canvas.addEventListener("mouseup", onMouseUp);
-	
+
+	/*
 	chalCanvasRect = chalCanvas.getBoundingClientRect();
 	chalCanvas.addEventListener("click", onClick);
 	chalCanvas.addEventListener("mousedown", onMouseDown);
 	chalCanvas.addEventListener("mouseup", onMouseUp);
+	*/
 
 	teamsDisplay = new TeamsDisplay(
 		leftPos+canvasWidth*.8,
@@ -62,6 +65,7 @@ function init() {
 		canvasHeight
 	);
 	teamsDisplay.createTD();
+
 	boardDisplay = new BoardDisplay(
 		leftPos,
 		upperPos,
@@ -72,6 +76,13 @@ function init() {
 	boardDisplay.createBoard();	
 	boardDisplay.teamheight = boardDisplay.unitheight/boardDisplay.teams.length;
 
+	boardChainDisplay = new BoardChainDisplay(
+		leftPos,
+		upperPos,
+		canvasWidth*0.78,
+		canvasHeight*0.95
+	);
+
 	// Mouse Wheel
 	if (canvas.addEventListener) {
 		// IE9, Chrome, Safari, Opera
@@ -79,20 +90,26 @@ function init() {
 		// Firefox
 		canvas.addEventListener("DOMMouseScroll", onMouseWheel);
 	}
+
+	/*
 	if (chalCanvas.addEventListener) {
 		// IE9, Chrome, Safari, Opera
 		chalCanvas.addEventListener("mousewheel", onMouseWheel);
 		// Firefox
 		chalCanvas.addEventListener("DOMMouseScroll", onMouseWheel);
 	}
+	*/
 
 	// Prevent context menu appearing on right click
 	canvas.oncontextmenu = function(e) {
 		return false;
 	}
+
+	/*
 	chalCanvas.oncontextmenu = function(e) {
 		return false;
 	}
+	*/
 
 	startTimer();
 }
@@ -101,15 +118,9 @@ function paint() {
 	// Clear Screen
 	context.fillStyle = "#9ec7d3";
 	context.fillRect(0, 0, canvasWidth, canvasHeight);
-	chalContext.fillStyle = "#000000";
-	chalContext.fillRect(leftPos,
-		upperPos,
-		canvasWidth*0.80,
-		canvasHeight*0.95);
-	// Draw Card
+
 	boardDisplay.draw(context);
 	teamsDisplay.draw(context);
-	teamsDisplay.draw(chalContext);
 	 
 }
 
@@ -138,22 +149,33 @@ function noSessionButtonClicked() {
 }
 
 function handleBoardStateXML(stateXML) {
-	var mode = $(stateXML).find("mode");
-	if(mode == "Paused") {
+	var mode = $(stateXML).find("mode").text().trim().toLowerCase();
+	if(mode == "paused") {
 		return; // Do nothing.
 	}
-	var turnId = $(stateXML).find("turn_id").text();
-	teamsDisplay.clearTeams();
-	$(stateXML).find("team").each(function() {
-		var id = $(this).find("team_id").text();
-		var name = $(this).find("team_name").text();
-		var deck = [];
-		var students = [];
-		var score = $(this).find("team_score").text();
-		var team = new Team(id, name, deck, students);
-		team.score = score;
-		teamsDisplay.addTeam(team, id == turnId);
-	});
+	else if(mode == "playerturn") {
+		if(boardDisplay.currentState != boardDisplay.displayBoard) {
+			boardDisplay.setState(boardDisplay.displayBoard);
+		}
+		var turnId = $(stateXML).find("turn_id").text();
+		teamsDisplay.clearTeams();
+		$(stateXML).find("team").each(function () {
+			var id = $(this).find("team_id").text();
+			var name = $(this).find("team_name").text();
+			var deck = [];
+			var students = [];
+			var score = $(this).find("team_score").text();
+			var team = new Team(id, name, deck, students);
+			team.score = score;
+			teamsDisplay.addTeam(team, id == turnId);
+		});
+	}
+	else if(mode == "challenge") {
+		if(boardDisplay.currentState != boardDisplay.displayChains) {
+			boardDisplay.setState(boardDisplay.displayChains);
+		}
+
+	}
 }
  
 

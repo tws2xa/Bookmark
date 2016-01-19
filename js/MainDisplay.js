@@ -350,7 +350,7 @@ MainDisplay.prototype.adjustScale = function(amt, fixPosition) {
 		this.cards[cardNum].scale += amt;
 		
 		if(fixPosition) {
-			this.cards[cardNum].moveTo(pos.x, pos.y, null);
+			// this.cards[cardNum].moveTo(pos.x, pos.y, null);
 		}
 	}
 };

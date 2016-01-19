@@ -24,24 +24,23 @@ function BoardDisplay(x, y, width, height, teams){
 	this.displayBoard = 0;
 	this.displayChains = 1;
 	this.noSession = 2;
-	
+
+	// Displays chains in challenges.
+	this.chainDisplay = new BoardChainDisplay(x, y, width, height);
 
 	this.setState(this.noSession);
 }
 
-BoardDisplay.prototype.setState =function(newStateNum) {
+BoardDisplay.prototype.setState = function(newStateNum) {
 	var valid = true;
 	if(newStateNum == this.displayBoard) {
-		$("#chalCanvas").hide();
 		$("#canvas").show();
 		$("#noSessionButton").hide();
 	} else if(newStateNum == this.displayChains) {
-		$("#chalCanvas").show();
-		$("#canvas").hide();
+		$("#canvas").show();
 		$("#noSessionButton").hide();
 	}
 	else if(newStateNum == this.noSession) {
-		$("#chalCanvas").hide();
 		$("#canvas").hide();
 
 		if(isTeacherId(sessionStorage.studentId)) { // isTeacherId defined in DataFetcher
@@ -85,22 +84,34 @@ BoardDisplay.prototype.createBoard = function(){
 		this.tokens.push(teamToken);
 		tc++;
 	}
-}
+};
 
 BoardDisplay.prototype.draw = function(context){
 	context.fillStyle = this.backgroundColor;
 	context.fillRect(this.position.left, this.position.top, this.position.width, this.position.height);
-	
+
+	if(this.currentState == this.displayBoard) {
+		this.drawBoard(context);
+	} else if(this.currentState == this.displayChains) {
+		this.chainDisplay.draw(context);
+	}
+};
+
+BoardDisplay.prototype.drawBoard = function(context) {
 	for (var r=0; r<4; ++r){
 		for (var c=0; c<4; ++c){
-			this.elements[r][c].draw(context); 
-        }
-    }
-    
-    for (var t=0; t<this.tokens.length; t++){
-	    this.tokens[t].draw(context);
-    }
-}
+			this.elements[r][c].draw(context);
+		}
+	}
+
+	for (var t=0; t<this.tokens.length; t++){
+		this.tokens[t].draw(context);
+	}
+};
+
+
+
+
 
 
 
