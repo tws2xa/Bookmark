@@ -144,6 +144,8 @@ function noSessionButtonClicked() {
 		stateXML = joinSession(sessionStorage.studentId); // Defined in Data Fetcher
 	}
 
+
+
 	handleBoardStateXML(stateXML);
 	boardDisplay.setState(boardDisplay.displayBoard);
 }
@@ -169,6 +171,8 @@ function handleBoardStateXML(stateXML) {
 			team.score = score;
 			teamsDisplay.addTeam(team, id == turnId);
 		});
+
+		handleBoardXML(stateXML);
 	}
 	else if(mode == "challenge") {
 		if(boardDisplay.currentState != boardDisplay.displayChains) {
@@ -179,7 +183,29 @@ function handleBoardStateXML(stateXML) {
 }
  
 
+function handleBoardXML(info) {
+	var boardCards = [];
 
+	var boardData = $(info).find("board_cards");
+
+	$(boardData).find("card").each(function(index, element) {
+		var newCard = createCardFromXML(element);
+		boardCards.push(newCard);
+	});
+
+	var board = [[]];
+
+	if(boardCards.length === BOARD_WIDTH*BOARD_HEIGHT) {
+		for(var h = 0; h < BOARD_HEIGHT; h++) {
+			for(var w = 0; w < BOARD_WIDTH; w++) {
+				board[h][w] = boardCards[h*BOARD_WIDTH + w];
+			}
+		}
+	}
+
+	
+	return board;
+}
 function onClick(event){
 	
 }

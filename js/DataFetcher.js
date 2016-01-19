@@ -61,7 +61,8 @@ for(var i=0; i<15; i++){
 
 /* --------------------- Above generates data for testing purposes --------------------- */
 
-
+var BOARD_WIDTH = 4;
+var BOARD_HEIGHT =4;
 var BASE_URL = "http://localhost:8080/Bookmark/bookmark/";
 // var BASE_URL = "http://gdrg.cs.virginia.edu:8080/Bookmark/bookmark/";
 var BEGIN_SESSION = "begin-session";
@@ -190,9 +191,7 @@ function getBoardStateInfo(dfId) {
 	return retData;
 }	
 
-function getBoard(dfStudentId){
-	return dfBoard;
-}
+
 
 function getArgumentCards(dfStudentId){
     var sendData = "id=" + dfStudentId;
@@ -312,6 +311,7 @@ function getStudents(){
 	return dfStudents;
 }
 
+
 function isTeacherId(dfId) {
 	var sendData = "id=" + dfId;
 	var targetUrl = BASE_URL + IS_TEACHER;
@@ -386,7 +386,7 @@ function checkLogin(dfUsername, dfPassword) {
 
 // Returns all valid positions that the team with the given student
 // can move to. [ [x,y], [x,y], [x,y], ...]
-function getValidMovePositions(dfStudentId, dfRollNum) {
+/*function getValidMovePositions(dfStudentId, dfRollNum) {
 
 	var movePos = [];
 	var team = getTeamFromStudentId(dfStudentId);
@@ -440,7 +440,9 @@ function getValidMovePositions(dfStudentId, dfRollNum) {
 	
 	return validMoves;
 
-}
+}*/
+
+
 
 function getTeamFromStudentId (dfStudentId) {
 
@@ -481,6 +483,8 @@ function getPositionsFromXMLElement(boardData) {
 	return teamIdAndPos;
 
 }
+
+
 
 /**
  * Sending Updates to the Server
