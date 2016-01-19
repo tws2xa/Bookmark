@@ -18,8 +18,8 @@ Chain.prototype.generateXML = function() {
 		xmlStr += card.generateXML(); // <card> ... </card>
 
 		xmlStr += "<position>";
-		xmlStr += "<x>" + pos[0] + "</x>";
-		xmlStr += "<y>" + pos[1] + "</y>";
+		xmlStr += "<x>" + parseInt(pos[0]) + "</x>";
+		xmlStr += "<y>" + parseInt(pos[1]) + "</y>";
 		xmlStr += "</position>";
 
 		xmlStr += "</card_info>";

@@ -105,7 +105,7 @@ BoardChainDisplay.prototype.displayChainNumOnCanvas = function(displayNum) {
 		var pos = chainToShow.cardsAndPos[cardNum][1]; // [x, y]
 		var xPos = parseInt(pos[0]) + parseInt(this.position.left);
 		var yPos = parseInt(pos[1]) + parseInt(this.position.top);
-		var cardDrawer = new CardDrawer(card, pos[0] + this.position.left, pos[1] + this.position.top, cardWidth, cardHeight);
+		var cardDrawer = new CardDrawer(card, xPos, yPos, cardWidth, cardHeight);
 		cardDrawer .scale = this.defaultCardScale;
 		cardDrawer.moveTo(xPos, yPos); // Works around graphical bug.
 		tmpCardDrawers.push(cardDrawer);
@@ -156,6 +156,15 @@ BoardChainDisplay.prototype.incrementChainNum = function(amount) {
 	this.displayChainNumOnCanvas(newNum);
 };
 
-BoardChainDisplay.prototype.getCurrentDisplayChain = function() {
-	return this.allChains[this.currentChainDisplayed];
+BoardChainDisplay.prototype.getCurrentDisplayChain = function(reformatPositions) {
+	var retChain = this.allChains[this.currentChainDisplayed];
+	if(reformatPositions) {
+		// When putting a chain into the board display, the positions of every card are offset.
+		// This un-offsets them.
+		for(var cardNum=0; cardNum<retChain.cardsAndPos.length; cardNum++) {
+			retChain.cardsAndPos[cardNum][1][0] -= parseInt(this.position.left);
+			retChain.cardsAndPos[cardNum][1][0] -= parseInt(this.position.top);
+		}
+	}
+	return retChain;
 }

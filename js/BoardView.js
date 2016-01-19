@@ -198,7 +198,7 @@ function onNextButtonClicked() {
 }
 
 function onWinnerButtonClicked() {
-	var winnerChain = boardDisplay.chainDisplay.getCurrentDisplayChain();
+	var winnerChain = boardDisplay.chainDisplay.getCurrentDisplayChain(true);
 	submitWinningChainToServer(sessionStorage.studentId, winnerChain);
 }
 

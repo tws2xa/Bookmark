@@ -277,6 +277,11 @@ MainDisplay.prototype.addCard = function(cardDrawer) {
 		alert("Only one Argument card allowed on the board at a time!");
 	}
 	else {
+		for(var i=0; i<this.cards.length; i++) {
+			if(this.cards[i].getCardUniqueId() == cardDrawer.getCardUniqueId()) {
+				return; // Card already on board.
+			}
+		}
 		if (cardType === "Argument") {
 			this.argumentCardOnBoard = true;
 			var argChain = getArgumentCardChain(cardDrawer.getCardUniqueId()); // Defined in DataFetcher.
@@ -298,6 +303,14 @@ MainDisplay.prototype.loadChainOntoCanvas = function(chain) {
         var cardDrawer = new CardDrawer(card, pos[0], pos[1], cardWidth, cardHeight);
         cardDrawer .scale = this.defaultCardScale;
         cardDrawer.moveTo(pos[0], pos[1]); // Works around graphical bug.
+
+		for(var i=0; i<this.cards.length; i++) {
+			if(this.cards[i].getCardUniqueId() == cardDrawer.getCardUniqueId()) {
+				this.cards.splice(i, 1);
+				return; // Card already on board. Remove it.
+			}
+		}
+
         this.cards.push(cardDrawer);
     }
 
