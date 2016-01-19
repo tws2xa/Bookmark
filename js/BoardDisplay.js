@@ -38,16 +38,22 @@ BoardDisplay.prototype.setState = function(newStateNum) {
 		console.log("\tDisplay Board");
 		$("#canvas").show();
 		$("#noSessionButton").hide();
+		$("#nextButton").hide();
+		$("#prevButton").hide();
 		valid = true;
 	} else if(newStateNum == this.displayChains) {
 		console.log("\tDisplay Board");
 		$("#canvas").show();
 		$("#noSessionButton").hide();
+		$("#nextButton").show();
+		$("#prevButton").show();
 		valid = true;
 	}
 	else if(newStateNum == this.noSession) {
 		console.log("\tDisplay Board");
 		$("#canvas").hide();
+		$("#nextButton").hide()
+		$("#prevButton").hide();;
 
 		if(isTeacherId(sessionStorage.studentId)) { // isTeacherId defined in DataFetcher
 			$("#noSessionButton").prop("value", "Create Session");
