@@ -384,7 +384,7 @@ function getPersonName(dfStudentId) {
 		console.log("Obtained Person Name: \"" + data + "\"");
 		retData = data;
 	}).fail(function (data){
-		console.log("Failure Obtaining Person Info: " + data.status);
+		console.log("Failure Obtaining Person Name: " + data.status);
 		retData = "Person #" + dfStudentId;
 	});
 
