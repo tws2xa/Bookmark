@@ -1,76 +1,14 @@
-//Test deck and getting the test deck
-/*var tfTestDeck = [];
-tfTestDeck.push(new Card(-1, "Plot Point", "Beowulf fights Grendel with bare hands.", 47, 55));
-tfTestDeck.push(new Card(-2, "Imagery", "\"The monster's whole body was in pain... Sinews split and bone-lappings burst.\"", 55, -1));
-tfTestDeck.push(new Card(-3, "Tone", "Primitive Brutality", -1, -1));
-for(var i=0; i<30; i++){
-	var card = new Card(i, "Test " + i, "Test Card #" + i, i, i+17);
-	tfTestDeck.push(card);
-}
-*/
-
-/*//Board info
-var dfBoard = [];
-var i = 0;
-for (var r=0; r<4; r++){
-	dfBoard.push([]);
-	for(var c=0; c<4; c++){
-		i++;
-		var card = new Card(100+i, "Test " + i, "Board Card #" + i, i, i+17);
-		dfBoard[r].push(card);
-	}
-}*/
-
-//Argument Cards info
-/*var dfArgumentCards = [];
-dfArgumentCards.push(new Card(-4, "Argument", "In defeating monsters, Beowulf risks becoming one himself.", -1, -1));
-for(var i=0; i<10; i++){
-	var card = new Card(
-	1000+i,
-	"Argument",
-	"Test Argument Card #" + i,
-	-1,
-	-1
-	);
-	dfArgumentCards.push(card);
-}*/
-
-/*
-//Teams
-var dfTeams = [];
-for(var i=0; i<4; i++){
-	var t = new Team(i+1, "Team Name", getDeck(), [i, i*10, i*100]);
-	dfTeams.push(t);
-}
-
-//Team IDs
-var dfTeamIds = [];
-for(team in getTeams()){
-	dfTeamIds.push(team.id);
-}
-*/
-/*
-//Students
-var dfStudents = [];
-for(var i=0; i<15; i++){
-	var student1 = new Student("Henry the " + i, i+1, getDeck(), "bruh");
-	var student2 = new Student("Charles the " + i, (i+1)*2, getDeck(),"bruh");
-	dfStudents.push(student1);
-	dfStudents.push(student2);
-}*/
-
-/* --------------------- Above generates data for testing purposes --------------------- */
+// Redirection Content
+var BASE_URL = "http://localhost:8080/Bookmark/bookmark/";
+// var BASE_URL = "http://gdrg.cs.virginia.edu:8080/Bookmark/bookmark/";
 
 var BOARD_WIDTH = 4;
 var BOARD_HEIGHT =4;
-var BASE_URL = "http://localhost:8080/Bookmark/bookmark/";
-// var BASE_URL = "http://gdrg.cs.virginia.edu:8080/Bookmark/bookmark/";
+
 var BEGIN_SESSION = "begin-session";
 var JOIN_SESSION = "join-session";
 var LOGIN = "login";
-var GET_PERSON_INFO = "get-person-info";
 var GET_PERSON_NAME = "get-person-name";
-var GET_STUDENT_INFO = "get-student-info";
 var IS_TEACHER = "is-teacher";
 var CHECK_BOARD_UPDATE = "check-board-update";
 var GET_BOARD_STATE = "get-board-state";
