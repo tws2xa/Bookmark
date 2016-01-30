@@ -6,11 +6,9 @@ $(document).ready(function() {
 var canvas = $("#canvas")[0];
 var context = canvas.getContext("2d");
 
-var lastClicked;
 var canvasRect;
 var vMargin = 0.02;
 var hMargin = 0.015;
-var clickableGrid;
 	
 var canvasWidth = window.innerWidth;
 var canvasHeight = window.innerHeight * 0.935;
@@ -54,20 +52,35 @@ function init() {
 	// Have to grab the buttons and style before they're hidden.
 	var nextBtn = document.getElementById("nextButton");
 	var prevBtn = document.getElementById("prevButton");
+	var winBtn = document.getElementById("winnerButton");
+	var qualityDropdown = document.getElementById("chainQualitySelect");
+
 	var btnStyle = window.getComputedStyle(nextBtn, null);
+	var winBtnStyle = window.getComputedStyle(winBtn);
+	var dropdownStyle = window.getComputedStyle(qualityDropdown);
 
 	var nextBtnLeft = leftPos + boardDisplayWidth - parseInt(btnStyle.width, 10) - scaledHMargin;
 	var btnTop = upperPos + boardDisplayHeight - parseInt(btnStyle.height, 10) - scaledVMargin/2;
+
 	nextBtn.style.top = btnTop + "px";
 	nextBtn.style.left = nextBtnLeft + "px";
 	prevBtn.style.top = btnTop + "px";
 	prevBtn.style.left = leftPos + scaledHMargin + "px";
 
-	var winBtn = document.getElementById("winnerButton");
-	var winBtnStyle = window.getComputedStyle(winBtn);
-	var winBtnLeft = (leftPos + boardDisplayWidth / 2 - parseInt(winBtnStyle.width, 10)/2);
+	// Find the wider of the two (winner button / quality dropdown)
+	var winDropWidth = Math.max(parseInt(winBtnStyle.width, 10), parseInt(dropdownStyle.width, 10));
+	console.log("Win Button: " + winBtnStyle.width + " Dropdown: " + dropdownStyle.width + " Max: " + winDropWidth);
+
+	var winDropLeft = (leftPos + boardDisplayWidth / 2 - winDropWidth/2);
 	winBtn.style.top = btnTop + "px";
-	winBtn.style.left = winBtnLeft + "px";
+	winBtn.style.left = winDropLeft + "px";
+	console.log("Winner Button Left: " + winBtn.style.left);
+	winBtn.style.width  = winDropWidth + "px";
+
+	qualityDropdown.style.top = (btnTop - (parseInt(dropdownStyle.height, 10) * 1.3)) + "px";
+	qualityDropdown.style.left = winDropLeft + "px";
+	console.log("Dropdown Left: " + qualityDropdown.style.left);
+	qualityDropdown.style.width = winDropWidth + "px";
 
 	isTeacherForBoard = isTeacherId(sessionStorage.studentId);
 

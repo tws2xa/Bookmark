@@ -131,8 +131,6 @@ function getBoardStateInfo(dfId) {
 	return retData;
 }	
 
-
-
 function getArgumentCards(dfStudentId){
     var sendData = "id=" + dfStudentId;
     var targetUrl = BASE_URL + GET_CLASS_ARGUMENT_CARD_DECK;

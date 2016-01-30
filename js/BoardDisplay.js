@@ -43,6 +43,7 @@ BoardDisplay.prototype.setState = function(newStateNum) {
 		$("#nextButton").hide();
 		$("#prevButton").hide();
 		$("#winnerButton").hide();
+		$("#chainQualitySelect").hide();
 		valid = true;
 	} else if(newStateNum == this.displayChains) {
 		console.log("\tDisplay Board");
@@ -52,8 +53,10 @@ BoardDisplay.prototype.setState = function(newStateNum) {
 		$("#prevButton").show();
 		if(this.isTeacher) {
 			$("#winnerButton").show();
+			$("#chainQualitySelect").show();
 		} else {
 			$("#winnerButton").hide();
+			$("#chainQualitySelect").hide();
 		}
 		valid = true;
 	}
@@ -63,6 +66,7 @@ BoardDisplay.prototype.setState = function(newStateNum) {
 		$("#nextButton").hide();
 		$("#prevButton").hide();
 		$("#winnerButton").hide();
+		$("#chainQualitySelect").hide();
 
 		if(isTeacherId(sessionStorage.studentId)) { // isTeacherId defined in DataFetcher
 			$("#noSessionButton").prop("value", "Create Session");
