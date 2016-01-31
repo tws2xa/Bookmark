@@ -70,7 +70,7 @@
 		for(var vert=0; vert<4; vert+=1) {
 			var btnNum = horiz*4 + vert;
 			document.writeln("<td align='center'>");
-			document.writeln("<input type='button' class='moveBtn' id=btn" + btnNum + " onclick=moveBtnPress(" + btnNum + ") value='Move " + btnNum + "' style='width: 90%; height: 95%;'>");
+			document.writeln("<input type='button' class='moveBtn' id=btn" + btnNum + " onclick=moveBtnPress(" + horiz + "," + vert + ") value='Move " + btnNum + "' style='width: 90%; height: 95%;'>");
 			document.writeln("</td>");
 		}
 		document.writeln("</tr>");

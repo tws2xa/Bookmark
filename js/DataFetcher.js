@@ -112,9 +112,9 @@ function informServerPassOnChallenge(dfId) {
 
 	return success;
 }
-/*
-function updateTeamPosition(dfId) {
-	var sendData = "id=" + dfId;
+
+function updateTeamPosition(dfId, x, y) {
+	var sendData = "id=" + dfId + "&posX=" + x + "&posY=" + y;
 	var targetUrl = BASE_URL + UPDATE_TEAM_POSITION;
 
 	var success = false;
@@ -133,7 +133,7 @@ function updateTeamPosition(dfId) {
 
 	return success;
 }
-*/
+
 function getBoardStateInfo(dfId) {
 	console.log("Getting Board State");
 	var sendData = "id=" + dfId;
