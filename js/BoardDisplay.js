@@ -8,7 +8,7 @@ function BoardDisplay(x, y, width, height, isTeacherForBoard){
 	this.unitwidth = width/4.2;
 	
 	
-
+	this.cardHeight = 125;
 	this.horizontalBuffer = (width - (4*this.unitwidth))/10;
 	this.verticalBuffer = (height - (4*this.unitheight))/10;
 	console.log(this.verticalBuffer + ","  + this.horizontalBuffer);
@@ -17,7 +17,7 @@ function BoardDisplay(x, y, width, height, isTeacherForBoard){
 	this.teams = [];
 	this.tokens = [];
 	this.teamwidth = this.unitwidth/27;
-	this.teamheight = this.unitheight/3;
+	
 
 	//state variables
 	this.currentState = 0;
@@ -113,16 +113,18 @@ BoardDisplay.prototype.clearTeamTokens = function() {
 	this.tokens.length = 0;
 };
 
-BoardDisplay.prototype.addTeam = function(newTeam, xPos, yPos) {
+BoardDisplay.prototype.addTeam = function(newTeam, xPos, yPos, numOfTeams) {
 	var teamNum = this.teams.length;
 	this.teams.push(newTeam);
-	console.log("XPOS: " + xPos + " YPOS: " + yPos);
-	console.log(this.teamheight)
+	
+
+	var teamheight = this.cardHeight/(numOfTeams);
+		console.log("TEAMHEIGHT: " + this.cardHeight);
 	var teamRec = new Rectangle(
-		this.position.left + (xPos*this.position.width/4) + this.horizontalBuffer,
-		this.position.top + (yPos*this.position.height/4) + this.verticalBuffer + this.teamheight*yPos,
+		this.position.left + (xPos * this.position.width/4) + this.horizontalBuffer,
+		this.position.top + (yPos * (this.position.height/BOARD_HEIGHT)) + teamNum * teamheight + this.verticalBuffer,
 		this.teamwidth,
-		this.teamheight
+		teamheight
 	);
 
 	console.log("Adding Token: " + teamRec.getString() + "Color: " + getPlayerColor(teamNum));

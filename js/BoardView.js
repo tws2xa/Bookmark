@@ -162,6 +162,7 @@ function handleBoardStateXML(stateXML) {
 		var turnId = $(stateXML).find("turn_id").text();
 		teamsDisplay.clearTeams();
 		boardDisplay.clearTeamTokens();
+		var numOfTeams = $(stateXML).find("team").size();
 		$(stateXML).find("team").each(function () {
 			var id = $(this).find("team_id").text();
 			var name = $(this).find("team_name").text();
@@ -175,7 +176,8 @@ function handleBoardStateXML(stateXML) {
 			var posXML = $(this).find("team_position");
 			var xPos = parseInt($(posXML).find("x").text().trim());
 			var yPos = parseInt($(posXML).find("y").text().trim());
-			boardDisplay.addTeam(team, xPos, yPos);
+	
+			boardDisplay.addTeam(team, xPos, yPos, numOfTeams);
 		});
 
 		handleBoardXML(stateXML);
