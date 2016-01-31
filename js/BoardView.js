@@ -188,8 +188,9 @@ function handleBoardStateXML(stateXML) {
 		boardDisplay.chainDisplay.removeAllChains();
 		var allChainsXML = $(stateXML).find("challenge_chains");
 		$(allChainsXML).find("chain_info").each(function(index, chainInfoXML) {
+			var chainId =  $(chainInfoXML).find("team_id").text();
 			var chain = createChainFromXML(chainInfoXML);
-			boardDisplay.chainDisplay.addChainToCanvas(chain);
+			boardDisplay.chainDisplay.addChainToCanvas(chainId, chain);
 		});
 	}
 }
@@ -204,8 +205,6 @@ function handleBoardXML(info) {
 		boardCards.push(newCard);
 	});
 
-	
-	
 	boardDisplay.setBoardCards(boardCards);
 }
 
@@ -218,8 +217,13 @@ function onNextButtonClicked() {
 }
 
 function onWinnerButtonClicked() {
+	if($("#chainQualitySelect").prop("selectedIndex") == 0) {
+		alert("Please Select a Chain Quality.");
+		return;
+	}
 	var winnerChain = boardDisplay.chainDisplay.getCurrentDisplayChain(true);
-	submitWinningChainToServer(sessionStorage.studentId, winnerChain);
+	var winnerChainId = boardDisplay.chainDisplay.getCurrentDisplayChainId();
+	submitWinningChainToServer(sessionStorage.studentId, winnerChainId, winnerChain, $("#chainQualitySelect option:selected").text());
 }
 
 function onClick(event){

@@ -3,11 +3,14 @@ function Chain(inputCardsAndPos, inputLinks) {
 	this.links = inputLinks;
 }
 
-Chain.prototype.generateXML = function() {
-
+Chain.prototype.generateXML = function(quality) {
 	var xmlStr = "<chain>";
 
-	// Card Info (Card and position)
+	if(quality) {
+		xmlStr += "<quality>" + quality + "</quality>";
+	}
+
+	// Card Info (Card and Position)
 	xmlStr += "<cards>";
 	for(var i=0; i<this.cardsAndPos .length; i++) {
 		xmlStr += "<card_info>";

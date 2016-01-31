@@ -462,8 +462,8 @@ function submitChainToServer(dfStudentId, dfChain) {
 }
 
 // Submits a chain to the server
-function submitWinningChainToServer(dfStudentId, dfChain) {
-	var sendData = "id=" + dfStudentId + "&chain_xml=" +  dfChain.generateXML();
+function submitWinningChainToServer(dfStudentId, dfChainId, dfChain, dfChainQuality) {
+	var sendData = "id=" + dfStudentId + "&chain_accessor=" + dfChainId + "&chain_xml=" +  dfChain.generateXML(dfChainQuality);
 	var targetUrl = BASE_URL + SUBMIT_WINNING_CHAIN;
 	var retData = "";
 	$.ajax({

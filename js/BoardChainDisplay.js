@@ -14,6 +14,7 @@ function BoardChainDisplay(x, y, width, height) {
 	this.scaleMax = 1.5;
 
 	this.allChains = [];
+	this.chainIds = [];
 	this.currentChainDisplayed = -1;
 
 	this.cardDrawers = [];
@@ -83,8 +84,9 @@ BoardChainDisplay.prototype.drawLink = function(center1, center2, context) {
 //----------------------Helper Functions-----------------------
 //-------------------------------------------------------------
 
-BoardChainDisplay.prototype.addChainToCanvas = function(chain) {
+BoardChainDisplay.prototype.addChainToCanvas = function(chainId, chain) {
 	this.allChains.push(chain);
+	this.chainIds.push(chainId);
 	this.displayChainNumOnCanvas(this.allChains.length - 1); // Display the most recently added chain.
 };
 
@@ -144,6 +146,7 @@ BoardChainDisplay.prototype.adjustScale = function(amt, fixPosition) {
 
 BoardChainDisplay.prototype.removeAllChains = function() {
 	this.allChains.length = 0;
+	this.chainIds.length = 0;
 }
 
 BoardChainDisplay.prototype.clearChainDisplay = function() {
@@ -167,4 +170,8 @@ BoardChainDisplay.prototype.getCurrentDisplayChain = function(reformatPositions)
 		}
 	}
 	return retChain;
-}
+};
+
+BoardChainDisplay.prototype.getCurrentDisplayChainId = function() {
+	return this.chainIds[this.currentChainDisplayed];
+};
