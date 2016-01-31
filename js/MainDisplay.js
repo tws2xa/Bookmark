@@ -418,7 +418,7 @@ MainDisplay.prototype.clearChain = function() {
     this.cardLinks.length = 0; // Clears the array
     this.cards.length = 0; // Clears the array
 	this.argumentCardOnBoard = false;
-}
+};
 
 
 MainDisplay.prototype.setState = function(newStateNum) {
@@ -440,6 +440,7 @@ MainDisplay.prototype.setState = function(newStateNum) {
 		$("#turnSelectTable").hide();
 	} else if(newStateNum == this.move) {
         console.log("\tMove");
+        this.displayViableMoves();
 		$("#genericSubmitButton").hide();
 		$("#challengeButton").hide();
 		$("#passButton").hide();
@@ -474,4 +475,77 @@ MainDisplay.prototype.setState = function(newStateNum) {
 	if(valid) {
 		this.currentState = newStateNum;
 	}
+};
+
+
+
+MainDisplay.prototype.displayViableMoves = function() {
+	console.log("Helloooooooo");
+	var list = this.getValidMovePositions(2);
+
+
+	var list2 = [];
+
+	var table = document.getElementById("moveTable");
+	
+	for (var x  =0; x < list.length; x++) {
+	
+		var temp = list[x];
+
+	for (var i = 0, row; row = table.rows[i]; i++) {
+  
+   		for (var j = 0, col; col = row.cells[j]; j++) {
+			row.cells[j].style.visibility = "hidden";
+
+  			if (i === temp[1] && j === temp[0]) {
+    			list2.push([i,j]);
+       			
+    		 }
+        
+  		 	}  
+		}
+	}
+
+	for(var y = 0; y < list2.length; y++) {
+		var temp = list2[y];
+
+		var roww = table.rows[temp[0]];
+		
+  		roww.cells[temp[1]].style.visibility = "visible";
+	}
 }
+
+
+
+
+// Returns all valid positions that the team with the given student
+// can move to. [ [x,y], [x,y], [x,y], ...]
+MainDisplay.prototype.getValidMovePositions = function(rollNum) {
+	
+	var pos = getTeamPosition(sessionStorage.studentId);
+	
+			var posX = parseInt($(pos).find("x").text());
+			var posY = parseInt($(pos).find("y").text());
+
+		
+
+	console.log("Hello" + posX + " y: " + posY);
+
+
+	var validMoves = [];
+
+	for(var x = 0; x < BOARD_WIDTH; x++) {
+		for(var y = 0; y < BOARD_HEIGHT; y++) {
+			if (Math.abs(posX - x) + Math.abs(posY - y) <= rollNum) {
+				validMoves.push([x, y]);
+				
+			}
+
+		}
+    
+    
+	}
+	console.log(validMoves);
+	
+	return validMoves;
+};

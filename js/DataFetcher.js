@@ -23,6 +23,8 @@ var GET_CHAIN_FOR_ARGUMENT = "get-chain-for-argument";
 var PASS_ON_CHALLENGE = "pass-on-challenge";
 var GET_BOARD_CARD = "get-board-card";
 var SUBMIT_WINNING_CHAIN = "submit-winning-chain";
+var GET_TEAM_POSITION = "get-team-position";
+var UPDATE_TEAM_POSITION = "update-team-position";
 
 /**
  * Requesting Information From the Server
@@ -110,7 +112,28 @@ function informServerPassOnChallenge(dfId) {
 
 	return success;
 }
+/*
+function updateTeamPosition(dfId) {
+	var sendData = "id=" + dfId;
+	var targetUrl = BASE_URL + UPDATE_TEAM_POSITION;
 
+	var success = false;
+	$.ajax({
+		type: 'POST',
+		url: targetUrl,
+		data: sendData,
+		async:false
+	}).done(function (data) {
+		console.log("Updated Team Position: " + data);
+		success = true;
+	}).fail(function (data){
+		console.log("Failure Updating Team Position: " + data.status);
+		success = false;
+	});
+
+	return success;
+}
+*/
 function getBoardStateInfo(dfId) {
 	console.log("Getting Board State");
 	var sendData = "id=" + dfId;
@@ -211,6 +234,8 @@ function getTeamDeck(dfStudentId, includeArgumentCards){
     return retData;
 }
 
+
+
 function getBoardCardFromServer(dfStudentId){
     var sendData = "id=" + dfStudentId;
     var targetUrl = BASE_URL + GET_BOARD_CARD;
@@ -270,13 +295,7 @@ function getStudentDeck(dfStudentId){
 	return retData;
 }
 
-// function getDeck(){
-// 	return tfTestDeck;
-// }
 
-// function getStudents(){
-// 	return dfStudents;
-// }
 
 
 function isTeacherId(dfId) {
@@ -299,6 +318,30 @@ function isTeacherId(dfId) {
 		}
 	}).fail(function (data){
 		console.log("Failure Determining if Teacher: " + data.status);
+		retData = false;
+	});
+
+	return retData;
+}
+
+
+function getTeamPosition(dfId) {
+	var sendData = "id=" + dfId;
+	var targetUrl = BASE_URL + GET_TEAM_POSITION;
+
+	var retData;
+	$.ajax({
+	  type: 'POST',
+	  url: targetUrl,
+	  data: sendData,
+	  async:false
+	}).done(function (data) {
+		
+		console.log("Determined Team Pos \"" + data + "\"");
+		retData = data;
+
+	}).fail(function (data){
+		console.log("Failure Determining Team Pos: " + data.status);
 		retData = false;
 	});
 
@@ -333,7 +376,7 @@ function getPersonName(dfStudentId) {
 function checkLogin(dfUsername, dfPassword) {
 	var sendData = "username=" + dfUsername + "&password=" + dfPassword;
 	var targetUrl = BASE_URL + LOGIN;
-
+	
 	var retData = "";
 	$.ajax({
 	  type: 'POST',
@@ -343,6 +386,7 @@ function checkLogin(dfUsername, dfPassword) {
 	}).done(function (data) {
 		console.log("Logged in! ID: " + data);
 		retData = parseInt(data);
+
 	}).fail(function (data){
 		console.log("Failure Logging In: " + data.status);
 		retData = -1;
@@ -350,66 +394,6 @@ function checkLogin(dfUsername, dfPassword) {
 
 	return retData;
 }
-
-// Returns all valid positions that the team with the given student
-// can move to. [ [x,y], [x,y], [x,y], ...]
-/*function getValidMovePositions(dfStudentId, dfRollNum) {
-
-	var movePos = [];
-	var team = getTeamFromStudentId(dfStudentId);
-
-	var found = false;
-	var teamList = [];
-	var boardData = getBoardStateInfo(boardId);
-	var pos  =[];
-	var posY = 0;
-	var posX = 0;
-
-	teamList = getPositionsFromXMLElement(boardData);
-
-	for(var i = 0; i < teamList.size; i++) {
-		var temp = teamList[i];
-		if(team === temp[0]) {
-			pos = t[1];
-			found = true;
-		}
-	}
-	
-	if (found === true) {
-		posX = pos[0];
-		posY = pos[1];
-	}
-
-	var x = 0;
-	var y =0;
-	var validMoves = [];
-
-	for(var x = 0; x < dfRollNum; x++) {
-		for(var y =0; y < dfRollNum; y++) {
-			if ((x + y <= dfRollNum) &&  (x+posX < BOARD_WIDTH) && (y+posY < BOARD_HEIGHT)) {
-				validMoves.push([x + posX, y + posY]);
-				console.log(validMoves);
-			}
-
-		}
-	}
-
-	for(var x = 0; x < dfRollNum; x++) {
-		for(var y =0; y < dfRollNum; y++) {
-			if ((x + y <= dfRollNum) &&  (-x+posX > 0) && (-y+posY > 0)) {
-				validMoves.push([-x + posX, -y + posY]);
-				console.log(validMoves);
-			}
-
-		}
-	}
-
-	
-	return validMoves;
-
-}*/
-
-
 
 function getTeamFromStudentId (dfStudentId) {
 
