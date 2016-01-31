@@ -421,9 +421,9 @@ function beginChallengeCreation() {
 	mainDisplay.setState(mainDisplay.makeChain);
 }
 
-function moveBtnPress(horiz, vert) {
+function moveBtnPress(x, y) {
 
-	updateTeamPosition(sessionStorage.studentId, horiz, vert);
+	updateTeamPosition(sessionStorage.studentId, x, y);
 }
 
 function selectMove() {
