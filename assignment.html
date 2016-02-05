@@ -83,22 +83,23 @@
         <!-- Teams Table -->
         <div class="form-group col-sm-offset-1 col-sm-6">
             <label>Teams:</label>
-            <table class="table-condensed" border="3">
+            <table class="table table-striped" style="width:auto">
                 <!-- Header Row -->
+                <thead>
                 <tr>
                     <th>Unassigned Students</th>
-                    <th>Add New Team</th>
-                </tr>
-                <tr>
-                    <td>1121</td>
-                    <td rowspan="5">
-                        <input type="button" value="+" class="form-control" onclick="return newTeam()">
+                    <td rowspan="6">
+                        <input type="button" value="Add Team" class="form-control" onclick="return newTeam()">
                     </td>
                 </tr>
-                <tr><td>1234</td></tr>
+                </thead>
+                <tbody>
+                <tr><td>1121</td></tr>
+                <tr class="alt"><td>1234</td></tr>
                 <tr><td>7826</td></tr>
-                <tr><td>5682</td></tr>
-                <tr><td>2363</td></tr>
+                <tr class="alt"><td>5682</td></tr>
+                <tr ><td>2363</td></tr>
+                </tbody>
             </table>
         </div>
 
