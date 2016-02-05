@@ -1,0 +1,112 @@
+<html>
+<head>
+    <!-- Jquery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/ColorScheme.js"></script>
+
+    <script type="text/javascript" src = "js\DataFetcher.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/homepagecss.css">
+
+    <!-- Make sure the user is a teacher -->
+    <script type = "text/javascript">
+        var msgStr = "Hello!";
+        if(sessionStorage.studentId == null) {
+            window.location.href = "./login.html";
+        } else {
+            var isTeacher = isTeacherId(sessionStorage.studentId);
+            if(!isTeacher) {
+                window.location.href = "./login.html";
+            }
+        }
+
+        function submitNewAssignmentForm() {
+            var assignmentName = $("#assignmentName").val();
+            console.log("New Assignment: " + assignmentName);
+
+            return false;
+        }
+
+        function newTeam() {
+
+        }
+
+    </script>
+
+
+  <title>New Assignment</title>
+</head>
+<body>
+    <!-- Nav Bar -->
+    <div class="nav">
+        <div class = "container";>
+            <ul class="pull-left">
+                <a href="homepage.html">Home</a> 
+                <a href="workshop.html">Workshop</a>
+                <a href="play.html">Play</a>
+                <a href="board.html">Board</a>
+           </ul>
+            <ul class="pull-right">
+                <a href="login.html">Login</a>
+            </ul>
+        </div>
+    </div>
+
+    <form>
+        <!-- Title -->
+        <div class="form-group col-sm-offset-1 col-lg-6">
+            <h2>Create New Assignment</h2>
+        </div>
+
+        <!-- Assignment Name -->
+        <div class="form-group col-sm-offset-1 col-sm-6">
+            <label for="assignmentName">Assignment Name:</label>
+            <input type="text" class="form-control" id="assignmentName" name="assignmentName" placeholder="Enter Assignment Name">
+        </div>
+
+        <!-- Deck Type -->
+        <div class="form-group col-sm-offset-1 col-sm-6">
+            <label>Deck Type:</label>
+            <select class="form-control" id-="assignmentDeckType">
+                <option value="SelectDeckType" disabled>Select Deck Type</option>
+                <option value="Fiction">Fiction</option>
+                <option value="Non-Fiction">Non-Fiction</option>
+            </select>
+        </div>
+
+        <!-- Assignment Info -->
+        <div class="form-group col-sm-offset-1 col-sm-6">
+            <label for="assignmentInfo">Assignment Info:</label>
+            <textarea class="form-control" rows="6" id="assignmentInfo" placeholder="Enter Assignment Information"></textarea>
+        </div>
+
+        <!-- Teams Table -->
+        <div class="form-group col-sm-offset-1 col-sm-6">
+            <label>Teams:</label>
+            <table class="table-condensed" border="3">
+                <!-- Header Row -->
+                <tr>
+                    <th>Unassigned Students</th>
+                    <th>Add New Team</th>
+                </tr>
+                <tr>
+                    <td>1121</td>
+                    <td rowspan="5">
+                        <input type="button" value="+" class="form-control" onclick="return newTeam()">
+                    </td>
+                </tr>
+                <tr><td>1234</td></tr>
+                <tr><td>7826</td></tr>
+                <tr><td>5682</td></tr>
+                <tr><td>2363</td></tr>
+            </table>
+        </div>
+
+        <!-- Launch Assignment Button -->
+        <div class="form-group col-sm-offset-1 col-sm-6">
+            <input type="button" value = "Launch Assignment" class="btn btn-primary btn-md" onclick="return submitNewAssignmentForm()">
+        </div>
+
+    </form>
+</body>
+</html>
