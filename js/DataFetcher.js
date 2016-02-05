@@ -1,6 +1,6 @@
 // Redirection Content
-var BASE_URL = "http://localhost:8080/Bookmark/bookmark/";
-//var BASE_URL = "http://gdrg.cs.virginia.edu:8080/Bookmark/bookmark/";
+// var BASE_URL = "http://localhost:8080/Bookmark/bookmark/";
+var BASE_URL = "http://gdrg.cs.virginia.edu:8080/Bookmark/bookmark/";
 
 
 var BOARD_WIDTH = 4;
