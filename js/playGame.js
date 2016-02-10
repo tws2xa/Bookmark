@@ -286,14 +286,18 @@ function paint() {
 	if(deckDisplay.selectedCard != null) {
 		var card = deckDisplay.selectedCard.copy();
 		deckDisplay.clearSelectedCard();
-		card.moveTo(50, 50);
+		var xOffset = Math.floor((Math.random() * 98)) - 49;
+		var yOffset = Math.floor((Math.random() * 98)) - 49;
+		card.moveTo(50 + xOffset, 50 + yOffset);
 		mainDisplay.addCard(card);
 	}
 
 	if(argumentDisplay.selectedCard != null) {
 		var card = argumentDisplay.selectedCard.copy();
 		argumentDisplay.clearSelectedCard();
-		card.moveTo(50, 50);
+		var xOffset = Math.floor((Math.random() * 98)) - 49;
+		var yOffset = Math.floor((Math.random() * 98)) - 49;
+		card.moveTo(50 + xOffset, 50 + yOffset);
 		mainDisplay.addCard(card);
 	}
 
