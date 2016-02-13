@@ -55,6 +55,8 @@ var challengeBtn;
 var passBtn;
 var turnSelectTable;
 
+var cntrlIsPressed = false;
+
 function setCanvasSize() {
 	// Needed variables
 	var scaledHMargin = canvasWidth * hMargin;
@@ -271,6 +273,17 @@ function init() {
 		return false;
 	}
 
+	cntrlIsPressed = false;
+
+	$(document).keydown(function(event){
+		if(event.which=="17")
+			cntrlIsPressed = true;
+	});
+
+	$(document).keyup(function(){
+		cntrlIsPressed = false;
+	});
+
     var sessionInfo = joinSession(sessionStorage.studentId);
     if(sessionInfo == null) {
         return false; // Unable to play - no session.
@@ -334,7 +347,7 @@ function onMouseDown(event){
 	// only when the mouse is down 
 	if (mainDisplay.position.contains(event.clientX - canvasRectM.left, event.clientY-canvasRectM.top)) {
 		var newRect = new Rectangle(canvasRectM.left - divM.scrollLeft, canvasRectM.top - divM.scrollTop, canvasRectM.width, canvasRectM.height);
-		mainDisplay.onMouseDown(event, newRect);
+		mainDisplay.onMouseDown(event, newRect, cntrlIsPressed);
 		canvasM.addEventListener("mousemove", mainDisplayMouseDrag);
 	}
 	if (argumentDisplay.position.contains(event.clientX - canvasRectA.left, event.clientY-canvasRectA.top)) {
@@ -355,7 +368,7 @@ function onMouseUp(event){
 	// Register the event and remove the mouse moved listener
 	if (mainDisplay.position.contains(event.clientX - canvasRectM.left, event.clientY-canvasRectM.top)) {
 		var newRect = new Rectangle(canvasRectM.left - divM.scrollLeft, canvasRectM.top - divM.scrollTop, canvasRectM.width, canvasRectM.height);
-		mainDisplay.onMouseUp(event, newRect);
+		mainDisplay.onMouseUp(event, newRect, cntrlIsPressed);
 		canvasM.removeEventListener("mousemove", mainDisplayMouseDrag);
 	}
 	if (argumentDisplay.position.contains(event.clientX - canvasRectA.left, event.clientY-canvasRectA.top)) {

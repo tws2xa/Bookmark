@@ -152,11 +152,11 @@ MainDisplay.prototype.mouseClick=function(e, canvasRect){
 	e.preventDefault();
 };
 
-MainDisplay.prototype.onMouseDown = function(e, canvasRect) {
+MainDisplay.prototype.onMouseDown = function(e, canvasRect, cntrlPressed) {
 	e.preventDefault();
 
 	// Only allow card dragging when making a chain or a challenge
-    if(this.currentState != this.makeChain) {
+    if(this.currentState != this.makeChain || cntrlPressed) {
 		return;
 	}
 
@@ -178,7 +178,7 @@ MainDisplay.prototype.onMouseDown = function(e, canvasRect) {
 	}	
 };
 
-MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
+MainDisplay.prototype.onMouseUp = function(e, canvasRect, cntrlPressed) {
 	e.preventDefault();
 
     // Only allow card selection when creating default
@@ -188,7 +188,9 @@ MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
 
 	if(this.selectedCard != null && e.which == 1) {
 		this.clearSelectedCard();	
-	} if(this.newLinkStartCard != null && e.which == 3) {
+	}
+
+	if(this.newLinkStartCard != null && e.which == 3) {
 		
 		var xClickPos = (event.clientX - canvasRect.left);
 		var yClickPos = (event.clientY - canvasRect.top);
@@ -212,6 +214,18 @@ MainDisplay.prototype.onMouseUp = function(e, canvasRect) {
 		}
 
 		this.newLinkStartCard = null;	
+	}
+
+	if(cntrlPressed) {
+		var xClickPos = (event.clientX - canvasRect.left);
+		var yClickPos = (event.clientY - canvasRect.top);
+
+		for(var cardNum = this.cards.length - 1; cardNum >= 0 ; cardNum--) {
+			if(this.cards[cardNum].getRealPosition().contains(xClickPos, yClickPos)) {
+				this.removeCard(this.cards[cardNum].getCardUniqueId());
+				break;
+			}
+		}
 	}
 };
 
@@ -292,6 +306,25 @@ MainDisplay.prototype.addCard = function(cardDrawer) {
 		}
         cardDrawer.scale = this.defaultCardScale;
 		this.cards.push(cardDrawer);
+	}
+};
+
+MainDisplay.prototype.removeCard = function(cardId) {
+
+	// Remove Links
+	for(var i=0; i<this.cardLinks.length; i++) {
+		if(this.cardLinks[i][0] == cardId || this.cardLinks[1] == cardId) {
+			this.cardLinks.splice(i, 1);
+			i--;
+		}
+	}
+
+	// Remove Card
+	for(var i=0; i<this.cards.length; i++) {
+		if(this.cards[i].getCardUniqueId() == cardId) {
+			this.cards.splice(i, 1);
+			break;
+		}
 	}
 };
 
