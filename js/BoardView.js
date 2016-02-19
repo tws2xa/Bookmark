@@ -38,8 +38,12 @@ function setCanvasSize() {
 }
 
 function init() {
+	console.log("Doing BDVIEW INIT");
 	if(typeof game_loop != "undefined") clearInterval(game_loop);
 	game_loop = setInterval(paint, 60);
+
+
+	
 
 	canvasRect = canvas.getBoundingClientRect();
 	canvas.addEventListener("click", onClick);
@@ -99,6 +103,13 @@ function init() {
 		boardDisplayHeight,
 		isTeacherForBoard
 	);
+	boardDisplay.setState(boardDisplay.noSession);
+	var sessionInfo = checkSession(sessionStorage.studentId);
+	if(sessionInfo){
+		stateXML = joinSession(sessionStorage.studentId);
+		handleBoardStateXML(stateXML);
+	}
+
 
 	// Mouse Wheel
 	if (canvas.addEventListener) {
@@ -135,7 +146,7 @@ function updateBoard(){
 	}
 }
 
-function noSessionButtonClicked() {
+function noSessionButtonClicked(boardDisplay) {
 	console.log("No Session Button Clicked!");
 	var stateXML;
 
@@ -147,11 +158,13 @@ function noSessionButtonClicked() {
 	}
 
 	handleBoardStateXML(stateXML);
-	boardDisplay.setState(boardDisplay.displayBoard);
+	// boardDisplay.setState(boardDisplay.displayBoard);
 }
 
 function handleBoardStateXML(stateXML) {
+
 	var mode = $(stateXML).find("mode").text().trim().toLowerCase();
+	console.log("bstate XML: " + mode);
 	if(mode == "paused") {
 		return; // Do nothing.
 	}
@@ -195,6 +208,7 @@ function handleBoardStateXML(stateXML) {
 			boardDisplay.chainDisplay.addChainToCanvas(chainId, chain);
 		});
 	}
+
 }
 
 function handleBoardXML(info) {

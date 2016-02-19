@@ -29,8 +29,16 @@ function BoardDisplay(x, y, width, height, isTeacherForBoard){
 	this.chainDisplay = new BoardChainDisplay(x, y, width, height);
 
 	this.isTeacher = isTeacherForBoard;
-
-	this.setState(this.noSession);
+	// console.log("about to call checkSession");
+	// var sessionInfo = checkSession(sessionStorage.studentId);
+	// if(!sessionInfo){
+	// 	this.setState(this.noSession);
+	// }
+	// else{
+	// 	stateXML = joinSession(sessionStorage.studentId);
+	// 	handleBoardStateXML(stateXML);
+	// }
+	
 }
 
 BoardDisplay.prototype.setState = function(newStateNum) {
@@ -46,7 +54,7 @@ BoardDisplay.prototype.setState = function(newStateNum) {
 		$("#chainQualitySelect").hide();
 		valid = true;
 	} else if(newStateNum == this.displayChains) {
-		console.log("\tDisplay Board");
+		console.log("\tDisplay Chains");
 		$("#canvas").show();
 		$("#noSessionButton").hide();
 		$("#nextButton").show();
@@ -61,7 +69,7 @@ BoardDisplay.prototype.setState = function(newStateNum) {
 		valid = true;
 	}
 	else if(newStateNum == this.noSession) {
-		console.log("\tDisplay Board");
+		console.log("\tNo Session");
 		$("#canvas").hide();
 		$("#nextButton").hide();
 		$("#prevButton").hide();

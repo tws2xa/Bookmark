@@ -8,6 +8,7 @@ var BOARD_HEIGHT =4;
 
 var BEGIN_SESSION = "begin-session";
 var JOIN_SESSION = "join-session";
+var CHECK_SESSION = "check-session";
 var LOGIN = "login";
 var GET_PERSON_NAME = "get-person-name";
 var IS_TEACHER = "is-teacher";
@@ -518,6 +519,25 @@ function joinSession(dfStudentId) {
 		retData = null;
 	});
 	return retData;
+}
+
+function checkSession(dfId){
+	var sendData = "id=" + dfId;
+	var targetUrl = BASE_URL + CHECK_SESSION;
+	var retData = "";
+	$.ajax({
+		type: 'POST',
+		url: targetUrl,
+	  	data: sendData,
+	  	async:false
+	}).done(function (data) {
+		console.log("Session status: " + data);
+		retData = data;
+	}).fail(function (data){
+		console.log("Error encountered" + data.status);
+		retData = null;
+	});
+	return (retData.trim().toLowerCase() == "true");
 }
 
 function createCardForStudent(dfStudentId, dfCardType, dfBodyText, dfPageStart, dfPageEnd, editId) {
