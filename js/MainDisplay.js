@@ -393,8 +393,18 @@ MainDisplay.prototype.loadChainOntoCanvas = function(chain, source) {
         var card = chain.cardsAndPos[cardNum][0];
 
         var pos = chain.cardsAndPos[cardNum][1]; // [x, y]
-        var cardDrawer = new CardDrawer(card, pos[0], pos[1], cardWidth, cardHeight);
-        cardDrawer.scale = this.defaultCardScale;
+
+
+		var drawerWidth = cardWidth;
+		var drawerHeight = cardHeight;
+		if(card.type.toLowerCase().trim() == "argument") {
+			// Swap dimensions for argument cards.
+			drawerWidth = cardHeight;
+			drawerHeight = cardWidth;
+		}
+        var cardDrawer = new CardDrawer(card, pos[0], pos[1], drawerWidth, drawerHeight);
+
+		cardDrawer.scale = this.defaultCardScale;
         cardDrawer.moveTo(pos[0], pos[1]); // Works around graphical bug.
 
 		for(var i=0; i<this.cards.length; i++) {
@@ -422,7 +432,15 @@ MainDisplay.prototype.loadBoardCard = function() {
 	console.log("called loadBoardCard");
 	var card = getBoardCardFromServer(sessionStorage.studentId);
 
-	var cardDrawer = new CardDrawer(card, 50, 50, cardWidth, cardHeight);
+	var drawerWidth = cardWidth;
+	var drawerHeight = cardHeight;
+	if(card.type.toLowerCase().trim() == "argument") {
+		// Swap dimensions for argument cards.
+		drawerWidth = cardHeight;
+		drawerHeight = cardWidth;
+	}
+	var cardDrawer = new CardDrawer(card, 50, 50, drawerWidth, drawerHeight);
+
 
 	this.addCard(cardDrawer, this.CARD_FROM_BOARD);
 	/*
