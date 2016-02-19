@@ -77,14 +77,14 @@ $(document).ready(function() {
 			var card = deckDisplay.selectedCard.copy();
 			deckDisplay.clearSelectedCard();
 			card.moveTo(50, 50);
-			mainDisplay.addCard(card);
+			mainDisplay.addCard(card, mainDisplay.CARD_NEW);
 		}
 
 		if(argumentDisplay.selectedCard != null) {
 			var card = argumentDisplay.selectedCard.copy();
 			argumentDisplay.clearSelectedCard();
 			card.moveTo(50, 50);
-			mainDisplay.addCard(card);
+			mainDisplay.addCard(card, mainDisplay.CARD_NEW);
 		}
 
 		// Draw Displays

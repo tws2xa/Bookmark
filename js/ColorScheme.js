@@ -8,6 +8,7 @@ var mainColorCool2 = "#C7DFC5"; // Light Green
 var mainColorWarm1 = "#F6FEAA"; // Light Yellow
 var mainColorWarm2 = "#FCE694"; // Darker Yellow
 var mainColorDark = "#373737"; // Dark gray
+var lightYellow = "#FFF9DD"; // Yellow-Gray
 
 // Shadow Colors
 var shadowColorCool1 = "#8C9FA4";
@@ -57,6 +58,14 @@ function getCardBackgroundColor() {
 		return "white";
 	} else {
 		return mainColorWarm1;
+	}
+}
+
+function getLockedCardBackgroundColor() {
+	if(highContrast) {
+		return "white";
+	} else {
+		return lightYellow;
 	}
 }
 

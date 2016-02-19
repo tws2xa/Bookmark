@@ -159,7 +159,7 @@ function handleStateXML(stateXML) {
             var challengeTeamId = $(chainInfoXML).find("team_id").text().trim();
             if(challengeTeamId == activeTeamTurnID) {
                 var chain = createChainFromXML(chainInfoXML);
-                mainDisplay.loadChainOntoCanvas(chain);
+                mainDisplay.loadChainOntoCanvas(chain, mainDisplay.CARD_FROM_DISPLAY_CHAIN);
             }
         });
     }
@@ -302,7 +302,7 @@ function paint() {
 		var xOffset = Math.floor((Math.random() * 98)) - 49;
 		var yOffset = Math.floor((Math.random() * 98)) - 49;
 		card.moveTo(50 + xOffset, 50 + yOffset);
-		mainDisplay.addCard(card);
+		mainDisplay.addCard(card, mainDisplay.CARD_NEW);
 	}
 
 	if(argumentDisplay.selectedCard != null) {
@@ -311,7 +311,7 @@ function paint() {
 		var xOffset = Math.floor((Math.random() * 98)) - 49;
 		var yOffset = Math.floor((Math.random() * 98)) - 49;
 		card.moveTo(50 + xOffset, 50 + yOffset);
-		mainDisplay.addCard(card);
+		mainDisplay.addCard(card, mainDisplay.CARD_NEW);
 	}
 
 	// Draw Displays
