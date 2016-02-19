@@ -10,7 +10,6 @@
 
     <!-- Make sure the user is a teacher -->
     <script type = "text/javascript">
-        var msgStr = "Hello!";
         if(sessionStorage.studentId == null) {
             window.location.href = "./login.html";
         } else {
@@ -27,8 +26,58 @@
             return false;
         }
 
-        function newTeam() {
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
 
+        function drag(ev) {
+            ev.dataTransfer.setData("dragObjId", ev.target.id);
+            console.log("ID: " + ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("dragObjId");
+            ev.target.appendChild(document.getElementById(data));
+        }
+
+        function newTeam() {
+            var defaultTxt = "";
+            var teamName = window.prompt("Please Enter a Team Name: ",defaultTxt);
+
+            if(teamName == null ) {
+                return false;
+            }
+            if(teamName.trim() == "") {
+                alert("Team Name Cannot Be Empty");
+                return false;
+            }
+
+            $("#teamTbl thead tr:first").append("<th>" + teamName + "</th>");
+            var colNum = $("#teamTbl thead tr:first th").size() - 1;
+            $("#teamTbl thead tr:last").append("<td><button onclick='return teamNameChange(" + colNum + ")' class='form-control'>Change Name</button>");
+            $("#teamTbl tbody tr").each(function(index, value) {
+                $(value).append("<td ondrop='drop(event)' ondragover='allowDrop(event)'></td>");
+            });
+            return false;
+        }
+
+        function teamNameChange(colNum) {
+            console.log("Changing Row: " + colNum)
+            var defaultTxt = $("#teamTbl thead tr:first th:eq(" + colNum + ")").text();
+
+            var teamName = window.prompt("Please Enter a Team Name: ", defaultTxt);
+
+            if(teamName == null ) {
+                return false;
+            }
+            if(teamName.trim() == "") {
+                alert("Team Name Cannot Be Empty");
+                return false;
+            }
+
+            $("#teamTbl thead tr:first th:eq(" + colNum + ")").html(teamName);
+            return false;
         }
 
     </script>
@@ -83,22 +132,34 @@
         <!-- Teams Table -->
         <div class="form-group col-sm-offset-1 col-sm-6">
             <label>Teams:</label>
-            <table class="table table-striped" style="width:auto">
+            <input type="button" value="Add Team" class="form-control" onclick="return newTeam()">
+            <br>
+            <table class="stripeTbl" id="teamTbl">
                 <!-- Header Row -->
                 <thead>
                 <tr>
                     <th>Unassigned Students</th>
-                    <td rowspan="6">
-                        <input type="button" value="Add Team" class="form-control" onclick="return newTeam()">
-                    </td>
+                </tr>
+                <tr>
+                    <td></td>
                 </tr>
                 </thead>
                 <tbody>
-                <tr><td>1121</td></tr>
-                <tr class="alt"><td>1234</td></tr>
-                <tr><td>7826</td></tr>
-                <tr class="alt"><td>5682</td></tr>
-                <tr ><td>2363</td></tr>
+                <tr><td ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <label id="1121" draggable="true" ondragstart="drag(event)">1121</label>
+                </td></tr>
+                <tr><td ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <label id="1234" draggable="true" ondragstart="drag(event)">1234</label>
+                </td></tr>
+                <tr><td ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <label id="7826" draggable="true" ondragstart="drag(event)">7826</label>
+                </td></tr>
+                <tr><td ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <label id="5682" draggable="true" ondragstart="drag(event)">5682</label>
+                </td></tr>
+                <tr><td ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <label id="2363" draggable="true" ondragstart="drag(event)">2363</label>
+                </td></tr>
                 </tbody>
             </table>
         </div>
