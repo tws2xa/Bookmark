@@ -1,5 +1,3 @@
-
-
 function MainDisplay(x, y, width, height) {
 	this.position = new Rectangle(x,y,width,height);
 	this.backColor = getDisplayBackgroundColor();
@@ -23,7 +21,14 @@ function MainDisplay(x, y, width, height) {
 	this.scaleMax = 1.5;
 
 	this.cards = [];
+	this.cardSources = {}; // [cardId, source] Source: 0 = From Board, 1 = From Argument Chain, 2 = New, 3 = Challenge Display
 	this.cardLinks = [];
+
+	// Sources
+	this.CARD_FROM_BOARD = 0;
+	this.CARD_FROM_ARG = 1;
+	this.CARD_NEW = 2;
+	this.CARD_FROM_DISPLAY_CHAIN = 3;
 
 	//state variables
 	this.currentState = 0;
@@ -284,45 +289,67 @@ MainDisplay.prototype.generateChain = function() {
 //----------------------Helper Functions-----------------------
 //-------------------------------------------------------------
 
-MainDisplay.prototype.addCard = function(cardDrawer) {
+MainDisplay.prototype.addCard = function(cardDrawer, source) {
 	if(this.currentState != this.makeChain && this.currentState != this.challenge) {
 		return;
 	}
 	console.log(cardDrawer.getType());
 	var cardType = cardDrawer.getType();
 
-
-	if(this.argumentCardOnBoard === false && !(cardType === "Argument")) {
-		alert("Please add an argument card first!");
+	// Bypass argument checks if it's from arg chain or board.
+	if(source != this.CARD_FROM_ARG && source != this.CARD_FROM_BOARD && source != this.CARD_FROM_DISPLAY_CHAIN) {
+		if(this.argumentCardOnBoard === false && !(cardType === "Argument")) {
+			alert("Please add an argument card first!");
+			return;
+		}
+		else if(this.argumentCardOnBoard === true && (cardDrawer.getType() === "Argument")) {
+			alert("Only one Argument card allowed on the board at a time!");
+			return;
+		}
 	}
 
-	else if(this.argumentCardOnBoard === true && (cardDrawer.getType() === "Argument")) {
-		alert("Only one Argument card allowed on the board at a time!");
+	for(var i=0; i<this.cards.length; i++) {
+		if(this.cards[i].getCardUniqueId() == cardDrawer.getCardUniqueId()) {
+			return; // Card already on board.
+		}
 	}
-	else {
-		for(var i=0; i<this.cards.length; i++) {
-			if(this.cards[i].getCardUniqueId() == cardDrawer.getCardUniqueId()) {
-				return; // Card already on board.
+
+	if (cardType === "Argument") {
+		this.argumentCardOnBoard = true;
+		var argChain = getArgumentCardChain(cardDrawer.getCardUniqueId()); // Defined in DataFetcher.
+		if(argChain != null && oldStateChallenge == false) {
+			this.loadChainOntoCanvas(argChain, this.CARD_FROM_ARG);
+
+			// The Argument card will be added with chain.
+			// But we need to change its source here, so it isn't registered as "from argument card".
+			// We do not need to push and scale again, so we return.
+			this.cardSources[cardDrawer.getCardUniqueId()] = source;
+			if(source == this.CARD_NEW) {
+				cardDrawer.backColor = getCardBackgroundColor(); // Reset color.
 			}
+			return;
 		}
-		if (cardType === "Argument") {
-			this.argumentCardOnBoard = true;
-			var argChain = getArgumentCardChain(cardDrawer.getCardUniqueId()); // Defined in DataFetcher.
-            if(argChain != null && oldStateChallenge == false) {
-                this.loadChainOntoCanvas(argChain);
-                return; // Argument card will be added with chain. Do not need to push and scale again.
-            }
-		}
-        cardDrawer.scale = this.defaultCardScale;
-		this.cards.push(cardDrawer);
+
 	}
+
+	cardDrawer.scale = this.defaultCardScale;
+	if(source == this.CARD_FROM_ARG || source == this.CARD_FROM_BOARD || source == this.CARD_FROM_DISPLAY_CHAIN) {
+		cardDrawer.backColor = getLockedCardBackgroundColor();
+	}
+	this.cards.push(cardDrawer);
+	this.cardSources[cardDrawer.getCardUniqueId()] = source;
 };
 
 MainDisplay.prototype.removeCard = function(cardId) {
 
+	var cardSource = this.cardSources[cardId];
+	if(cardSource == this.CARD_FROM_ARG || cardSource == this.CARD_FROM_BOARD) {
+		return;
+	}
+
 	// Remove Links
 	for(var i=0; i<this.cardLinks.length; i++) {
-		if(this.cardLinks[i][0] == cardId || this.cardLinks[1] == cardId) {
+		if(this.cardLinks[i][0] == cardId || this.cardLinks[i][1] == cardId) {
 			this.cardLinks.splice(i, 1);
 			i--;
 		}
@@ -331,29 +358,76 @@ MainDisplay.prototype.removeCard = function(cardId) {
 	// Remove Card
 	for(var i=0; i<this.cards.length; i++) {
 		if(this.cards[i].getCardUniqueId() == cardId) {
+
+			var clearArgChain = (this.cards[i].card.type.toLowerCase() == "argument");
+
 			this.cards.splice(i, 1);
+			delete this.cardSources[cardId];
+
+			if(clearArgChain) {
+				this.removeArgumentCardChain();
+				this.argumentCardOnBoard = false;
+			}
+
 			break;
 		}
 	}
 };
 
-MainDisplay.prototype.loadChainOntoCanvas = function(chain) {
+MainDisplay.prototype.removeArgumentCardChain = function() {
+	// Find all Cards From Argument Chain
+	for(var i=0; i<this.cards.length; i++) {
+		var cardId = this.cards[i].getCardUniqueId();
+		var cardSource = this.cardSources[cardId];
+
+		if(cardSource == this.CARD_FROM_ARG) {
+			// Remove links
+			for(var j=0; j<this.cardLinks.length; j++) {
+				if(this.cardLinks[j][0] == cardId || this.cardLinks[j][1] == cardId) {
+					this.cardLinks.splice(j, 1);
+					j--;
+				}
+			}
+
+			// Remove card
+			this.cards.splice(i, 1);
+			delete this.cardSources[cardId];
+			i--;
+		}
+	}
+}
+
+MainDisplay.prototype.loadChainOntoCanvas = function(chain, source) {
     // Load in the cards
     for(var cardNum=0; cardNum<chain.cardsAndPos.length; cardNum++) {
         var card = chain.cardsAndPos[cardNum][0];
+
         var pos = chain.cardsAndPos[cardNum][1]; // [x, y]
-        var cardDrawer = new CardDrawer(card, pos[0], pos[1], cardWidth, cardHeight);
-        cardDrawer .scale = this.defaultCardScale;
+
+
+		var drawerWidth = cardWidth;
+		var drawerHeight = cardHeight;
+		if(card.type.toLowerCase().trim() == "argument") {
+			// Swap dimensions for argument cards.
+			drawerWidth = cardHeight;
+			drawerHeight = cardWidth;
+		}
+        var cardDrawer = new CardDrawer(card, pos[0], pos[1], drawerWidth, drawerHeight);
+
+		cardDrawer.scale = this.defaultCardScale;
         cardDrawer.moveTo(pos[0], pos[1]); // Works around graphical bug.
 
 		for(var i=0; i<this.cards.length; i++) {
 			if(this.cards[i].getCardUniqueId() == cardDrawer.getCardUniqueId()) {
 				this.cards.splice(i, 1); // Card already on board. Remove it.
+				delete this.cardSources[cardDrawer.getCardUniqueId()];
 				break;
 			}
 		}
 
         this.cards.push(cardDrawer);
+		cardDrawer.backColor = getLockedCardBackgroundColor(); // ColorScheme.js
+		this.cardSources[cardDrawer.getCardUniqueId()] = source;
     }
 
     // Create links
@@ -368,18 +442,32 @@ MainDisplay.prototype.loadBoardCard = function() {
 	console.log("called loadBoardCard");
 	var card = getBoardCardFromServer(sessionStorage.studentId);
 
-	var cardDrawer = new CardDrawer(card, 50, 50, cardWidth, cardHeight);
+	var drawerWidth = cardWidth;
+	var drawerHeight = cardHeight;
+	if(card.type.toLowerCase().trim() == "argument") {
+		// Swap dimensions for argument cards.
+		drawerWidth = cardHeight;
+		drawerHeight = cardWidth;
+	}
+	var cardDrawer = new CardDrawer(card, 50, 50, drawerWidth, drawerHeight);
 
+
+	this.addCard(cardDrawer, this.CARD_FROM_BOARD);
+	/*
 	if (card.type === "Argument" || card.type === "argument") {
 		this.argumentCardOnBoard = true;
-		/*var argChain = getArgumentCardChain(cardDrawer.getCardUniqueId()); // Defined in DataFetcher.
-		if(argChain != null) {
-			this.loadChainOntoCanvas(argChain);
-			return; // Argument card will be added with chain. Do not need to push and scale again.
-		}*/
+
+		// var argChain = getArgumentCardChain(cardDrawer.getCardUniqueId()); // Defined in DataFetcher.
+		// if(argChain != null) {
+		//	this.loadChainOntoCanvas(argChain);
+		//	return; // Argument card will be added with chain. Do not need to push and scale again.
+		//}
 	}
 
+	cardDrawer.backColor = getLockedCardBackgroundColor() // ColorScheme.js
 	this.cards.push(cardDrawer);
+	this.cardSources[cardDrawer.getCardUniqueId()] = this.CARD_FROM_BOARD;
+	*/
 };
 
 MainDisplay.prototype.selectCard = function(cardIndex, pointerPos) {
