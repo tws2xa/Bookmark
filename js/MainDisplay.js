@@ -257,18 +257,27 @@ MainDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 
 MainDisplay.prototype.generateChain = function() {
 	var pass = false;
-	if(this.cards[0].getType() == "Argument") {
-		pass = true;
+	for(var i = 0; i < this.cards.length; i+=1) {
+		if(this.cards[i].getType() === "Argument") {
+			pass = true;
+		}
 	}
-	else {
-		console.log("You must add an argument card to your chain.");
+
+	
+	if (this.cards.length < 2) {
+		alert("You must add more than one card.");
 	}
 	
-	//if (pass) {
+	else if (pass) {
 		var input = formatCardDrawer(this.cards); // Defined in Chain.js
 		var chain = new Chain(input, this.cardLinks);
 		return chain;
-	//}
+	}
+
+	else {
+		alert("You must add an argument card to your chain.");
+		
+	}
 };
 
 //-------------------------------------------------------------
@@ -299,7 +308,7 @@ MainDisplay.prototype.addCard = function(cardDrawer) {
 		if (cardType === "Argument") {
 			this.argumentCardOnBoard = true;
 			var argChain = getArgumentCardChain(cardDrawer.getCardUniqueId()); // Defined in DataFetcher.
-            if(argChain != null) {
+            if(argChain != null && oldStateChallenge == false) {
                 this.loadChainOntoCanvas(argChain);
                 return; // Argument card will be added with chain. Do not need to push and scale again.
             }
@@ -481,6 +490,12 @@ MainDisplay.prototype.setState = function(newStateNum) {
 		$("#turnSelectTable").hide();
 	} else if(newStateNum == this.makeChain) {
         console.log("\tMake Chain");
+        if(oldStateChallenge = true) {
+   			var stateXML = getBoardStateInfo(sessionStorage.studentId);
+       		getChallengeArgumentCard(stateXML);
+        	oldStateChallenge = false;
+        }
+     
 		$("#genericSubmitButton").show();
 		$("#challengeButton").hide();
 		$("#passButton").hide();	
@@ -513,7 +528,7 @@ MainDisplay.prototype.setState = function(newStateNum) {
 
 
 MainDisplay.prototype.displayViableMoves = function() {
-	console.log("Helloooooooo");
+
 	var list = this.getValidMovePositions(2);
 
 
