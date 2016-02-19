@@ -19,7 +19,6 @@ padding-left:0%;
 
 li {
     float: left;
-	
 }
 
 
@@ -51,7 +50,28 @@ display:inline
 
 }
 
+.stripeTbl table {
+    border-collapse: collapse;
+    width: auto;
+}
 
+.stripeTbl th, td {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid black;
+}
+
+.stripeTbl tr:nth-child(odd) {background-color: white}
+.stripeTbl tr:nth-child(even){background-color: #f2f2f2}
+
+.stripeTbl th {
+    background-color: #6099aa;
+    color: white;
+}
+
+label {
+    width:100%;
+}
 
 
 

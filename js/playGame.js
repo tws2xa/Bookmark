@@ -55,6 +55,7 @@ var challengeBtn;
 var passBtn;
 var turnSelectTable;
 
+var oldStateChallenge = false;
 var cntrlIsPressed = false;
 
 function setCanvasSize() {
@@ -165,6 +166,22 @@ function handleStateXML(stateXML) {
     }
 }
 
+function getChallengeArgumentCard(stateXML) {
+   
+  //  if(mainDisplay.currentState == 1) {
+        
+        var allChainsXML = $(stateXML).find("challenge_chains");
+        $(allChainsXML).find("card_info").each(function(index, element) {
+            var cardType = $(element).find("type").text().trim();
+            if(cardType === "Argument" || cardType === "argument") {
+                var card = createCardFromXML(element);
+                var cardDrawer = new CardDrawer(card, 50, 50, cardWidth, cardHeight);
+                mainDisplay.addCard(cardDrawer);
+            }
+        });
+  //  }
+}
+
 // Note: State and mode are used interchangeably here.
 function getStateInt(stateXML) {
     /* States *
@@ -196,6 +213,7 @@ function getStateInt(stateXML) {
         }
     } else if (modeText == "challenge") {
         var yourTurn = $(stateXML).find("your_turn").text().trim().toLowerCase();
+        oldStateChallenge = true;
 
         if(yourTurn == "true") {
 			// console.log("Challenge - Your Turn - Being Challenged");
@@ -207,6 +225,8 @@ function getStateInt(stateXML) {
 				return mainDisplay.currentState;
 			}
 			// console.log("Challenge - Not Your Turn - Waiting for Decision");
+
+
             return mainDisplay.challenge; // Challenge Decision (pass or challenge);
         }
     }
@@ -269,7 +289,7 @@ function init() {
 	canvasA.oncontextmenu = function(e) {
 		return false;
 	}
-	canvasD.oncontextmenu = function(e) {
+	canvasD.oncontextmenu = function(eaddcard) {
 		return false;
 	}
 
@@ -420,6 +440,10 @@ function onGenericSubmit() {
 	//check for previous chains on argument
 
 	var chain = mainDisplay.generateChain();
+	/*while(chain = null) {addcard
+		mainDisplay.generateChain();
+		chain = mainDisplay.generateChain();
+	}*/
 	mainDisplay.setState(mainDisplay.waitingOnChallenge);
 	submitChainToServer(sessionStorage.studentId, chain);
 	mainDisplay.clearChain();
@@ -434,8 +458,11 @@ function onPassSubmit() {
 }
 
 function beginChallengeCreation() {
+	
 	mainDisplay.clearChain();
+
 	mainDisplay.setState(mainDisplay.makeChain);
+	
 }
 
 function moveBtnPress(x, y) {

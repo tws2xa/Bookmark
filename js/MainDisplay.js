@@ -262,18 +262,27 @@ MainDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 
 MainDisplay.prototype.generateChain = function() {
 	var pass = false;
-	if(this.cards[0].getType() == "Argument") {
-		pass = true;
+	for(var i = 0; i < this.cards.length; i+=1) {
+		if(this.cards[i].getType() === "Argument") {
+			pass = true;
+		}
 	}
-	else {
-		console.log("You must add an argument card to your chain.");
+
+	
+	if (this.cards.length < 2) {
+		alert("You must add more than one card.");
 	}
 	
-	//if (pass) {
+	else if (pass) {
 		var input = formatCardDrawer(this.cards); // Defined in Chain.js
 		var chain = new Chain(input, this.cardLinks);
 		return chain;
-	//}
+	}
+
+	else {
+		alert("You must add an argument card to your chain.");
+		
+	}
 };
 
 //-------------------------------------------------------------
@@ -308,7 +317,7 @@ MainDisplay.prototype.addCard = function(cardDrawer, source) {
 	if (cardType === "Argument") {
 		this.argumentCardOnBoard = true;
 		var argChain = getArgumentCardChain(cardDrawer.getCardUniqueId()); // Defined in DataFetcher.
-		if(argChain != null) {
+		if(argChain != null && oldStateChallenge == false) {
 			this.loadChainOntoCanvas(argChain, this.CARD_FROM_ARG);
 
 			// The Argument card will be added with chain.
@@ -320,6 +329,7 @@ MainDisplay.prototype.addCard = function(cardDrawer, source) {
 			}
 			return;
 		}
+
 	}
 
 	cardDrawer.scale = this.defaultCardScale;
@@ -393,8 +403,18 @@ MainDisplay.prototype.loadChainOntoCanvas = function(chain, source) {
         var card = chain.cardsAndPos[cardNum][0];
 
         var pos = chain.cardsAndPos[cardNum][1]; // [x, y]
-        var cardDrawer = new CardDrawer(card, pos[0], pos[1], cardWidth, cardHeight);
-        cardDrawer.scale = this.defaultCardScale;
+
+
+		var drawerWidth = cardWidth;
+		var drawerHeight = cardHeight;
+		if(card.type.toLowerCase().trim() == "argument") {
+			// Swap dimensions for argument cards.
+			drawerWidth = cardHeight;
+			drawerHeight = cardWidth;
+		}
+        var cardDrawer = new CardDrawer(card, pos[0], pos[1], drawerWidth, drawerHeight);
+
+		cardDrawer.scale = this.defaultCardScale;
         cardDrawer.moveTo(pos[0], pos[1]); // Works around graphical bug.
 
 		for(var i=0; i<this.cards.length; i++) {
@@ -422,7 +442,15 @@ MainDisplay.prototype.loadBoardCard = function() {
 	console.log("called loadBoardCard");
 	var card = getBoardCardFromServer(sessionStorage.studentId);
 
-	var cardDrawer = new CardDrawer(card, 50, 50, cardWidth, cardHeight);
+	var drawerWidth = cardWidth;
+	var drawerHeight = cardHeight;
+	if(card.type.toLowerCase().trim() == "argument") {
+		// Swap dimensions for argument cards.
+		drawerWidth = cardHeight;
+		drawerHeight = cardWidth;
+	}
+	var cardDrawer = new CardDrawer(card, 50, 50, drawerWidth, drawerHeight);
+
 
 	this.addCard(cardDrawer, this.CARD_FROM_BOARD);
 	/*
@@ -550,6 +578,12 @@ MainDisplay.prototype.setState = function(newStateNum) {
 		$("#turnSelectTable").hide();
 	} else if(newStateNum == this.makeChain) {
         console.log("\tMake Chain");
+        if(oldStateChallenge = true) {
+   			var stateXML = getBoardStateInfo(sessionStorage.studentId);
+       		getChallengeArgumentCard(stateXML);
+        	oldStateChallenge = false;
+        }
+     
 		$("#genericSubmitButton").show();
 		$("#challengeButton").hide();
 		$("#passButton").hide();	
@@ -582,7 +616,7 @@ MainDisplay.prototype.setState = function(newStateNum) {
 
 
 MainDisplay.prototype.displayViableMoves = function() {
-	console.log("Helloooooooo");
+
 	var list = this.getValidMovePositions(2);
 
 
