@@ -10,6 +10,7 @@
 
     <!-- Make sure the user is a teacher -->
     <script type = "text/javascript">
+
         if(sessionStorage.studentId == null) {
             window.location.href = "./login.html";
         } else {
@@ -18,6 +19,17 @@
                 window.location.href = "./login.html";
             }
         }
+
+        // Load in Student List
+        var studentNames = [];
+        var studentXML = getStudentList(sessionStorage.studentId); // DataFetcher.js
+        var innerListXML = $(studentXML).find("student_list");
+        $(innerListXML).find("student_name").each(function(index, element) {
+            var name = $(element).text().trim();
+            studentNames.push(name);
+        });
+        studentNames.sort();
+
 
         function submitNewAssignmentForm() {
             var assignmentName = $("#assignmentName").val();
@@ -145,6 +157,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                <!--
                 <tr><td ondrop="drop(event)" ondragover="allowDrop(event)">
                     <label id="1121" draggable="true" ondragstart="drag(event)">1121</label>
                 </td></tr>
@@ -160,9 +173,21 @@
                 <tr><td ondrop="drop(event)" ondragover="allowDrop(event)">
                     <label id="2363" draggable="true" ondragstart="drag(event)">2363</label>
                 </td></tr>
+                -->
                 </tbody>
             </table>
         </div>
+
+        <script type="text/javascript">
+            // Fill table
+            console.log("Adding Names:");
+            for(var i=0; i<studentNames.length; i++) {
+                var studentName = studentNames[i];
+                var appendStr = "<tr><td ondrop='drop(event)' ondragover='allowDrop(event)'><label id='" + studentName + "' draggable='true' ondragstart='drag(event)'>" + studentName + "</label></td></tr>"
+                $("#teamTbl tbody:last-child").append(appendStr);
+                console.log("\t" + studentName);
+            }
+        </script>
 
         <!-- Launch Assignment Button -->
         <div class="form-group col-sm-offset-1 col-sm-6">

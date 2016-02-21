@@ -27,6 +27,7 @@ var GET_BOARD_CARD = "get-board-card";
 var SUBMIT_WINNING_CHAIN = "submit-winning-chain";
 var GET_TEAM_POSITION = "get-team-position";
 var UPDATE_TEAM_POSITION = "update-team-position";
+var GET_CLASS_STUDENTS = "get-class-students"; // Parameters: "id" (teacher id)
 
 /**
  * Requesting Information From the Server
@@ -414,6 +415,27 @@ function getTeamFromStudentId (dfStudentId) {
 	}).fail(function (data){
 		console.log("Failure Obtaining Team Id: " + data.status);
 		retData = "Person #" + dfStudentId;
+	});
+
+	return retData;
+}
+
+function getStudentList(dfTeacherId) {
+	var sendData = "id=" + dfTeacherId;
+	var targetUrl = BASE_URL + GET_CLASS_STUDENTS;
+
+	var retData;
+	$.ajax({
+		type: 'POST',
+		url: targetUrl,
+		data: sendData,
+		async:false
+	}).done(function (data) {
+		console.log("Obtained Student List: \"" + data + "\"");
+		retData = data;
+	}).fail(function (data){
+		console.log("Failure Obtaining Student List: " + data.status);
+		retData = null;
 	});
 
 	return retData;
