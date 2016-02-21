@@ -89,5 +89,5 @@ function getCardShadowColor() {
  * Player colors
  */
 function getPlayerColor(i){
-	return playerColors[i];
+	return playerColors[i % playerColors.length];
 }
