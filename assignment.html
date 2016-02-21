@@ -150,8 +150,12 @@
             return false;
         }
 
+     
+
     </script>
 
+
+           
 
   <title>New Assignment</title>
 </head>
@@ -159,14 +163,14 @@
     <!-- Nav Bar -->
     <div class="nav">
         <div class = "container";>
-            <ul class="pull-left">
+            <ul id="left" class="pull-left">
                 <a href="homepage.html">Home</a> 
                 <a href="workshop.html">Workshop</a>
                 <a href="play.html">Play</a>
                 <a href="Board.html">Board</a>
            </ul>
-            <ul class="pull-right">
-                <a href="login.html">Login</a>
+            <ul id="right" class="pull-right">
+                
             </ul>
         </div>
     </div>
@@ -237,4 +241,28 @@
 
     </form>
 </body>
+
+<script type = "text/javascript">
+
+  
+     if(isTeacherId(sessionStorage.studentId)) { 
+       /*  var navBar = document.getElementById("left");
+         var newButton = document.createTextNode(msgStr);
+         navBar.appendChild(textToAdd);
+
+         <a id="Teacher">Teacher</a>*/
+         $("#left").append('<a href="#">Teacher</a>');
+      }
+      
+      if(sessionStorage.studentId != null) {
+               $("#right").append('<a href="login.html">Logout</a>');
+        }
+            
+    if(sessionStorage.studentId == null) {
+            $("#right").append('<a href="login.html">Login</a>');
+    }
+
+
+
+</script>
 </html>

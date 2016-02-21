@@ -261,28 +261,43 @@ MainDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 
 
 MainDisplay.prototype.generateChain = function() {
-	var pass = false;
+	
+	
+	/*var check = false;
+	var counter = 0;
+
 	for(var i = 0; i < this.cards.length; i+=1) {
 		if(this.cards[i].getType() === "Argument") {
-			pass = true;
+			check = true;
+		}
+
+		var cardSource = this.cardSources[this.cards[i].getCardUniqueId()];
+		if(cardSource == this.CARD_NEW) {
+			counter = counter + 1;
 		}
 	}
 
-	
-	if (this.cards.length < 2) {
-		alert("You must add more than one card.");
+	console.log("C: " + counter);
+	if (counter < 2) {
+
+		validChain = false;
 	}
 	
-	else if (pass) {
+	else if (check == false) {
+		validChain = false;
+	}
+	
+	else {
+
+		validChain = true;
+	}
+
+	if(validChain == true) {*/
 		var input = formatCardDrawer(this.cards); // Defined in Chain.js
 		var chain = new Chain(input, this.cardLinks);
 		return chain;
-	}
+//	}
 
-	else {
-		alert("You must add an argument card to your chain.");
-		
-	}
 };
 
 //-------------------------------------------------------------
@@ -325,6 +340,7 @@ MainDisplay.prototype.addCard = function(cardDrawer, source) {
 			// We do not need to push and scale again, so we return.
 			this.cardSources[cardDrawer.getCardUniqueId()] = source;
 			if(source == this.CARD_NEW) {
+
 				cardDrawer.backColor = getCardBackgroundColor(); // Reset color.
 			}
 			return;

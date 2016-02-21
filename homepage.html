@@ -19,17 +19,42 @@
     <!-- Nav Bar -->
     <div class="nav">
         <div class="container">
-            <ul class="pull-left">
+            <ul id="left" class="pull-left">
                 <a href="homepage.html">Home</a> 
                 <a href="workshop.html">Workshop</a>
                 <a href="play.html">Play</a>
                 <a href="Board.html">Board</a>
+
+             
+
     	   </ul>
-            <ul class="pull-right">
-                <a href="login.html">Login</a>
+            <ul class="pull-right" id="right">
+                
             </ul>
         </div>
     </div>
+
+       <script type = "text/javascript">
+
+          
+             if(isTeacherId(sessionStorage.studentId)) { 
+               /*  var navBar = document.getElementById("left");
+                 var newButton = document.createTextNode(msgStr);
+                 navBar.appendChild(textToAdd);
+
+                 <a id="Teacher">Teacher</a>*/
+                 $("#left").append('<a href="assignment.html">Teacher</a>');
+              }
+
+            if(sessionStorage.studentId != null) {
+                   $("#right").append('<a href="login.html">Logout</a>');
+            }
+            
+            if(sessionStorage.studentId == null) {
+                    $("#right").append('<a href="login.html">Login</a>');
+            }
+
+            </script>
 
     <center>
         <h1> Welcome to Bookmark! </h1>

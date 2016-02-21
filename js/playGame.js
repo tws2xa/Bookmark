@@ -57,6 +57,8 @@ var turnSelectTable;
 
 var oldStateChallenge = false;
 var cntrlIsPressed = false;
+var validChain = false;
+
 
 function setCanvasSize() {
 	// Needed variables
@@ -432,23 +434,55 @@ function argsDisplayMouseDrag(event) {
 }
 
 function onGenericSubmit() {
-	//get baord card?
-
-	//if contains an argument card, good
-	//if the token is on an argument card, good
-	//else issue warning and do not submit
-	//check for previous chains on argument
-
+	console.log("valid chain: " + validChain);
+	
 	var chain = mainDisplay.generateChain();
-	/*while(chain = null) {addcard
-		mainDisplay.generateChain();
-		chain = mainDisplay.generateChain();
+
+/*	var check = false;
+	var counter = 0;
+	var chainCardsPos = chain.getCardsAndPos()
+	for(var i = 0; i < chainCardsPos.length; i+=1) {
+		var temp = chainCardsPos[i];
+		console.log(temp[0]);
+		var card = temp[0];
+		if(card.getType() === "Argument") {
+			check = true;
+		}
+
+		var cardSource = this.cardSources[card.getCardUniqueId()];
+		if(cardSource == this.CARD_NEW) {
+			counter = counter + 1;
+		}
+	}
+
+	//console.log("C: " + counter);
+	if (counter < 2) {
+		validChain = false;
+	}
+	
+	else if (check == false) {
+		validChain = false;
+	}
+	
+	else {
+
+		validChain = true;
+	}
+
+
+
+	if (validChain) {*/
+		mainDisplay.setState(mainDisplay.waitingOnChallenge);		
+		submitChainToServer(sessionStorage.studentId, chain);
+		mainDisplay.clearChain();
+		document.getElementById("canvasM").focus();
+		console.log("Chain creation attempted.");
+/*	}
+
+	else {
+		alert("Chains must have at least two new cards and an argument card!");
 	}*/
-	mainDisplay.setState(mainDisplay.waitingOnChallenge);
-	submitChainToServer(sessionStorage.studentId, chain);
-	mainDisplay.clearChain();
-	document.getElementById("canvasM").focus();
-	console.log("Chain creation attempted.");
+
 }
 
 function onPassSubmit() {

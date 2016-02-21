@@ -6,14 +6,14 @@
 <!-- Title Bar -->
 <div class="nav">
 	<div class="container">
-		<ul class="pull-left">
+		<ul id="left" class="pull-left">
 			<a href="homepage.html">Home</a> 
 			<a href="workshop.html">Workshop</a>
 			<a href="play.html">Play</a>
 			<a href="Board.html">Board</a>
 		</ul>
-		<ul class="pull-right">
-  			<a href="login.html">Login</a>
+		<ul class="pull-right" id="right">
+  			
   		</ul>
   	</div>
 </div>
@@ -28,6 +28,8 @@
 <div id="divM" style = "position: absolute; border:0px solid #000000;" ><canvas id="canvasM" style = "margin: 0px;"></canvas></div>
 <div id="divA" style = "position: absolute; border:0px solid #000000;"><canvas id="canvasA" style = "margin: 0px;"></canvas> </div>
 <div id="divD" style = "position: absolute; border:0px solid #000000;"><canvas id="canvasD" style = "margin: 0px;"></canvas></div>
+
+
 
 
 <!-- Jquery -->
@@ -77,6 +79,33 @@
 	}
 	document.writeln("</table>");
 	
+</script>
+
+<script type = "text/javascript">
+
+  
+     if(isTeacherId(sessionStorage.studentId)) { 
+       /*  var navBar = document.getElementById("left");
+         var newButton = document.createTextNode(msgStr);
+         navBar.appendChild(textToAdd);
+
+         <a id="Teacher">Teacher</a>*/
+         $("#left").append('<a href="assignment.html">Teacher</a>');
+      }
+      
+    if(sessionStorage.studentId != null) {
+           $("#right").append('<a href="login.html">Logout</a>');
+    }
+    
+    if(sessionStorage.studentId == null) {
+            $("#right").append('<a href="login.html">Login</a>');
+    }
+
+           
+
+
+
+
 </script>
 
 
