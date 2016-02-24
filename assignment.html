@@ -71,7 +71,7 @@
                 xmlStr += "<assignment_deck_type>" + assignmentDeckType + "</assignment_deck_type>";
                 xmlStr += "<assignment_info>" + assignmentInfo + "</assignment_info>";
                 xmlStr += "<teams>";
-                for(var curTeamNum=1; curTeamNum<numTeams; curTeamNum++) {
+                for(var curTeamNum=1; curTeamNum<=numTeams; curTeamNum++) {
                     var teamName = $("#teamTbl thead tr:first th:eq(" + curTeamNum + ")").text();
                     xmlStr += "<team>";
                     xmlStr += "<team_name>" + teamName + "</team_name>";
@@ -88,8 +88,10 @@
             xmlStr += "</teams>";
             xmlStr += "</assignment>";
 
-            console.log("New Assignment: " + xmlStr);
-            return false;
+            var retData = sendNewAssignmentToServer(sessionStorage.studentId, xmlStr);
+            console.log("New Assignment Status: " + retData);
+
+            return true;
         }
 
         function allowDrop(ev) {
@@ -236,7 +238,7 @@
 
         <!-- Launch Assignment Button -->
         <div class="form-group col-sm-offset-1 col-sm-6">
-            <input type="button" value = "Launch Assignment" class="btn btn-primary btn-md" onclick="return submitNewAssignmentForm()">
+            <input type="button" value = "Launch Assignment" class="btn btn-primary btn-md" onclick="return submitNewAssignmentForm()" action="./home.html">
         </div>
 
     </form>

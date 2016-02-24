@@ -28,6 +28,7 @@ var SUBMIT_WINNING_CHAIN = "submit-winning-chain";
 var GET_TEAM_POSITION = "get-team-position";
 var UPDATE_TEAM_POSITION = "update-team-position";
 var GET_CLASS_STUDENTS = "get-class-students"; // Parameters: "id" (teacher id)
+var LAUNCH_NEW_ASSIGNMENT = "launch-new-assignment"; // Parameters: "id" (teacher id), "assignment_info" (assignment xml).
 
 /**
  * Requesting Information From the Server
@@ -588,6 +589,31 @@ function createCardForStudent(dfStudentId, dfCardType, dfBodyText, dfPageStart, 
 		console.log("Failure Joining Session: " + data.status);
 		retData = data;
 	});
+	return retData;
+}
+
+/**
+ * Send a new assignment to the server and launch the assignment
+ */
+function sendNewAssignmentToServer(dfTeacherId, assignmentXML) {
+	var sendData = ("id=" + dfTeacherId + "&assignment_info=" + assignmentXML);
+	var targetUrl = BASE_URL + LAUNCH_NEW_ASSIGNMENT;
+
+	var retData = null;
+	$.ajax({
+		type: 'POST',
+		url: targetUrl,
+		data: sendData,
+		async:false
+	}).done(function (data) {
+		data = data.trim();
+		retData = data;
+		console.log("Launched new assignment: \"" + data + "\"");
+	}).fail(function (data){
+		console.log("Failure launching new assignment: " + data.status);
+		retData = data;
+	});
+
 	return retData;
 }
 
