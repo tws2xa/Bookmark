@@ -40,7 +40,7 @@
             var assignmentName = $("#assignmentName").val().trim();
             if(assignmentName == "") {
                 alert("Please Enter an Assignment Name.");
-                return;
+                return false;
             }
             var assignmentDeckType = $("#assignmentDeckType option:selected").text().trim();
             var assignmentInfo = $("#assignmentInfo").val().trim();
@@ -177,7 +177,7 @@
         </div>
     </div>
 
-    <form>
+    <form action="homepage.html">
         <!-- Title -->
         <div class="form-group col-sm-offset-1 col-lg-6">
             <h2>Create New Assignment</h2>
@@ -238,7 +238,7 @@
 
         <!-- Launch Assignment Button -->
         <div class="form-group col-sm-offset-1 col-sm-6">
-            <input type="button" value = "Launch Assignment" class="btn btn-primary btn-md" onclick="return submitNewAssignmentForm()" action="./home.html">
+            <input type="submit" value = "Launch Assignment" class="btn btn-primary btn-md" onclick="return submitNewAssignmentForm()">
         </div>
 
     </form>
