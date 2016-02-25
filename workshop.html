@@ -49,17 +49,17 @@
 
 				if(cardType == "Card Type") {
 					alert("Please select a card type from the drop down menu at the top of the card.");
-					return;
+					return false;
 				}
 
 				if(bodyText.size > 100) {
 					alert("You cannot submit a card with more than 100 characters. Try using an ellipsis!");
-					return;
+					return false;
 				}
 
 				if(bodyText.trim() == "") {
 					alert("You cannot submit a blank card.");
-					return;
+					return false;
 				}
 
 				editId = editId.trim();
@@ -75,6 +75,7 @@
 				}
 
 				createCardForStudent(studentId, cardType, bodyText, pageStart, pageEnd, editId); // Defined in DataFetcher
+				return true;
 			}
 		}
 	</script>
