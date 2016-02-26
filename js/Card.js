@@ -32,6 +32,10 @@ Card.prototype.getType = function() {
 
 }
 
+Card.prototype.getCardUniqueId = function() {
+	return this.uniqueId;
+}
+
 function createCardFromXML(xmlData) {
 	var cardData = $(xmlData).find("card");
 	return createCardFromXMLCardElement(cardData);

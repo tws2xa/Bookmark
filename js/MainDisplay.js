@@ -679,7 +679,9 @@ MainDisplay.prototype.displayViableMoves = function() {
 }
 
 
-
+MainDisplay.prototype.getCardSource = function(cardId) {
+	return this.cardSources[cardId];
+}
 
 // Returns all valid positions that the team with the given student
 // can move to. [ [x,y], [x,y], [x,y], ...]

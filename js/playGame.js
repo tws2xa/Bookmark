@@ -438,19 +438,21 @@ function onGenericSubmit() {
 	
 	var chain = mainDisplay.generateChain();
 
-/*	var check = false;
+	var check = false;
 	var counter = 0;
 	var chainCardsPos = chain.getCardsAndPos()
 	for(var i = 0; i < chainCardsPos.length; i+=1) {
+
 		var temp = chainCardsPos[i];
 		console.log(temp[0]);
 		var card = temp[0];
+
 		if(card.getType() === "Argument") {
 			check = true;
 		}
-
-		var cardSource = this.cardSources[card.getCardUniqueId()];
-		if(cardSource == this.CARD_NEW) {
+		//var cardDrawer = new CardDrawer(card, 50, 50, cardWidth, cardHeight);
+		var cardSource = mainDisplay.getCardSource(card.getCardUniqueId);
+		if(cardSource === this.CARD_NEW) {
 			counter = counter + 1;
 		}
 	}
@@ -465,18 +467,20 @@ function onGenericSubmit() {
 	}
 	
 	else {
+		console.log("COUNTER HELLLO YESSS S SS " +counter);
 
 		validChain = true;
 	}
 
 
 
-	if (validChain) {*/
+	if (validChain) {
 		mainDisplay.setState(mainDisplay.waitingOnChallenge);		
 		submitChainToServer(sessionStorage.studentId, chain);
 		mainDisplay.clearChain();
 		document.getElementById("canvasM").focus();
 		console.log("Chain creation attempted.");
+	}
 /*	}
 
 	else {
@@ -527,14 +531,13 @@ function loadBoardCardType(x, y) {
 			
 	});
 
-
-
 	if(cards.length == BOARD_WIDTH*BOARD_HEIGHT) {
 		for(var h = 0; h < BOARD_HEIGHT; h++) {
 			
 			for(var w = 0; w < BOARD_WIDTH; w++) {
 				if(x == h && y == w) {
 					var c = cards[h*BOARD_WIDTH + w];
+
 					return c.getType();
 				}
 			}
