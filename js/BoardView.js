@@ -196,6 +196,7 @@ function handleBoardStateXML(stateXML) {
 		handleBoardXML(stateXML);
 	}
 	else if(mode == "challenge") {
+        document.getElementById("chainQualitySelect").selectedIndex = "0";
 		if(boardDisplay.currentState != boardDisplay.displayChains) {
 			boardDisplay.setState(boardDisplay.displayChains);
 		}
@@ -225,10 +226,14 @@ function handleBoardXML(info) {
 }
 
 function onPrevButtonClicked() {
+    console.log("about to change vlaue to 0");
+    document.getElementById("chainQualitySelect").selectedIndex = "0";
 	boardDisplay.chainDisplay.incrementChainNum(-1);
 }
 
 function onNextButtonClicked() {
+    console.log("about to change vlaue to 0");
+    document.getElementById("chainQualitySelect").selectedIndex = "0";
 	boardDisplay.chainDisplay.incrementChainNum(1);
 }
 
@@ -244,7 +249,7 @@ function onWinnerButtonClicked() {
 	var winnerChain = boardDisplay.chainDisplay.getCurrentDisplayChain(true);
 	var winnerChainId = boardDisplay.chainDisplay.getCurrentDisplayChainId();
 	submitWinningChainToServer(sessionStorage.studentId, winnerChainId, winnerChain, $("#chainQualitySelect option:selected").text());
-    $("#chainQualitySelect").value=0;
+    document.getElementById("chainQualitySelect").selectedIndex = "0";
 }
 
 function onClick(event){

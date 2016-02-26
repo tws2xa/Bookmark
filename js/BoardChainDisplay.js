@@ -131,7 +131,8 @@ BoardChainDisplay.prototype.displayChainNumOnCanvas = function(displayNum) {
 	this.cardLinks = tmpLinks.slice(); // Slice triggers copy by value, not reference
 
 	this.currentChainDisplayed = displayNum;
-	console.log("Displaying Chain #" + this.currentChainDisplayed);
+	document.getElementById("chainQualitySelect").selectedIndex = "0";
+    console.log("Displaying Chain #" + this.currentChainDisplayed);
 };
 
 BoardChainDisplay.prototype.adjustScale = function(amt, fixPosition) {
