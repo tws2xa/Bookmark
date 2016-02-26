@@ -1,0 +1,124 @@
+<html>
+<head>
+    <!-- Jquery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/ColorScheme.js"></script>
+
+    <script type="text/javascript" src = "js\DataFetcher.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/homepagecss.css">
+
+    <!-- Make sure the user is a teacher -->
+    <script type = "text/javascript">
+
+        if(sessionStorage.studentId == null) {
+            window.location.href = "./login.html";
+        } else {
+            var isTeacher = isTeacherId(sessionStorage.studentId);
+            if(!isTeacher) {
+                window.location.href = "./login.html";
+            }
+        }
+
+        /**
+         * Pad a string to the given length using given pad string.
+         */
+        function padding_right(str, padStr, len) {
+            if(padStr == "") {
+                return str;
+            }
+
+            var toAdd = (len - str.length)/padStr.length;
+            for (var i = 0; i < toAdd; i++) {
+                str += padStr;
+            }
+            return str;
+        }
+
+    </script>
+  <title>Class Information</title>
+</head>
+<body>
+    <!-- Nav Bar -->
+    <div class="nav">
+        <div class = "container";>
+            <ul id="left" class="pull-left">
+                <a href="homepage.html">Home</a> 
+                <a href="workshop.html">Workshop</a>
+                <a href="play.html">Play</a>
+                <a href="Board.html">Board</a>
+           </ul>
+            <ul id="right" class="pull-right">
+                <!-- Login/Logout filled via script at bottom of page -->
+            </ul>
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <div id="panels" class="col-lg-offset-1 col-lg-10">
+        <div class="panel panel-default col-lg-2">
+            <div class="panel-heading">Argument</div>
+            <div class="panel-body">Here is an argument card!</div>
+        </div>
+        <div class="panel panel-default col-lg-2">
+            <div class="panel-heading">Tone</div>
+            <div class="panel-body">Here is a tone card!</div>
+        </div>
+        <div class="panel panel-default col-lg-2">
+            <div class="panel-heading">Imagery</div>
+            <div class="panel-body">Here is an imagery card!</div>
+        </div>
+        <div class="panel panel-default col-lg-2">
+            <div class="panel-heading">Argument</div>
+            <div class="panel-body">Here is another argument card!</div>
+        </div>
+        <div class="panel panel-default col-lg-2">
+            <div class="panel-heading">Tone</div>
+            <div class="panel-body">Here is another tone card!</div>
+        </div>
+        <div class="panel panel-default col-lg-2">
+            <div class="panel-heading">Imagery</div>
+            <div class="panel-body">Here is another imagery card!</div>
+        </div>
+        <div class="panel panel-default col-lg-2">
+            <div class="panel-heading">Argument</div>
+            <div class="panel-body">Here is one more argument card!</div>
+        </div>
+        <div class="panel panel-default col-lg-2">
+            <div class="panel-heading">Tone</div>
+            <div class="panel-body">Here is one more tone card!</div>
+        </div>
+        <div class="panel panel-default col-lg-2">
+            <div class="panel-heading">Imagery</div>
+            <div class="panel-body">Here is one more imagery card!</div>
+        </div>
+
+    </div>
+
+
+
+</body>
+
+<script type = "text/javascript">
+
+  
+     if(isTeacherId(sessionStorage.studentId)) { 
+       /*  var navBar = document.getElementById("left");
+         var newButton = document.createTextNode(msgStr);
+         navBar.appendChild(textToAdd);
+
+         <a id="Teacher">Teacher</a>*/
+         $("#left").append('<a href="teacher_junction.html">Teacher</a>');
+      }
+      
+      if(sessionStorage.studentId != null) {
+               $("#right").append('<a href="login.html">Logout</a>');
+        }
+            
+    if(sessionStorage.studentId == null) {
+            $("#right").append('<a href="login.html">Login</a>');
+    }
+</script>
+</html>
