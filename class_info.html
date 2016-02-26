@@ -32,11 +32,13 @@
         });
         studentNames.sort();
 
+        /**
+         * Set up data to send to student_info page.
+         */
+        function viewDeck(studentName, assignmentName) {
+            return true;
+        }
     </script>
-
-
-           
-
   <title>Class Information</title>
 </head>
 <body>
@@ -50,15 +52,94 @@
                 <a href="Board.html">Board</a>
            </ul>
             <ul id="right" class="pull-right">
-                
+                <!-- Login/Logout filled via script at bottom of page -->
             </ul>
         </div>
     </div>
+
+    <br />
+    <br />
+
+    <form action="./student_info.html">
+        <div id="assignments" class="col-lg-offset-1 col-lg-10">
+
+            <label>Assignment 1</label>
+            <table id="assignment1Tbl" class="stripeTbl">
+                <thead>
+                <tr><th>Student Name</th><th>Number of Cards</th></th><th>View Deck</th></tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <br />
+
+            <label>Assignment 2</label>
+            <table id="assignment2Tbl" class="stripeTbl">
+                <thead>
+                <tr><th>Student Name</th><th>Number of Cards</th><th>View Deck</th></tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <br />
+
+            <label>Assignment 3</label>
+            <table id="assignment3Tbl" class="stripeTbl">
+                <thead>
+                <tr><th>Student Name</th><th>Number of Cards</th><th>View Deck</th></tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <br />
+
+            <label>Assignment 4</label>
+            <table id="assignment4Tbl" class="stripeTbl">
+                <thead>
+                <tr><th>Student Name</th><th>Number of Cards</th><th>View Deck</th></tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <br />
+
+            <label>Assignment 5</label>
+            <table id="assignment5Tbl" class="stripeTbl">
+                <thead>
+                <tr><th>Student Name</th><th>Number of Cards</th><th>View Deck</th></tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <br />
+        </div>
+    </form>
+
+
 </body>
 
 <script type = "text/javascript">
 
-  
+    $('.stripeTbl').each(function(tblNum, obj) {
+        for (var i = 0; i < 10; i++) {
+            var assignmentName = "Assignment";
+            var randNum = Math.floor((Math.random() * 8999) + 1000);
+            var randCardsNum = Math.floor((Math.random() * 15) + 5);
+            var appStr = "<tr>";
+            appStr += "<td>" + randNum + "</td>";
+            appStr += "<td>" + randCardsNum + "</td>";
+            appStr += "<td><input type='submit' value='View Deck' onclick='return viewDeck(" + randNum + ", " + assignmentName + ");'></td>";
+            appStr += "</tr>";
+            console.log(appStr);
+            $(obj).find("tbody:last-child").append(appStr);
+        }
+    });
+
      if(isTeacherId(sessionStorage.studentId)) { 
        /*  var navBar = document.getElementById("left");
          var newButton = document.createTextNode(msgStr);
