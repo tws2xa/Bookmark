@@ -434,7 +434,8 @@ function argsDisplayMouseDrag(event) {
 }
 
 function onGenericSubmit() {
-	console.log("valid chain: " + validChain);
+	$("#genericSubmitButton").hide();
+    console.log("valid chain: " + validChain);
 	
 	var chain = mainDisplay.generateChain();
 
@@ -504,7 +505,7 @@ function beginChallengeCreation() {
 }
 
 function moveBtnPress(x, y) {
-
+    $("#moveTable").hide();
 	updateTeamPosition(sessionStorage.studentId, x, y);
 }
 

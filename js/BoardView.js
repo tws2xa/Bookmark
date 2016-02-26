@@ -237,9 +237,14 @@ function onWinnerButtonClicked() {
 		alert("Please Select a Chain Quality.");
 		return;
 	}
+    $("#nextButton").hide();
+    $("#prevButton").hide();
+    $("#winnerButton").hide();
+    $("#chainQualitySelect").hide();
 	var winnerChain = boardDisplay.chainDisplay.getCurrentDisplayChain(true);
 	var winnerChainId = boardDisplay.chainDisplay.getCurrentDisplayChainId();
 	submitWinningChainToServer(sessionStorage.studentId, winnerChainId, winnerChain, $("#chainQualitySelect option:selected").text());
+    $("#chainQualitySelect").value=0;
 }
 
 function onClick(event){
