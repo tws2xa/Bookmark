@@ -36,7 +36,7 @@ CardDrawer.prototype.drawTitleText = function(context) {
 	context.font = ("bold " + this.titleFontSize + "px " + this.titleFontName);
 	context.fillStyle = this.textColor;
 	context.fillText(this.card.type, this.getCenter()[0], this.basePosition.top + this.topBuffer, this.basePosition.width);
-}
+};
 
 CardDrawer.prototype.drawBodyText = function(context) {
 	context.textAlign = "start";
@@ -47,7 +47,7 @@ CardDrawer.prototype.drawBodyText = function(context) {
 		this.basePosition.top  + this.topBuffer + this.titleFontSize*1.5, 
 		this.basePosition.width - this.hBuffer * 2, 
 		this.normalFontSize * 1.5);
-}
+};
 
 CardDrawer.prototype.drawPageNumbers = function(context) {
 	if(this.card.pageNum[0] == -1 && this.card.pageNum[1] == -1) {
@@ -66,7 +66,7 @@ CardDrawer.prototype.drawPageNumbers = function(context) {
 	context.fillText(pgText,
 		this.basePosition.left + this.basePosition.width - this.hBuffer,
 		this.basePosition.top + this.basePosition.height - this.bottomBuffer);
-}
+};
 
 CardDrawer.prototype.drawShadow = function(context) {
 	context.fillStyle = this.shadowColor;
@@ -88,7 +88,7 @@ CardDrawer.prototype.drawShadow = function(context) {
 		this.basePosition.top + this.basePosition.height,
 		this.basePosition.width + this.shadowSize * 2,
 		this.shadowSize * 2);
-}
+};
 
 CardDrawer.prototype.draw = function(context) {
 	context.scale(this.scale, this.scale);
@@ -103,19 +103,19 @@ CardDrawer.prototype.draw = function(context) {
 	this.drawPageNumbers(context);
 
 	context.scale(1 / this.scale, 1 / this.scale);
-}
+};
 
 CardDrawer.prototype.getCenter = function() {
 	return [this.basePosition.left + this.basePosition.width / 2, this.basePosition.top + this.basePosition.height / 2];
-}
+};
 
 CardDrawer.prototype.getCardUniqueId = function() {
 	return this.card.uniqueId;
-}
+};
 
 CardDrawer.prototype.getType = function() {
 	return this.card.type;
-}
+};
 
 //----------------------------------------------------
 //-------------------Scaling Methods------------------

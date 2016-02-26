@@ -29,6 +29,7 @@ function MainDisplay(x, y, width, height) {
 	this.CARD_FROM_ARG = 1;
 	this.CARD_NEW = 2;
 	this.CARD_FROM_DISPLAY_CHAIN = 3;
+	this.CARD_FROM_CHALLENGE = 4;
 
 	//state variables
 	this.currentState = 0;
@@ -309,15 +310,15 @@ MainDisplay.prototype.addCard = function(cardDrawer, source) {
 		return;
 	}
 	console.log(cardDrawer.getType());
-	var cardType = cardDrawer.getType();
+	var cardType = cardDrawer.getType().toLowerCase().trim();
 
-	// Bypass argument checks if it's from arg chain or board.
-	if(source != this.CARD_FROM_ARG && source != this.CARD_FROM_BOARD && source != this.CARD_FROM_DISPLAY_CHAIN) {
-		if(this.argumentCardOnBoard === false && !(cardType === "Argument")) {
+	// Bypass argument checks if it's from arg chain or board or challenge (though challenge should always be arg card).
+	if(source != this.CARD_FROM_ARG && source != this.CARD_FROM_BOARD && source != this.CARD_FROM_DISPLAY_CHAIN && source != this.CARD_FROM_CHALLENGE) {
+		if(this.argumentCardOnBoard === false && !(cardType === "argument")) {
 			alert("Please add an argument card first!");
 			return;
 		}
-		else if(this.argumentCardOnBoard === true && (cardDrawer.getType() === "Argument")) {
+		else if(this.argumentCardOnBoard === true && (cardType === "argument")) {
 			alert("Only one Argument card allowed on the board at a time!");
 			return;
 		}
@@ -325,23 +326,31 @@ MainDisplay.prototype.addCard = function(cardDrawer, source) {
 
 	for(var i=0; i<this.cards.length; i++) {
 		if(this.cards[i].getCardUniqueId() == cardDrawer.getCardUniqueId()) {
+			console.log("Card Already on Board");
 			return; // Card already on board.
 		}
 	}
 
-	if (cardType === "Argument") {
+	if (cardType === "argument") {
 		this.argumentCardOnBoard = true;
 		var argChain = getArgumentCardChain(cardDrawer.getCardUniqueId()); // Defined in DataFetcher.
-		if(argChain != null && oldStateChallenge == false) {
+		if(argChain != null /*&& oldStateChallenge == false*/) {
 			this.loadChainOntoCanvas(argChain, this.CARD_FROM_ARG);
 
 			// The Argument card will be added with chain.
 			// But we need to change its source here, so it isn't registered as "from argument card".
 			// We do not need to push and scale again, so we return.
+			delete this.cardSources[cardDrawer.getCardUniqueId()];
+			console.log("Setting card source at " + cardDrawer.getCardUniqueId() + " to " + source);
 			this.cardSources[cardDrawer.getCardUniqueId()] = source;
 			if(source == this.CARD_NEW) {
-
-				cardDrawer.backColor = getCardBackgroundColor(); // Reset color.
+				console.log("Setting Color");
+				for(var i=0; i<this.cards.length; i++) {
+					if(this.cards[i].getCardUniqueId() == cardDrawer.getCardUniqueId()) {
+						this.cards[i].backColor = getCardBackgroundColor();
+						break;
+					}
+				}
 			}
 			return;
 		}
@@ -349,8 +358,10 @@ MainDisplay.prototype.addCard = function(cardDrawer, source) {
 	}
 
 	cardDrawer.scale = this.defaultCardScale;
-	if(source == this.CARD_FROM_ARG || source == this.CARD_FROM_BOARD || source == this.CARD_FROM_DISPLAY_CHAIN) {
+	if(source == this.CARD_FROM_ARG || source == this.CARD_FROM_BOARD || source == this.CARD_FROM_DISPLAY_CHAIN || source == this.CARD_FROM_CHALLENGE) {
 		cardDrawer.backColor = getLockedCardBackgroundColor();
+	} else if(source == this.CARD_NEW) {
+		cardDrawer.backColor = getCardBackgroundColor();
 	}
 	this.cards.push(cardDrawer);
 	this.cardSources[cardDrawer.getCardUniqueId()] = source;
@@ -359,7 +370,7 @@ MainDisplay.prototype.addCard = function(cardDrawer, source) {
 MainDisplay.prototype.removeCard = function(cardId) {
 
 	var cardSource = this.cardSources[cardId];
-	if(cardSource == this.CARD_FROM_ARG || cardSource == this.CARD_FROM_BOARD) {
+	if(cardSource == this.CARD_FROM_ARG || cardSource == this.CARD_FROM_BOARD || cardSource == this.CARD_FROM_CHALLENGE) {
 		return;
 	}
 
@@ -411,7 +422,7 @@ MainDisplay.prototype.removeArgumentCardChain = function() {
 			i--;
 		}
 	}
-}
+};
 
 MainDisplay.prototype.loadChainOntoCanvas = function(chain, source) {
     // Load in the cards

@@ -50,7 +50,7 @@ function getNeedBoardUpdate(dfId) {
 	  async:false
 	}).done(function (data) {
 		data = data.trim();
-		console.log("Determined If " + dfId + " Needs Update: \"" + data + "\"");
+		// console.log("Determined If " + dfId + " Needs Update: \"" + data + "\"");
 		if(data == "true") {
 			retData = true;
 		} else {
@@ -79,7 +79,7 @@ function getArgumentCardChain(dfCardId) {
 		data: sendData,
 		async:false
 	}).done(function (data) {
-        console.log("Received Data: \"" + data + "\"");
+        console.log("Received Arg Card Chain Data: \"" + data + "\"");
         if(typeof(data) == "string" && data.trim() == "null") {
             // No associated chain
             retData = null;
@@ -93,7 +93,6 @@ function getArgumentCardChain(dfCardId) {
 		retData = false;
 	});
 
-    console.log("Ret Data: " + retData);
 	return retData;
 }
 

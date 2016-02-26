@@ -177,8 +177,8 @@ function getChallengeArgumentCard(stateXML) {
             var cardType = $(element).find("type").text().trim();
             if(cardType === "Argument" || cardType === "argument") {
                 var card = createCardFromXML(element);
-                var cardDrawer = new CardDrawer(card, 50, 50, cardWidth, cardHeight);
-                mainDisplay.addCard(cardDrawer);
+                var cardDrawer = new CardDrawer(card, 50, 50, cardHeight, cardWidth);
+                mainDisplay.addCard(cardDrawer, mainDisplay.CARD_FROM_CHALLENGE);
             }
         });
   //  }
