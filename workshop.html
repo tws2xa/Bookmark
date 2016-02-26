@@ -13,7 +13,7 @@
 			<a href="Board.html">Board</a>
 		</ul>
 		<ul class="pull-right" id="right">
-  			
+
   		</ul>
   	</div>
 </div>
@@ -82,12 +82,24 @@
 </head>
 <body>
 
+<!-- Jquery -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+<!-- Some Game Files -->
+<script src="js/ColorScheme.js" type="text/javascript"></script>
+<script src="js/Card.js" type="text/javascript"></script>
+<script src="js/Team.js" type="text/javascript"></script>
+<script src="js/Student.js" type="text/javascript"></script>
+<script src="js/DataFetcher.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 	// Check they are logged in.
 	if(sessionStorage.studentId == null) {
 		// alert("Please Login to Create Cards.");
 		window.location.href = "./login.html";
 	}
+
+	var deckTypes = getCardTypesXML(sessionStorage.studentId)
 </script>
 
 
@@ -128,21 +140,12 @@
 
 	<div id="divD" style = "position: absolute; border:0px solid #000000;"><canvas id="canvasD" style = "margin: 0px;"></canvas></div>
 
-	<!-- Jquery -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-
-	<!-- Game Javascript Files -->
-	<script src="js/ColorScheme.js" type="text/javascript"></script>
-	<script src="js/Card.js" type="text/javascript"></script>
-	<script src="js/Team.js" type="text/javascript"></script>
-	<script src="js/Student.js" type="text/javascript"></script>
-
-	<script src="js/DataFetcher.js" type="text/javascript"></script>
+	<!-- (Some of the) Game Javascript Files -->
 	<script src="js/CardDrawer.js" type="text/javascript"></script>
 	<script src="js/DeckDisplay.js" type="text/javascript"></script>
 	<script src="js/Rectangle.js" type="text/javascript"></script>
 	<script src="js/showDeckDisplay.js" type="text/javascript"></script>
-
+	</center>
 </form>
 <script type = "text/javascript">
 

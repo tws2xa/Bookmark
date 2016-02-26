@@ -29,6 +29,7 @@ var GET_TEAM_POSITION = "get-team-position";
 var UPDATE_TEAM_POSITION = "update-team-position";
 var GET_CLASS_STUDENTS = "get-class-students"; // Parameters: "id" (teacher id)
 var LAUNCH_NEW_ASSIGNMENT = "launch-new-assignment"; // Parameters: "id" (teacher id), "assignment_info" (assignment xml).
+var GET_CARD_TYPES = "get-card-types"; // Paramaters: "id" (person id).
 
 /**
  * Requesting Information From the Server
@@ -441,6 +442,29 @@ function getStudentList(dfTeacherId) {
 
 	return retData;
 }
+
+function getCardTypesXML(dfId) {
+	var sendData = "id=" + dfId;
+	var targetUrl = BASE_URL + GET_CARD_TYPES;
+
+	var retData = null;
+	$.ajax({
+		type: 'POST',
+		url: targetUrl,
+		data: sendData,
+		async:false
+	}).done(function (data) {
+		console.log("Obtained Card Types: \"" + data + "\"");
+		retData = data;
+	}).fail(function (data){
+		console.log("Failure Obtaining Card Types for " + dfId + ": " + data.status);
+	});
+
+	return retData;
+}
+
+
+
 
 
 /**
