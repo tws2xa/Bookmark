@@ -513,3 +513,32 @@ function selectMakeChain() {
 	mainDisplay.setState(mainDisplay.makeChain);
 	mainDisplay.loadBoardCard();
 }
+
+function loadBoardCardType(x, y) {
+	var cards = [];
+	var xml = getBoardStateInfo(sessionStorage.studentId);
+
+
+	var boardData = $(xml).find("board_cards");
+
+	$(boardData).find("card").each(function(index, element) {
+		var newCard = createCardFromXMLCardElement(element);
+		cards.push(newCard);
+			
+	});
+
+
+
+	if(cards.length == BOARD_WIDTH*BOARD_HEIGHT) {
+		for(var h = 0; h < BOARD_HEIGHT; h++) {
+			
+			for(var w = 0; w < BOARD_WIDTH; w++) {
+				if(x == h && y == w) {
+					var c = cards[h*BOARD_WIDTH + w];
+					return c.getType();
+				}
+			}
+		}
+	}
+
+}

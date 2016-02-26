@@ -71,8 +71,10 @@
 		document.writeln("<tr>");
 		for(var vert=0; vert<4; vert+=1) {
 			var btnNum = horiz*4 + vert;
+			var type = loadBoardCardType(horiz, vert);
+			console.log(type);
 			document.writeln("<td align='center'>");
-			document.writeln("<input type='button' class='moveBtn' id=btn" + btnNum + " onclick=moveBtnPress(" + vert + "," + horiz + ") value=''" + "' style='width: 90%; height: 95%;'>");
+			document.writeln("<input type='button' class='moveBtn' id=btn" + btnNum + " onclick=moveBtnPress(" + vert + "," + horiz + ") value='" + type + "'" + "' style='width: 90%; height: 95%;'>");
 			document.writeln("</td>");
 		}
 		document.writeln("</tr>");

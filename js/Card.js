@@ -26,6 +26,11 @@ Card.prototype.generateXML = function() {
 	return xmlStr;
 }
 
+Card.prototype.getType = function() {
+	
+	return this.type;
+
+}
 
 function createCardFromXML(xmlData) {
 	var cardData = $(xmlData).find("card");
