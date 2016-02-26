@@ -238,6 +238,7 @@
 
         <!-- Launch Assignment Button -->
         <div class="form-group col-sm-offset-1 col-sm-6">
+            <label><i>Caution: The new assignment will activate immediately. Do not launch if students are still working on the previous assignment.</i></label>
             <input type="submit" value = "Launch Assignment" class="btn btn-primary btn-md" onclick="return submitNewAssignmentForm()">
         </div>
 
@@ -253,7 +254,7 @@
          navBar.appendChild(textToAdd);
 
          <a id="Teacher">Teacher</a>*/
-         $("#left").append('<a href="#">Teacher</a>');
+         $("#left").append('<a href="teacher_junction.html">Teacher</a>');
       }
       
       if(sessionStorage.studentId != null) {

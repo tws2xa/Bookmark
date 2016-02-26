@@ -1,0 +1,85 @@
+<html>
+<head>
+    <!-- Jquery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/ColorScheme.js"></script>
+
+    <script type="text/javascript" src = "js\DataFetcher.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/homepagecss.css">
+
+    <!-- Make sure the user is a teacher -->
+    <script type = "text/javascript">
+
+        if(sessionStorage.studentId == null) {
+            window.location.href = "./login.html";
+        } else {
+            var isTeacher = isTeacherId(sessionStorage.studentId);
+            if(!isTeacher) {
+                window.location.href = "./login.html";
+            }
+        }
+    </script>
+
+
+           
+
+  <title>Teacher</title>
+</head>
+<body>
+    <!-- Nav Bar -->
+    <div class="nav">
+        <div class = "container";>
+            <ul id="left" class="pull-left">
+                <a href="homepage.html">Home</a> 
+                <a href="workshop.html">Workshop</a>
+                <a href="play.html">Play</a>
+                <a href="Board.html">Board</a>
+           </ul>
+            <ul id="right" class="pull-right">
+                
+            </ul>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <div class="form-group col-lg-offset-3 col-lg-6">
+        <center>
+            <form action="./class_info.html">
+                <input type="submit" value="Class Information" class="form-control">
+            </form>
+
+            <form action="./assignment.html">
+                <input type="submit" value="Create & Launch New Assignment" class="form-control">
+            </form>
+        </center>
+    </div>
+
+
+</body>
+
+<script type = "text/javascript">
+
+  
+     if(isTeacherId(sessionStorage.studentId)) { 
+       /*  var navBar = document.getElementById("left");
+         var newButton = document.createTextNode(msgStr);
+         navBar.appendChild(textToAdd);
+
+         <a id="Teacher">Teacher</a>*/
+         $("#left").append('<a href="teacher_junction">Teacher</a>');
+      }
+      
+      if(sessionStorage.studentId != null) {
+               $("#right").append('<a href="login.html">Logout</a>');
+        }
+            
+    if(sessionStorage.studentId == null) {
+            $("#right").append('<a href="login.html">Login</a>');
+    }
+</script>
+</html>
