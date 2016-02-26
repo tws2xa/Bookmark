@@ -459,7 +459,7 @@ function onGenericSubmit() {
 	}
 
 	//console.log("C: " + counter);
-	if (counter < 2) {
+	if (counter < 3) {
 		validChain = false;
 	}
 	
