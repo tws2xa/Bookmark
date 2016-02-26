@@ -107,7 +107,15 @@ BoardChainDisplay.prototype.displayChainNumOnCanvas = function(displayNum) {
 		var pos = chainToShow.cardsAndPos[cardNum][1]; // [x, y]
 		var xPos = parseInt(pos[0]) + parseInt(this.position.left);
 		var yPos = parseInt(pos[1]) + parseInt(this.position.top);
-		var cardDrawer = new CardDrawer(card, xPos, yPos, cardWidth, cardHeight);
+
+		var tmpWidth = cardWidth;
+		var tmpHeight = cardHeight;
+		if(card.type.toLowerCase().trim() == "argument") {
+			tmpWidth = cardHeight;
+			tmpHeight = cardWidth;
+		}
+
+		var cardDrawer = new CardDrawer(card, xPos, yPos, tmpWidth, tmpHeight);
 		cardDrawer .scale = this.defaultCardScale;
 		cardDrawer.moveTo(xPos, yPos); // Works around graphical bug.
 		tmpCardDrawers.push(cardDrawer);
