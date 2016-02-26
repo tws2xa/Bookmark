@@ -453,7 +453,7 @@ function onGenericSubmit() {
 		}
 		//var cardDrawer = new CardDrawer(card, 50, 50, cardWidth, cardHeight);
 		var cardSource = mainDisplay.getCardSource(card.getCardUniqueId);
-		if(cardSource === this.CARD_NEW) {
+		if(cardSource === this.CARD_NEW && card.getType() != "Argument") {
 			counter = counter + 1;
 		}
 	}
@@ -468,7 +468,7 @@ function onGenericSubmit() {
 	}
 	
 	else {
-		console.log("COUNTER HELLLO YESSS S SS " +counter);
+		console.log("COUNTER: " +counter);
 
 		validChain = true;
 	}
