@@ -472,14 +472,20 @@ function onGenericSubmit() {
 
 	if (counter < NEW_CARDS) {
 		validChain = false;
+		alert("Chains must have at least two new cards!");
+	
 	}
 	
 	else if (check == false) {
 		validChain = false;
+		alert("Chains must have an argument card!");
+	
 	}
 	
 	else if (linkCounter != (chainCardsPos.length -1)) {
 		validChain = false;
+		alert("All cards in the chain must be linked!");
+	
 	}
 
 	else {
@@ -497,9 +503,6 @@ function onGenericSubmit() {
 
 	}
 	
-	else {
-		alert("Chains must have at least two new cards, links between each card and an argument card!");
-	}
 }
 
 function onPassSubmit() {
