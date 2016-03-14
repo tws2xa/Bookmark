@@ -59,6 +59,8 @@ var oldStateChallenge = false;
 var cntrlIsPressed = false;
 var validChain = false;
 
+var NEW_CARDS = 2;
+
 
 function setCanvasSize() {
 	// Needed variables
@@ -434,32 +436,41 @@ function argsDisplayMouseDrag(event) {
 }
 
 function onGenericSubmit() {
-	$("#genericSubmitButton").hide();
-    console.log("valid chain: " + validChain);
-	
-	var chain = mainDisplay.generateChain();
-
+		var chain = mainDisplay.generateChain();
 	var check = false;
+	var linkCounter = 0;
 	var counter = 0;
-	var chainCardsPos = chain.getCardsAndPos()
+	var chainCardsPos = chain.getCardsAndPos();
+	var links = chain.getLinks();
+
 	for(var i = 0; i < chainCardsPos.length; i+=1) {
 
 		var temp = chainCardsPos[i];
-		console.log(temp[0]);
+		
 		var card = temp[0];
 
 		if(card.getType() === "Argument") {
 			check = true;
 		}
+
+		for(var j = 0; j < links.length; j += 1) {
+			
+			if(card.getCardUniqueId() === links[j][0] ) {
+				console.log("LINK");
+				linkCounter += 1;
+			}
+
+		}
+	
 		//var cardDrawer = new CardDrawer(card, 50, 50, cardWidth, cardHeight);
 		var cardSource = mainDisplay.getCardSource(card.getCardUniqueId);
 		if(cardSource === this.CARD_NEW && card.getType() != "Argument") {
 			counter = counter + 1;
 		}
+
 	}
 
-	//console.log("C: " + counter);
-	if (counter < 3) {
+	if (counter < NEW_CARDS) {
 		validChain = false;
 	}
 	
@@ -467,27 +478,28 @@ function onGenericSubmit() {
 		validChain = false;
 	}
 	
-	else {
-		console.log("COUNTER: " +counter);
-
-		validChain = true;
+	else if (linkCounter != (chainCardsPos.length -1)) {
+		validChain = false;
 	}
 
-
+	else {
+		
+		validChain = true;
+	}
 
 	if (validChain) {
 		mainDisplay.setState(mainDisplay.waitingOnChallenge);		
 		submitChainToServer(sessionStorage.studentId, chain);
+		$("#genericSubmitButton").hide();
 		mainDisplay.clearChain();
 		document.getElementById("canvasM").focus();
 		console.log("Chain creation attempted.");
+
 	}
-/*	}
-
+	
 	else {
-		alert("Chains must have at least two new cards and an argument card!");
-	}*/
-
+		alert("Chains must have at least two new cards, links between each card and an argument card!");
+	}
 }
 
 function onPassSubmit() {

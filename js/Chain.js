@@ -7,6 +7,10 @@ Chain.prototype.getCardsAndPos = function() {
 	return this.cardsAndPos;
 }
 
+Chain.prototype.getLinks = function() {
+	return this.links;
+}
+
 Chain.prototype.generateXML = function(quality) {
 	var xmlStr = "<chain>";
 

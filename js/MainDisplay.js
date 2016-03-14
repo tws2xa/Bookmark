@@ -264,40 +264,10 @@ MainDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 MainDisplay.prototype.generateChain = function() {
 	
 	
-	/*var check = false;
-	var counter = 0;
-
-	for(var i = 0; i < this.cards.length; i+=1) {
-		if(this.cards[i].getType() === "Argument") {
-			check = true;
-		}
-
-		var cardSource = this.cardSources[this.cards[i].getCardUniqueId()];
-		if(cardSource == this.CARD_NEW) {
-			counter = counter + 1;
-		}
-	}
-
-	console.log("C: " + counter);
-	if (counter < 2) {
-
-		validChain = false;
-	}
-	
-	else if (check == false) {
-		validChain = false;
-	}
-	
-	else {
-
-		validChain = true;
-	}
-
-	if(validChain == true) {*/
 		var input = formatCardDrawer(this.cards); // Defined in Chain.js
 		var chain = new Chain(input, this.cardLinks);
 		return chain;
-//	}
+
 
 };
 
