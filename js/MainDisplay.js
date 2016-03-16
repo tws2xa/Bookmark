@@ -263,31 +263,34 @@ MainDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 MainDisplay.prototype.onMouseHover = function(event, canvasRect) {
 	//event.preventDefault();
 
-	if(this.selectedCard != null) {
-		return; // Don't show text if card is being moved about / has been clicked.
-	}
-
-	var xPos = (event.clientX - canvasRect.left);
-	var yPos = (event.clientY - canvasRect.top);
-
-	// Loop backwards so that with overlapping cards,
-	// we select the card on top (which feels more natural).
 	var displayingCardText = false;
-	for(var cardNum = this.cards.length - 1; cardNum >= 0 ; cardNum--) {
-		if(this.cards[cardNum].getRealPosition().contains(xPos, yPos)) {
-			// Display hover text
-			if(this.cards[cardNum].isTruncated) {
-				console.log("Full Card Text: " + this.cards[cardNum].card.text);
+
+	if(this.selectedCard == null) { // Don't display if card is selected
+		var xPos = (event.clientX - canvasRect.left);
+		var yPos = (event.clientY - canvasRect.top);
+
+		// Loop backwards so that with overlapping cards,
+		// we select the card on top (which feels more natural).
+		for (var cardNum = this.cards.length - 1; cardNum >= 0; cardNum--) {
+			if (this.cards[cardNum].getRealPosition().contains(xPos, yPos)) {
+				// Display hover text
+				if (this.cards[cardNum].isTruncated) {
+					console.log("Full Card Text: " + this.cards[cardNum].card.text);
+					displayingCardText = true;
+				}
+				break;
 			}
-			displayingCardText = true;
-			break;
 		}
 	}
 
-	if(displayingCardText /* AND textbox not visible */) {
-		// Show textbox
-	} else /* if textbox is visible */ {
-		// Hide textbox
+	if(displayingCardText) {
+		$("#tooltipLbl").empty();
+		$("#tooltipLbl").append(this.cards[cardNum].card.text);
+		document.getElementById('tooltipDiv').style.left = (event.clientX + 20);
+		document.getElementById('tooltipDiv').style.top = (event.clientY + 20);
+		$("#tooltipDiv").show();
+	} else {
+		$("#tooltipDiv").hide();
 	}
 };
 

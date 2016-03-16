@@ -136,3 +136,17 @@ font-weight: bold;
     background-color:#b4cfd6;
 }
 
+.tooltipDivClass {
+    position: absolute;
+    display: block;
+    width: 400px;
+    pointer-events: none;
+    background-color: #F6FEAA;
+    border-style: solid;
+    border-top-color: #DFE8B1;
+    border-left-color: #DFE8B1;
+    border-bottom-color: #B9A875;
+    border-right-color: #B9A875;
+    border-radius: 5px;
+    padding: 5px 5px 5px 5px;
+}
