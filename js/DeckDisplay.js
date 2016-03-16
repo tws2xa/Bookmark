@@ -43,7 +43,7 @@ DeckDisplay.prototype.draw = function(context){
 	for(var cardNum = 0; cardNum < this.cards.length; cardNum++) {
 		this.cards[cardNum].draw(context);
 	}
-}
+};
 
 
 //-------------------------------------------------------------
@@ -52,8 +52,6 @@ DeckDisplay.prototype.draw = function(context){
 
 DeckDisplay.prototype.mouseClick=function(e, canvasRect){
 	e.preventDefault();
-
-	console.log("Position: " + event.clientX  + " - " + canvasRect.left);
 
 	var xClickPos = (event.clientX - canvasRect.left);
 	var yClickPos = (event.clientY - canvasRect.top);
@@ -69,26 +67,26 @@ DeckDisplay.prototype.mouseClick=function(e, canvasRect){
 			}
 		}
 	}
-}
+};
 
 DeckDisplay.prototype.onMouseDown = function(e, canvasRect) {
 	e.preventDefault();
-}
+};
 
 DeckDisplay.prototype.onMouseUp = function(e, canvasRect) {
 	e.preventDefault();
-}
+};
 
 DeckDisplay.prototype.onMouseDrag = function(e, canvasRect) {
 	e.preventDefault();
 
 	var xClickPos = (event.clientX - canvasRect.left);
 	var yClickPos = (event.clientY - canvasRect.top);
-}
+};
 
 DeckDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 
-}
+};
 
 //-------------------------------------------------------------
 //----------------------Helper Functions-----------------------

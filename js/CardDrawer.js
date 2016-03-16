@@ -18,7 +18,11 @@ function CardDrawer(card, xPos, yPos, width, height) {
 	this.shadowColor = getCardShadowColor();
 	this.shadowSize = 1;
 
+	this.displayText = "";
+
 	this.scale = 1;
+
+	this.isTruncated = false;
 }
 
 CardDrawer.prototype.copy = function() {
@@ -43,7 +47,20 @@ CardDrawer.prototype.drawBodyText = function(context) {
 	context.textBaseline="top";
 	context.font = ("normal " + this.normalFontSize + "px " + this.bodyFontName);
 	context.fillStyle = this.textColor;
-	wrapText(context, this.card.text, this.basePosition.left + this.hBuffer,
+
+	if(this.displayText.trim() == "") {
+		this.displayText = getDisplayText(
+			context,
+			this.card.text,
+			this.basePosition.width - this.hBuffer * 2,
+			this.basePosition.height - this.topBuffer - (this.titleFontSize*1.5) - (this.normalFontSize * 1.5),
+			this.normalFontSize * 1.5
+		);
+
+		this.isTruncated = (this.displayText.trim() != this.card.text.trim());
+	}
+
+	wrapText(context, this.displayText, this.basePosition.left + this.hBuffer,
 		this.basePosition.top  + this.topBuffer + this.titleFontSize*1.5, 
 		this.basePosition.width - this.hBuffer * 2, 
 		this.normalFontSize * 1.5);
@@ -169,6 +186,35 @@ CardDrawer.prototype.moveTo = function(pointX, pointY, boundingRectangle) {
 //----------------------------------------------------
 //------------------Helper Functions------------------
 //----------------------------------------------------
+
+function getDisplayText(context, initText, maxWidth, maxHeight, lineHeight) {
+	var words = initText.split(' ');
+	var currentLine = "";
+	var wordNum = 0;
+	var lineNum = 0;
+	var maxLines = Math.floor(maxHeight / lineHeight);
+
+	while(wordNum < words.length && lineNum < maxLines) {
+		var testLine = currentLine + words[wordNum] + ' ';
+		var metrics = context.measureText(testLine);
+		var testWidth = metrics.width;
+		if (testWidth > maxWidth && wordNum > 0) {
+			currentLine = "";
+			lineNum++;
+		}
+		else {
+			wordNum++;
+			currentLine = testLine;
+		}
+	}
+
+	var displayTxt = words.slice(0, wordNum).join(" ").trim();
+
+	if(wordNum < words.length) {
+		displayTxt = displayTxt.substring(0, displayTxt.length - 4) + "...";
+	}
+	return displayTxt;
+}
 
 function wrapText(context, text, x, y, maxWidth, lineHeight) {
 	var words = text.split(' ');

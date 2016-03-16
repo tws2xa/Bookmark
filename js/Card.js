@@ -3,6 +3,7 @@ function Card(id, type, text, pageStart, pageEnd) {
 
 	this.type = type;
 	this.text = text;
+
 	this.pageNum = [pageStart, pageEnd];
 }
 

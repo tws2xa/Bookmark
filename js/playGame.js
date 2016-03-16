@@ -258,6 +258,7 @@ function init() {
 	canvasM.addEventListener("click", onClick);
 	canvasM.addEventListener("mousedown", onMouseDown);
 	canvasM.addEventListener("mouseup", onMouseUp);
+	canvasM.addEventListener("mousemove", onMouseMove);
 
 	canvasRectD = canvasD.getBoundingClientRect();
 	canvasD.addEventListener("click", onClick);
@@ -405,6 +406,27 @@ function onMouseUp(event){
 		deckDisplay.onMouseUp(event, newRect);
 		canvasD.removeEventListener("mousemove", argsDisplayMouseDrag);
 	}
+}
+
+function onMouseMove(event) {
+	// Register the event and remove the mouse moved listener
+	if (mainDisplay.position.contains(event.clientX - canvasRectM.left, event.clientY-canvasRectM.top)) {
+		var newRect = new Rectangle(canvasRectM.left - divM.scrollLeft, canvasRectM.top - divM.scrollTop, canvasRectM.width, canvasRectM.height);
+		mainDisplay.onMouseHover(event, newRect);
+	}
+
+	/*
+	if (argumentDisplay.position.contains(event.clientX - canvasRectA.left, event.clientY-canvasRectA.top)) {
+		var newRect = new Rectangle(canvasRectA.left, canvasRectA.top - divA.scrollTop, canvasRectA.width, canvasRectA.height);
+		argumentDisplay.onMouseUp(event, newRect);
+		canvasA.removeEventListener("mousemove", deckDisplayMouseDrag);
+	}
+	if (deckDisplay.position.contains(event.clientX - canvasRectD.left, event.clientY-canvasRectD.top)) {
+		var newRect = new Rectangle(canvasRectD.left - divD.scrollLeft, canvasRectD.top, canvasRectD.width, canvasRectD.height);
+		deckDisplay.onMouseUp(event, newRect);
+		canvasD.removeEventListener("mousemove", argsDisplayMouseDrag);
+	}
+	*/
 }
 
 function onMouseWheel(event) {
