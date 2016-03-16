@@ -88,6 +88,40 @@ DeckDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 
 };
 
+DeckDisplay.prototype.onMouseHover = function(event, canvasRect) {
+	//event.preventDefault();
+
+	var displayingCardText = false;
+
+	if(this.selectedCard == null) { // Don't display if card is selected
+		var xPos = (event.clientX - canvasRect.left);
+		var yPos = (event.clientY - canvasRect.top);
+
+		// Loop backwards so that with overlapping cards,
+		// we select the card on top (which feels more natural).
+		for (var cardNum = this.cards.length - 1; cardNum >= 0; cardNum--) {
+			if (this.cards[cardNum].getRealPosition().contains(xPos, yPos)) {
+				// Display hover text
+				if (this.cards[cardNum].isTruncated) {
+					displayingCardText = true;
+				}
+				break;
+			}
+		}
+	}
+
+	if(displayingCardText) {
+		$("#tooltipLbl").empty();
+		$("#tooltipLbl").append(this.cards[cardNum].card.text);
+		$("#tooltipDiv").show(); // Have to show() first for height
+		var tooltipHeight = document.getElementById('tooltipDiv').offsetHeight;
+		document.getElementById('tooltipDiv').style.left = (event.clientX + 5);
+		document.getElementById('tooltipDiv').style.top = (event.clientY - tooltipHeight - 5);
+	} else {
+		$("#tooltipDiv").hide();
+	}
+};
+
 //-------------------------------------------------------------
 //----------------------Helper Functions-----------------------
 //-------------------------------------------------------------

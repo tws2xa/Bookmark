@@ -275,7 +275,6 @@ MainDisplay.prototype.onMouseHover = function(event, canvasRect) {
 			if (this.cards[cardNum].getRealPosition().contains(xPos, yPos)) {
 				// Display hover text
 				if (this.cards[cardNum].isTruncated) {
-					console.log("Full Card Text: " + this.cards[cardNum].card.text);
 					displayingCardText = true;
 				}
 				break;

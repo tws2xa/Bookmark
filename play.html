@@ -55,12 +55,6 @@
 <script src="js/playGame.js" type="text/javascript"></script>
 
 <!-- HTML Elements -->
-<div id="tooltipDiv" class="tooltipDivClass">
-    <label id="tooltipLbl">Tooltip</label>
-</div>
-<script type="text/javascript">
-    $("#tooltipDiv").hide();
-</script>
 <button id="genericSubmitButton" name="genericSubmitButton" class="btn" onclick="onGenericSubmit()">Submit</button>
 <button id="challengeButton" name="challengeButton" class="btn" onclick="beginChallengeCreation()">Challenge</button>
 <button id="passButton" name="passButton" class="btn" onclick="onPassSubmit()">Pass</button>
@@ -80,7 +74,12 @@
     </tr>
     </td>
 </table>
-<!-- style="visibility: hidden" -->
+<div id="tooltipDiv" class="tooltipDivClass">
+    <label id="tooltipLbl">Tooltip</label>
+</div>
+<script type="text/javascript">
+    $("#tooltipDiv").hide();
+</script>
 
 <script type="text/javascript">
 
