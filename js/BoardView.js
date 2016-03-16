@@ -49,6 +49,7 @@ function init() {
 	canvas.addEventListener("click", onClick);
 	canvas.addEventListener("mousedown", onMouseDown);
 	canvas.addEventListener("mouseup", onMouseUp);
+	canvas.addEventListener("mousemove", onMouseHover);
 
 	var boardDisplayWidth = canvasWidth*0.78;
 	var boardDisplayHeight = canvasHeight*0.95;
@@ -266,5 +267,11 @@ function onMouseUp(event){
 
 function onMouseWheel(event) {
 
-	
+}
+
+function onMouseHover(event) {
+	// FOR SCROLL:
+	// var newRect = new Rectangle(canvasRectM.left - divM.scrollLeft, canvasRectM.top - divM.scrollTop, canvasRectM.width, canvasRectM.height);
+	var newRect = canvasRect;
+	boardDisplay.onMouseHover(event, newRect);
 }

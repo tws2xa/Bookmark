@@ -132,7 +132,6 @@ BoardChainDisplay.prototype.displayChainNumOnCanvas = function(displayNum) {
 
 	this.currentChainDisplayed = displayNum;
 	document.getElementById("chainQualitySelect").selectedIndex = "0";
-    console.log("Displaying Chain #" + this.currentChainDisplayed);
 };
 
 BoardChainDisplay.prototype.adjustScale = function(amt, fixPosition) {

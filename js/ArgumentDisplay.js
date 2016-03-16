@@ -85,8 +85,6 @@ ArgumentDisplay.prototype.onMouseWheel = function(e, canvasRect) {
 };
 
 ArgumentDisplay.prototype.onMouseHover = function(event, canvasRect) {
-	//event.preventDefault();
-
 	var displayingCardText = false;
 
 	if(this.selectedCard == null) { // Don't display if card is selected
