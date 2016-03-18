@@ -45,9 +45,26 @@ padding: 20px;
 
 }
 
+
+.nav a {
+    display: block;
+    width: 150px;
+    
+    font-weight: bold;
+    color: #000000;
+    background-color: #f6fafb;
+    text-align: center;
+    
+padding: 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+    display:inline;
+
+}
+
 .nav a:hover, a:active {
     background-color: #d3e6eb;
-display:inline
+    display:inline
 
 
 }

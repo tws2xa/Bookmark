@@ -12,6 +12,7 @@
             <a href="play.html">Play</a>
             <a href="Board.html">Board</a>
         </ul>
+
         <ul class="pull-right" id="right">
 
         </ul>
@@ -112,7 +113,15 @@
         $("#left").append('<a href="teacher_junction.html">Teacher</a>');
     }
 
+    if (sessionStorage.studentId != null && !isTeacherId(sessionStorage.studentId)) {
+       
+       var teamName = getTeamFromStudentId(sessionStorage.studentId);
+        console.log(teamName);
+         $("#right").append('<a>Team ' + teamName + '</a>');
+    }
+       
     if (sessionStorage.studentId != null) {
+       
         $("#right").append('<a href="login.html">Logout</a>');
     }
 
