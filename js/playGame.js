@@ -475,7 +475,6 @@ function onGenericSubmit() {
 		for(var j = 0; j < links.length; j += 1) {
 			
 			if(card.getCardUniqueId() === links[j][0] ) {
-				console.log("LINK");
 				linkCounter += 1;
 			}
 
@@ -501,7 +500,7 @@ function onGenericSubmit() {
 	
 	}
 	
-	else if (linkCounter != (chainCardsPos.length -1)) {
+	else if (linkCounter <= (chainCardsPos.length -1)) {
 		validChain = false;
 		alert("All cards in the chain must be linked!");
 	
