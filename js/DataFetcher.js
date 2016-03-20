@@ -30,6 +30,7 @@ var UPDATE_TEAM_POSITION = "update-team-position";
 var GET_CLASS_STUDENTS = "get-class-students"; // Parameters: "id" (teacher id)
 var LAUNCH_NEW_ASSIGNMENT = "launch-new-assignment"; // Parameters: "id" (teacher id), "assignment_info" (assignment xml).
 var GET_CARD_TYPES = "get-card-types"; // Paramaters: "id" (person id).
+var GET_TEAM_NAME = "get-team-name";
 
 /**
  * Requesting Information From the Server
@@ -634,6 +635,26 @@ function sendNewAssignmentToServer(dfTeacherId, assignmentXML) {
 		console.log("Launched new assignment: \"" + data + "\"");
 	}).fail(function (data){
 		console.log("Failure launching new assignment: " + data.status);
+		retData = data;
+	});
+
+	return retData;
+}
+
+function getTeamName(dfId) {
+	var sendData = "id=" + dfId;
+	var targetUrl = BASE_URL + GET_TEAM_NAME;
+	var success = false;
+	$.ajax({
+		type: 'POST',
+		url: targetUrl,
+		data: sendData,
+		async:false
+	}).done(function (data) {
+		console.log("Fetched Team Name: " + data);
+		retData = data;
+	}).fail(function (data){
+		console.log("Failure Fetching Team: " + data.status);
 		retData = data;
 	});
 

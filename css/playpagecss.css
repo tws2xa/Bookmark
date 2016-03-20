@@ -65,9 +65,11 @@ padding: 20px;
 .nav a:hover, a:active {
     background-color: #d3e6eb;
     display:inline
-
-
 }
+
+#teamNameText {
+    background-color: #f6fafb;
+  }
 
 #divA {
 float:right;

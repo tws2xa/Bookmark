@@ -110,14 +110,14 @@
          navBar.appendChild(textToAdd);
 
          <a id="Teacher">Teacher</a>*/
-        $("#left").append('<a href="teacher_junction.html">Teacher</a>');
+        $("#left").append('<a id="teacher" href="teacher_junction.html">Teacher</a>');
     }
 
     if (sessionStorage.studentId != null && !isTeacherId(sessionStorage.studentId)) {
        
-       var teamName = getTeamFromStudentId(sessionStorage.studentId);
+       var teamName = getTeamName(sessionStorage.studentId);
         console.log(teamName);
-         $("#right").append('<a>Team ' + teamName + '</a>');
+         $("#right").append('<a id="teamNameText">Team ' + teamName + '</a>');
     }
        
     if (sessionStorage.studentId != null) {
