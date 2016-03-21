@@ -500,7 +500,7 @@ function onGenericSubmit() {
 	
 	}
 	
-	else if (linkCounter <= (chainCardsPos.length -1)) {
+	else if (linkCounter < (chainCardsPos.length -1)) {
 		validChain = false;
 		alert("All cards in the chain must be linked!");
 	
