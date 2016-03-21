@@ -76,17 +76,29 @@
 	<script type = "text/javascript">
 
   
-     if(isTeacherId(sessionStorage.studentId)) { 
-          $("#left").append('<a href="teacher_junction.html">Teacher</a>');
-      }
-      
-      
-    if(sessionStorage.studentId != null) {
-           $("#right").append('<a href="login.html">Logout</a>');
+     if (isTeacherId(sessionStorage.studentId)) {
+        /*  var navBar = document.getElementById("left");
+         var newButton = document.createTextNode(msgStr);
+         navBar.appendChild(textToAdd);
+
+         <a id="Teacher">Teacher</a>*/
+        $("#left").append('<a id="teacher" href="teacher_junction.html">Teacher</a>');
     }
-    
-    if(sessionStorage.studentId == null) {
-            $("#right").append('<a href="login.html">Login</a>');
+
+    if (sessionStorage.studentId != null && !isTeacherId(sessionStorage.studentId)) {
+       
+       var teamName = getTeamName(sessionStorage.studentId);
+        console.log(teamName);
+         $("#right").append('<a id="teamNameText">Team ' + teamName + '</a>');
+    }
+       
+    if (sessionStorage.studentId != null) {
+       
+        $("#right").append('<a href="login.html">Logout</a>');
+    }
+
+    if (sessionStorage.studentId == null) {
+        $("#right").append('<a href="login.html">Login</a>');
     }
 
 
