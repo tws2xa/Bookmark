@@ -152,6 +152,8 @@ BoardDisplay.prototype.draw = function (context) {
     if (this.currentState == this.displayBoard) {
         this.drawBoard(context);
     } else if (this.currentState == this.displayChains) {
+        // context.rect(this.chainDisplay.position.left, this.chainDisplay.position.top, this.chainDisplay.position.width, this.chainDisplay.position.height);
+        // context.clip();
         this.chainDisplay.draw(context);
     }
 };
@@ -214,12 +216,6 @@ BoardDisplay.prototype.onMouseDrag = function (event){
     this.chainDisplay.position.top = (offY + currPos.top);
     this.chainDisplay.updateCardPos(offX, offY);
 
-    var Xdiff = (this.position.left + this.position.width) - (this.chainDisplay.position.left + this.chainDisplay.position.width);
-    var Ydiff = (this.position.top + this.position.height) - (this.chainDisplay.position.top + this.chainDisplay.position.height);
-    this.chainDisplay.position.width -= offX;
-    this.chainDisplay.position.height -= offY;
-    console.log(this.chainDisplay.position.width);
-    console.log(this.chainDisplay.position.height);
 }
 
 BoardDisplay.prototype.onMouseHover = function (event, canvasRect) {

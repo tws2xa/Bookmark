@@ -2,6 +2,7 @@
 
 function BoardChainDisplay(x, y, width, height) {
 	this.position = new Rectangle(x,y,width,height);
+	this.initialPos = new Rectangle(x,y,width,height);
 	this.backColor = getDisplayBackgroundColor();
 	this.shadowColor = getDisplayShadowColor();
 	this.cardLinkColor = getCardLinkColor();
@@ -29,14 +30,15 @@ function BoardChainDisplay(x, y, width, height) {
 BoardChainDisplay.prototype.draw = function(context){
 	context.fillStyle = this.backColor;
 	// context.fillRect(this.position.left, this.position.top, this.position.width, this.position.height);
-
+	context.rect(this.initialPos.left, this.initialPos.top, this.initialPos.width, this.initialPos.height);
+	context.clip();
 	context.textAlign = "start";
 	context.textBaseline="top";
 	context.font = ("normal 18px segoe ui semibold");
 	context.fillStyle = getCardTextColor(); // Defined in color scheme
 
 	var dispNum = this.currentChainDisplayed + 1;
-	context.fillText("Chain #" + dispNum + ":", this.position.left + 5, this.position.top + 5);
+	context.fillText("Chain #" + dispNum + ":", this.initialPos.left + 5, this.initialPos.top + 5);
 	this.drawChain(context);
 };
 
