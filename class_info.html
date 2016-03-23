@@ -60,95 +60,122 @@
     <br />
     <br />
 
-
-    <script type="text/javascript">
-        var fullClassXML = getFullClassInfo(sessionStorage.studentId);
-        console.log("Full Class XML:");
-        console.log(fullClassXML);
-    </script>
-
-
     <form action="./student_info.html">
         <div id="assignments" class="col-lg-offset-1 col-lg-10">
 
-            <label>Assignment 1</label>
-            <table id="assignment1Tbl" class="stripeTbl">
-                <thead>
-                <tr><th>Student Name</th><th>Number of Cards</th></th><th>View Deck</th></tr>
-                </thead>
-                <tbody>
+            <label id="ClassNameLbl">Class: [Unknown]</label>
+            <label id="CurrentAssignmentLbl">Current Assignment: [Unknown]</label>
 
-                </tbody>
-            </table>
-            <br />
-
-            <label>Assignment 2</label>
-            <table id="assignment2Tbl" class="stripeTbl">
-                <thead>
-                <tr><th>Student Name</th><th>Number of Cards</th><th>View Deck</th></tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-            <br />
-
-            <label>Assignment 3</label>
-            <table id="assignment3Tbl" class="stripeTbl">
-                <thead>
-                <tr><th>Student Name</th><th>Number of Cards</th><th>View Deck</th></tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-            <br />
-
-            <label>Assignment 4</label>
-            <table id="assignment4Tbl" class="stripeTbl">
-                <thead>
-                <tr><th>Student Name</th><th>Number of Cards</th><th>View Deck</th></tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-            <br />
-
-            <label>Assignment 5</label>
-            <table id="assignment5Tbl" class="stripeTbl">
-                <thead>
-                <tr><th>Student Name</th><th>Number of Cards</th><th>View Deck</th></tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-            <br />
         </div>
     </form>
-
-
 </body>
 
 <script type = "text/javascript">
 
-    $('.stripeTbl').each(function(tblNum, obj) {
-        for (var i = 0; i < 10; i++) {
-            var assignmentName = "Assignment";
-            var randNum = Math.floor((Math.random() * 8999) + 1000);
-            var randCardsNum = Math.floor((Math.random() * 15) + 5);
-            var appStr = "<tr>";
-            appStr += "<td>" + randNum + "</td>";
-            appStr += "<td>" + randCardsNum + "</td>";
-            appStr += "<td><input type='submit' value='View Deck' onclick='return viewDeck(" + randNum + ", " + assignmentName + ");'></td>";
-            appStr += "</tr>";
-            console.log(appStr);
-            $(obj).find("tbody:last-child").append(appStr);
-        }
+    /*******
+     <class_info>
+        <class_name>Name</class_name>
+     	<current_assignment>current assignment name</current_assignment>
+     	<assignments>
+     		<assignment>
+     			<assignment_name>Assignment Name</assignment_name>
+     			<assignment_teams>
+     				<team>
+     					<team_name>Team Name</team_name>
+     					<students>
+     						<student>
+     							<student_name>Student Name</student_name>
+     							<student_num_cards>37</student_num_cards>
+     						</student>
+     						<student>
+     							...
+     						</student>
+     						...
+     					</students>
+     				</team>
+     				<team>
+     					...
+     				</team>
+      			...
+     	    	</assignment_teams>
+     		</assignment>
+     		<assignment>
+     			...
+     		</assignment>
+     	</assignments>
+     </class_info>
+
+     *******
+     *******
+
+     for each assignment:
+         <label>Assignment Name</label>
+         <table id="assignmentNameTbl" class="stripeTbl">
+         <thead>
+         <tr><th>Student Name</th><th>Team</th><th>Number of Cards</th></th><th>View Deck</th></tr>
+         </thead>
+         <tbody>
+            for each student:
+                <tr>
+                    <td> Student Name </td>
+                    <td> Student Team </td>
+                    <td> Student Number of Cards </td>
+                    <td>
+                        <input type='submit' value='View Deck' onclick='return viewDeck(" + studentName + ", " + assignmentName + ");'>
+                    </td>
+                </tr>
+         </tbody>
+         </table>
+         <br />
+     *******/
+
+    // Get the XML
+    var fullClassXML = getFullClassInfo(sessionStorage.studentId);
+
+    // General Class Info
+    var classInfo = $(fullClassXML).find('class_info');
+    var className = $(classInfo).find('class_name').text();
+    $("#ClassNameLbl").text("Class: " + className);
+    var currentAssignment = $(classInfo).find('current_assignment').text();
+    $("#CurrentAssignmentLbl").text("Current Assignment: " + currentAssignment);
+
+    // For Each Assignment
+    var assignmentsInfo = $(classInfo).find('assignments');
+    $(assignmentsInfo).find('assignment').each(function(assignmentIndex, assignmentElement) {
+        var assignmentName = $(assignmentElement).find("assignment_name").text();
+        var assignmentHtmlStr = "<br /><br /><label>" + assignmentName + "</label>";
+        assignmentHtmlStr += "<table id='" + assignmentName + "Tbl' class='stripeTbl'>";
+        assignmentHtmlStr += "<thead>";
+        assignmentHtmlStr += "<tr><th>Student Name</th><th>Team</th><th>Number of Cards</th></th><th>View Deck</th></tr>";
+        assignmentHtmlStr += "</thead>";
+        assignmentHtmlStr += "<tbody>";
+
+        // Student Info
+        var teamsInfo = $(assignmentElement).find('assignment_teams');
+        $(teamsInfo).find('team').each(function(teamIndex, teamElement) { // For Each Team
+            var teamName = $(teamElement).find('team_name').text();
+            var studentsInfo = $(teamElement).find('students');
+            $(studentsInfo).find('student').each(function(studentIndex, studentElement) { // For Each Student
+                var studentName = $(studentElement).find('student_name').text();
+                var studentNumCards = $(studentElement).find('student_num_cards').text();
+                assignmentHtmlStr += "<tr>";
+                assignmentHtmlStr += "<td>" + studentName + "</td>";
+                assignmentHtmlStr += "<td>" + teamName + "</td>";
+                assignmentHtmlStr += "<td>" + studentNumCards + "</td>";
+                assignmentHtmlStr += "<td>";
+                assignmentHtmlStr += "<input type='submit' value='View Deck' onclick='return viewDeck(" + studentName + ", " + assignmentName + ");'>";
+                assignmentHtmlStr += "</td>";
+                assignmentHtmlStr += "</tr>";
+            });
+
+        });
+
+        assignmentHtmlStr += "</tbody>";
+        console.log(assignmentHtmlStr);
+        $("#assignments").append(assignmentHtmlStr);
     });
 
-     if(isTeacherId(sessionStorage.studentId)) { 
+     if(isTeacherId(sessionStorage.studentId)) {
        /*  var navBar = document.getElementById("left");
          var newButton = document.createTextNode(msgStr);
          navBar.appendChild(textToAdd);
