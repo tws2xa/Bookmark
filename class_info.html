@@ -35,7 +35,12 @@
         /**
          * Set up data to send to student_info page.
          */
-        function viewDeck(studentName, assignmentName) {
+        function viewDeck(studentId, assignmentId, studentName, assignmentName) {
+            sessionStorage.teacherDeckLookup_StudentId = studentId;
+            sessionStorage.teacherDeckLookup_AssignmentId = assignmentId;
+            sessionStorage.teacherDeckLookup_StudentName = studentName;
+            sessionStorage.teacherDeckLookup_AssignmentName = assignmentName;
+
             return true;
         }
     </script>
@@ -65,6 +70,8 @@
 
             <label id="ClassNameLbl">Class: [Unknown]</label>
             <label id="CurrentAssignmentLbl">Current Assignment: [Unknown]</label>
+            <input id="SelectedStudentID" type="hidden" />
+            <input id="SelectedAssignmentID" type="hidden" />
 
         </div>
     </form>
@@ -79,6 +86,7 @@
      	<assignments>
      		<assignment>
      			<assignment_name>Assignment Name</assignment_name>
+                <assignment_id>assignment_id</assignment_id>
      			<assignment_teams>
      				<team>
      					<team_name>Team Name</team_name>
@@ -86,6 +94,7 @@
      						<student>
      							<student_name>Student Name</student_name>
      							<student_num_cards>37</student_num_cards>
+     * 							<student_id>id</student_id>
      						</student>
      						<student>
      							...
@@ -121,7 +130,7 @@
                     <td> Student Team </td>
                     <td> Student Number of Cards </td>
                     <td>
-                        <input type='submit' value='View Deck' onclick='return viewDeck(" + studentName + ", " + assignmentName + ");'>
+                        <input type='submit' value='View Deck' onclick='return viewDeck(" studentId + ", " + assignmentId + ", '" + studentName + "', '" + assignmentName + "');'>
                     </td>
                 </tr>
          </tbody>
@@ -143,6 +152,7 @@
     var assignmentsInfo = $(classInfo).find('assignments');
     $(assignmentsInfo).find('assignment').each(function(assignmentIndex, assignmentElement) {
         var assignmentName = $(assignmentElement).find("assignment_name").text();
+        var assignmentId = $(assignmentElement).find("assignment_id").text();
         var assignmentHtmlStr = "<br /><br /><label>" + assignmentName + "</label>";
         assignmentHtmlStr += "<table id='" + assignmentName + "Tbl' class='stripeTbl'>";
         assignmentHtmlStr += "<thead>";
@@ -158,12 +168,14 @@
             $(studentsInfo).find('student').each(function(studentIndex, studentElement) { // For Each Student
                 var studentName = $(studentElement).find('student_name').text();
                 var studentNumCards = $(studentElement).find('student_num_cards').text();
+                var studentId = $(studentElement).find('student_id').text();
                 assignmentHtmlStr += "<tr>";
                 assignmentHtmlStr += "<td>" + studentName + "</td>";
                 assignmentHtmlStr += "<td>" + teamName + "</td>";
                 assignmentHtmlStr += "<td>" + studentNumCards + "</td>";
                 assignmentHtmlStr += "<td>";
-                assignmentHtmlStr += "<input type='submit' value='View Deck' onclick='return viewDeck(" + studentName + ", " + assignmentName + ");'>";
+                var retStr = 'return viewDeck(' + studentId + ', ' + assignmentId + ', "' + studentName + '", "' + assignmentName + '");';
+                assignmentHtmlStr += "<input type='submit' value='View Deck' onclick='" + retStr + "'>";
                 assignmentHtmlStr += "</td>";
                 assignmentHtmlStr += "</tr>";
             });
@@ -171,7 +183,6 @@
         });
 
         assignmentHtmlStr += "</tbody>";
-        console.log(assignmentHtmlStr);
         $("#assignments").append(assignmentHtmlStr);
     });
 

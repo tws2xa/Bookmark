@@ -4,6 +4,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="js/ColorScheme.js"></script>
 
+    <script type="text/javascript" src = "js\Card.js"></script>
     <script type="text/javascript" src = "js\DataFetcher.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/homepagecss.css">
@@ -58,53 +59,58 @@
     <br />
 
     <div id="panels" class="col-lg-offset-1 col-lg-10">
-        <div class="panel panel-default col-lg-2">
-            <div class="panel-heading">Argument</div>
-            <div class="panel-body">Here is an argument card!</div>
-        </div>
-        <div class="panel panel-default col-lg-2">
-            <div class="panel-heading">Tone</div>
-            <div class="panel-body">Here is a tone card!</div>
-        </div>
-        <div class="panel panel-default col-lg-2">
-            <div class="panel-heading">Imagery</div>
-            <div class="panel-body">Here is an imagery card!</div>
-        </div>
-        <div class="panel panel-default col-lg-2">
-            <div class="panel-heading">Argument</div>
-            <div class="panel-body">Here is another argument card!</div>
-        </div>
-        <div class="panel panel-default col-lg-2">
-            <div class="panel-heading">Tone</div>
-            <div class="panel-body">Here is another tone card!</div>
-        </div>
-        <div class="panel panel-default col-lg-2">
-            <div class="panel-heading">Imagery</div>
-            <div class="panel-body">Here is another imagery card!</div>
-        </div>
-        <div class="panel panel-default col-lg-2">
-            <div class="panel-heading">Argument</div>
-            <div class="panel-body">Here is one more argument card!</div>
-        </div>
-        <div class="panel panel-default col-lg-2">
-            <div class="panel-heading">Tone</div>
-            <div class="panel-body">Here is one more tone card!</div>
-        </div>
-        <div class="panel panel-default col-lg-2">
-            <div class="panel-heading">Imagery</div>
-            <div class="panel-body">Here is one more imagery card!</div>
-        </div>
+        <label id="StudentNameLbl">Deck for Student: [Unknown]</label>
+        <label id="AssignmentNameLbl">Assignment: [Unknown]</label>
+
+        <br />
+        <br />
 
     </div>
-
-
 
 </body>
 
 <script type = "text/javascript">
 
-  
-     if(isTeacherId(sessionStorage.studentId)) { 
+    var lookupStudentId = sessionStorage.teacherDeckLookup_StudentId;
+    var lookupAssignmentId = sessionStorage.teacherDeckLookup_AssignmentId;
+    var lookupStudentName = sessionStorage.teacherDeckLookup_StudentName;
+    var lookupAssignmentName = sessionStorage.teacherDeckLookup_AssignmentName;
+
+    $("#StudentNameLbl").text("Deck for Student: " + lookupStudentName);
+    $("#AssignmentNameLbl").text("Assignment: " + lookupAssignmentName);
+
+    /*****
+     * For Each Card:
+        <div class="panel panel-default col-lg-2">
+            <div class="panel-heading">Imagery</div>
+            <div class="panel-body">Here is one more imagery card!</div>
+        </div>
+     *****/
+
+    // Get all cards for this student and assignment
+    var studentDeck = getStudentDeckForAssignment(lookupStudentId, lookupAssignmentId);
+    for(var cardNum = 0; cardNum < studentDeck.length; cardNum++) {
+        var currentCard = studentDeck[cardNum];
+        var cardTypeText = currentCard.type;
+        var cardBodyText = currentCard.text;
+        var pgNum1 = currentCard.pageNum[0];
+        var pgNum2 = currentCard.pageNum[1];
+        if(pgNum1 != -1 && pgNum2 != -1) {
+            cardBodyText += " (pp. " + pgNum1 + " - " + pgNum2 + ")";
+        } else if(Math.max(pgNum1, pgNum2) != -1) {
+            cardBodyText += " (p. " + Math.max(pgNum1, pgNum2) + ")";
+        }
+
+        // Generate HTML String
+        var newCardXML = "<div class='panel panel-default col-lg-2' style='margin-right: 40px;'>";
+        newCardXML += "<div class='panel-heading'>" + cardTypeText + "</div>";
+        newCardXML += "<div class='panel-body' style='min-height: 150; max-height: 150; overflow-y: auto;'>" + cardBodyText + "</div>";
+        newCardXML += "</div>";
+
+        $("#panels").append(newCardXML);
+    }
+
+     if(isTeacherId(sessionStorage.studentId)) {
        /*  var navBar = document.getElementById("left");
          var newButton = document.createTextNode(msgStr);
          navBar.appendChild(textToAdd);
@@ -112,11 +118,11 @@
          <a id="Teacher">Teacher</a>*/
          $("#left").append('<a href="teacher_junction.html">Teacher</a>');
       }
-      
+
       if(sessionStorage.studentId != null) {
                $("#right").append('<a href="login.html">Logout</a>');
         }
-            
+
     if(sessionStorage.studentId == null) {
             $("#right").append('<a href="login.html">Login</a>');
     }
