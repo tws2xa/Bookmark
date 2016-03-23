@@ -25,6 +25,10 @@ function BoardDisplay(x, y, width, height, isTeacherForBoard) {
     this.displayChains = 1;
     this.noSession = 2;
 
+    //mouseDrag variables
+    this.prevMouseX = 0;
+    this.prevMouseY = 0;
+
     // Displays chains in challenges.
     this.chainDisplay = new BoardChainDisplay(x, y, width, height);
 
@@ -194,6 +198,29 @@ BoardDisplay.prototype.setBoardCards = function (boardDeck) {
 
 
 };
+BoardDisplay.prototype.onMouseDown = function (event){
+    this.prevMouseX = event.clientX;
+    this.prevMouseY = event.clientY;
+}
+
+BoardDisplay.prototype.onMouseDrag = function (event){
+	var currPos = this.chainDisplay.position;
+    var offX = event.clientX - this.prevMouseX;
+    var offY = event.clientY - this.prevMouseY;
+    this.prevMouseX = event.clientX;
+    this.prevMouseY = event.clientY;
+
+    this.chainDisplay.position.left = (offX + currPos.left);
+    this.chainDisplay.position.top = (offY + currPos.top);
+    this.chainDisplay.updateCardPos(offX, offY);
+
+    var Xdiff = (this.position.left + this.position.width) - (this.chainDisplay.position.left + this.chainDisplay.position.width);
+    var Ydiff = (this.position.top + this.position.height) - (this.chainDisplay.position.top + this.chainDisplay.position.height);
+    this.chainDisplay.position.width -= offX;
+    this.chainDisplay.position.height -= offY;
+    console.log(this.chainDisplay.position.width);
+    console.log(this.chainDisplay.position.height);
+}
 
 BoardDisplay.prototype.onMouseHover = function (event, canvasRect) {
     var displayingCardText = false;

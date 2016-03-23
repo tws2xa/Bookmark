@@ -50,6 +50,8 @@ function init() {
 	canvas.addEventListener("mousedown", onMouseDown);
 	canvas.addEventListener("mouseup", onMouseUp);
 	canvas.addEventListener("mousemove", onMouseHover);
+	// canvas.addEventListener("dragover", onMouseDrag);
+	// $("body").bind("dragover", onMouseDrag);
 
 	var boardDisplayWidth = canvasWidth*0.78;
 	var boardDisplayHeight = canvasHeight*0.95;
@@ -135,7 +137,7 @@ function paint() {
 
 	boardDisplay.draw(context);
 	teamsDisplay.draw(context);
-	 
+	
 }
 
 function updateBoard(){
@@ -253,16 +255,31 @@ function onWinnerButtonClicked() {
     document.getElementById("chainQualitySelect").selectedIndex = "0";
 }
 
+// var startCoords = [];
+// var last = [0, 0];
+
 function onClick(event){
-	
+	// var newRect = canvasRect;
+	// boardDisplay.onMouseDrag(event, newRect);
 }
 
 function onMouseDown(event){
+	// var newRect = canvasRect;
+	// boardDisplay.onMouseDrag(event, newRect);
+	boardDisplay.onMouseDown(event);
+	canvas.addEventListener("mousemove", onMouseDrag);
 	
 }
 
 function onMouseUp(event){
+	canvas.removeEventListener("mousemove", onMouseDrag);
+	
+}
 
+function onMouseDrag(event){
+	var newRect = canvasRect;
+	
+	boardDisplay.onMouseDrag(event);
 }
 
 function onMouseWheel(event) {
