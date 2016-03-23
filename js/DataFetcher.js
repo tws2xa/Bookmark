@@ -31,6 +31,7 @@ var GET_CLASS_STUDENTS = "get-class-students"; // Parameters: "id" (teacher id)
 var LAUNCH_NEW_ASSIGNMENT = "launch-new-assignment"; // Parameters: "id" (teacher id), "assignment_info" (assignment xml).
 var GET_CARD_TYPES = "get-card-types"; // Paramaters: "id" (person id).
 var GET_TEAM_NAME = "get-team-name";
+var GET_FULL_CLASS_INFO = "get-full-class-info"; // Parameters: "id" (person id).
 
 /**
  * Requesting Information From the Server
@@ -90,7 +91,7 @@ function getArgumentCardChain(dfCardId) {
             retData = createChainFromXML(data);
         }
 	}).fail(function (data){
-		console.log("Failure Determining if Need Board Update: " + data.status);
+		console.log("Failure Obtaining Arg Card Chain Data: " + data.status);
 		retData = false;
 	});
 
@@ -462,6 +463,30 @@ function getCardTypesXML(dfId) {
 
 	return retData;
 }
+
+/**
+ * Gets xml representing all info for a class.
+ */
+function getFullClassInfo(dfId) {
+	var sendData = "id=" + dfId;
+	var targetUrl = BASE_URL + GET_FULL_CLASS_INFO;
+
+	var retData = null;
+	$.ajax({
+		type: 'POST',
+		url: targetUrl,
+		data: sendData,
+		async:false
+	}).done(function (data) {
+		retData = data;
+	}).fail(function (data){
+		console.log("Failure Obtaining Full Class Info: " + data.status);
+		retData = false;
+	});
+
+	return retData;
+}
+
 
 
 
